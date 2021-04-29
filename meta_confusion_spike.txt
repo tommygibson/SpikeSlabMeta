@@ -1,0 +1,70 @@
+
+model
+{
+  for(i in 1:S){
+    y[i,1] ~ dbin(pi[i,1], n[i,1])
+    y[i,2] ~ dbin(pi[i,2], n[i,2])
+    
+    # probability of exposure
+    n[i,1] ~ dbin(psi[i], n.tot[i])
+    
+    psi[i] <- 1 / (1 + exp(-nu[i]))
+    
+    # conditional prob of event given exposure
+    logit(pi[i,1]) <- beta[i] + delta[i]/2
+    logit(pi[i,2]) <- beta[i] - delta[i]/2
+    
+    
+    delta[i] ~ dnorm(delta0, D.delta)
+    
+    nu[i] ~ dnorm(nu0, D.nu)
+    
+    beta[i] ~ dnorm(beta0, D.beta)
+    
+  }
+  
+  beta0 ~ dnorm(a, b)
+  nu0 ~ dnorm(e, f)
+  
+  delta0 <- delta1 * rho
+  delta1 ~ dnorm(c, d)
+  rho ~ dbern(p)
+  spike <- 1 - rho
+  
+  # HALF T ON ALL THESE BITCHES
+  D.beta <- pow(sigma.beta, -2)
+  D.nu <- pow(sigma.nu, -2)
+  D.delta <- pow(sigma.delta, -2)
+  
+  # half-t prior on sigma.delta
+  sigma.beta ~ dt(0, 1, 1) T(0,)
+  sigma.nu ~ dt(0, 1, 1) T(0,)
+  sigma.delta ~ dt(0, 1, 1) T(0,)
+
+  #draw M new observations for each parameter w/ random effects
+  
+  for(j in 1:M){
+    deltanew[j] ~ dnorm(delta0, D.delta)
+    betanew[j] ~ dnorm(beta0, D.beta)
+    nunew[j] ~ dnorm(nu0, D.nu)
+    psinew[j] <- 1 / (1  + exp(-nunew[j]))
+    
+    pi1new[j] <- 1 / (1 + exp(-(betanew[j] + deltanew[j] / 2)))
+    pi0new[j] <- 1 / (1 + exp(-(betanew[j] - deltanew[j] / 2)))
+    
+    pi11new[j] <- pi1new[j] * psinew[j]                  # P(event, risk)
+    pi10new[j] <- (1 - pi1new[j]) * psinew[j]            # P(no event, risk)
+    pi01new[j] <- pi0new[j] * (1 - psinew[j])            # P(event, no risk)
+    pi00new[j] <- (1 - pi0new[j]) * (1 - psinew[j])      # P(no event, no risk)
+    
+    sensnew[j] <- pi11new[j] / (pi11new[j] + pi01new[j])
+    specnew[j] <- pi00new[j] / (pi00new[j] + pi10new[j])
+    
+    PPVnew[j] <- pi11new[j] / (pi11new[j] + pi10new[j])
+    NPVnew[j] <- pi00new[j] / (pi00new[j] + pi01new[j])
+    
+    LRpnew[j] <- sensnew[j] / (1 - specnew[j])
+    LRmnew[j] <- (1 - sensnew[j]) / specnew[j]
+    
+  }
+}
