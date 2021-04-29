@@ -1,16 +1,16 @@
 #### Spike/slab + Confusion numerical example with syncope data
 
-setwd("/Users/Tommy/Desktop/Tommy/School/Grad School/Research/My Papers/Spike Slab Meta/Code")
+# setwd("/Users/Tommy/Desktop/Tommy/School/Grad School/Research/My Papers/Spike Slab Meta/Code")
+
 
 set.seed(1234)
+library(here)
 library(R2jags)
 library(knitr)
-library(gplots)
-library(pander)
 library(tidyverse)
 library(extrafont)
 
-univOR <- read.csv("/Users/Tommy/Desktop/Tommy/School/Grad School/Research/Research Weiss/Read into R/For JAGS/Data/Univariate_jags2.csv")
+univOR <- read.csv(here("R", "syncope_data.csv"))
 
 #get rid of obs with no info
 #get rid of obervation(s) from Oh's paper -- weird estimate for ECG

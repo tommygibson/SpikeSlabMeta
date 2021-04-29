@@ -1,17 +1,15 @@
 ############ MAKING PLOTS AND TABLES OUT OF SPIKE/SLAB SIMULATION RESULTS
 
-setwd("/Users/Tommy/Desktop/Tommy/School/Grad School/Research/My Papers/Spike Slab Meta/Code")
-
 library(knitr)
-library(gplots)
-library(pander)
 library(tidyverse)
 library(xtable)
 library(pROC)
 library(extrafont)
 library(gridExtra)
+library(here)
 
-font_import(pattern = "lmroman*")
+# This only necessary if it hasn't been done before
+# font_import(pattern = "lmroman*")
 
 ##### LOAD DATA FROM SIMULATIONS
 load("meta.catch.spike.R")

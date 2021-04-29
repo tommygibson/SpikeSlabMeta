@@ -1,18 +1,17 @@
 ######### simulation for spike/slab meta-analysis
 
-setwd("/Users/Tommy/Desktop/Tommy/School/Grad School/Research/My Papers/Spike Slab Meta/Code")
-
 set.seed(1234)
+
 library(R2jags)
 library(knitr)
-library(gplots)
-library(pander)
 library(tidyverse)
 library(xtable)
 library(pROC)
 library(extrafont)
+library(here)
 
-font_import(pattern = "lmroman*")
+# only necessary if hasn't been imported before
+# font_import(pattern = "lmroman*")
 
 #### First, the models
 

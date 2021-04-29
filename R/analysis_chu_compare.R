@@ -1,10 +1,10 @@
 #### Comparison of our trivariate model with chu's on real data
 
-setwd("/Users/Tommy/Desktop/Tommy/School/Grad School/Research/My Papers/Spike Slab Meta/Code")
 
 library(R2jags)
 library(knitr)
 library(ggplot2)
+library(here)
 
 # data from Schiedler
 
@@ -21,73 +21,7 @@ n <- cbind(a + b, c + d)
 
 ### Meta-analysis model
 
-sink("meta_confusion.txt")
-cat("
-model
-{
-  for(i in 1:S){
-    Y[i,1] ~ dbin(pi[i,1], n[i,1])
-    Y[i,2] ~ dbin(pi[i,2], n[i,2])
-    
-    # probability of exposure
-    n[i,1] ~ dbin(psi[i], n.tot[i])
-    
-    psi[i] <- 1 / (1 + exp(-nu[i]))
-    
-    # conditional prob of event given exposure
-    logit(pi[i,1]) <- beta[i] + delta[i]/2
-    logit(pi[i,2]) <- beta[i] - delta[i]/2
-    
-    # meta-regression on the log-odds ratio
-    # do we include intercept?
-    
-    delta[i] ~ dnorm(delta0, D_delta)
-    
-    nu[i] ~ dnorm(nu0, D_nu)
-    
-    beta[i] ~ dnorm(beta0, D_beta)
-    
-  }
-  
-  beta0 ~ dnorm(a, b)
-  delta0 ~ dnorm(c, d)
-  nu0 ~ dnorm(e, f)
-  
-  # HALF T ON ALL THESE BITCHES
-  D_beta <- pow(sigma.beta, -2)
-  D_nu <- pow(sigma.nu, -2)
-  D_delta <- pow(sigma.delta, -2)
-  
-  # half-t prior on sigma.delta
-  sigma.beta ~ dt(0, 1, 1) T(0,)
-  sigma.nu ~ dt(0, 1, 1) T(0,)
-  sigma.delta ~ dt(0, 1, 1) T(0,)
 
-  #draw M new observations for each parameter w/ random effects
-  
-  for(j in 1:M){
-    deltanew[j] ~ dnorm(delta0, D_delta)
-    betanew[j] ~ dnorm(beta0, D_beta)
-    nunew[j] ~ dnorm(nu0, D_nu)
-    psinew[j] <- 1 / (1  + exp(-nunew[j]))
-    
-    pi11new[j] <- 1 / (1 + exp(-(betanew[j] + deltanew[j]/2))) * psinew[j]                  # P(event, risk)
-    pi10new[j] <- (1 - 1 / (1 + exp(-(betanew[j] + deltanew[j] / 2)))) * psinew[j]          # P(no event, risk)
-    pi01new[j] <- 1 / (1 + exp(-(betanew[j] - deltanew[j] / 2))) * (1 - psinew[j])          # P(event, no risk)
-    pi00new[j] <- (1 - 1 / (1 + exp(-(betanew[j] - deltanew[j] / 2)))) * (1 - psinew[j])    # P(no event, no risk)
-    
-    sensnew[j] <- pi11new[j] / (pi11new[j] + pi01new[j])
-    specnew[j] <- pi00new[j] / (pi00new[j] + pi10new[j])
-    
-    PPVnew[j] <- pi11new[j] / (pi11new[j] + pi10new[j])
-    NPVnew[j] <- pi00new[j] / (pi00new[j] + pi01new[j])
-    
-    LRpnew[j] <- sensnew[j] / (1 - specnew[j])
-    LRmnew[j] <- (1 - sensnew[j]) / specnew[j]
-    
-  }
-}", fill = TRUE)
-sink()
 
 sink("meta_confusion_diag.txt")
 cat("
@@ -157,93 +91,7 @@ model
 }", fill = TRUE)
 sink()
 
-sink("meta_confusion_multivariate.txt")
-cat("
-model
-{
-  for(i in 1:S){
-    Y[i,1] ~ dbin(pi[i,1], n[i,1])
-    Y[i,2] ~ dbin(pi[i,2], n[i,2])
-    
-    # probability of exposure
-    n[i,1] ~ dbin(psi[i], n.tot[i])
-    
-    psi[i] <- 1 / (1 + exp(-nu[i]))
-    
-    # conditional prob of event given exposure
-    logit(pi[i,1]) <- beta[i] + delta[i]/2
-    logit(pi[i,2]) <- beta[i] - delta[i]/2
-    
-    # meta-regression on the log-odds ratio
-    # do we include intercept?
-    
-    beta[i] <- theta[i, 1]
-    delta[i] <- theta[i, 2]
-    nu[i] <- theta[i, 3]
-    
-    theta[i, 1:3] ~ dmnorm.vcov(mu[1:3], Sigma[1:3, 1:3])
-    
-  }
-  # define mean matrix for random effects
-  mu[1] <- beta0
-  mu[2] <- delta0
-  mu[3] <- nu0
-  
-  beta0 ~ dnorm(a, b)
-  delta0 ~ dnorm(c, d)
-  nu0 ~ dnorm(e, f)
-  
-  # define precision matrix for random effects
-  # Omega <- inverse(Sigma)
-  
-  Sigma[1, 1] <- pow(sigma.beta, 2)
-  Sigma[2, 2] <- pow(sigma.delta, 2)
-  Sigma[3, 3] <- pow(sigma.nu, 2)
-  
-  Sigma[1, 2] <- rho_bd * sigma.beta * sigma.delta
-  Sigma[2, 1] <- Sigma[1, 2]
-  Sigma[1, 3] <- rho_bn * sigma.beta * sigma.nu
-  Sigma[3, 1] <- Sigma[1, 3]
-  Sigma[2, 3] <- rho_dn * sigma.delta * sigma.nu
-  Sigma[3, 2] <- Sigma[2, 3]
-  
-  # half-t prior on sigma.delta
-  sigma.beta ~ dt(0, 1, 1) T(0,)
-  sigma.nu ~ dt(0, 1, 1) T(0,)
-  sigma.delta ~ dt(0, 1, 1) T(0,)
-  
-  # correlations
-  rho_bd ~ dunif(-1, 1)
-  rho_bn ~ dunif(-1, 1)
-  rho_dn ~ dunif(-1, 1)
-  
-  
 
-  #draw M new observations for each parameter w/ random effects
-  
-  for(j in 1:M){
-    thetanew[j, 1:3] ~ dmnorm.vcov(mu[1:3], Sigma[1:3, 1:3])
-    betanew[j] <- thetanew[j, 1]
-    deltanew[j] <-  thetanew[j, 2]
-    psinew[j] <- 1 / (1  + exp(-thetanew[j, 3]))
-    
-    pi11new[j] <- 1 / (1 + exp(-(betanew[j] + deltanew[j]/2))) * psinew[j]                  # P(event, risk)
-    pi10new[j] <- (1 - 1 / (1 + exp(-(betanew[j] + deltanew[j] / 2)))) * psinew[j]          # P(no event, risk)
-    pi01new[j] <- 1 / (1 + exp(-(betanew[j] - deltanew[j] / 2))) * (1 - psinew[j])          # P(event, no risk)
-    pi00new[j] <- (1 - 1 / (1 + exp(-(betanew[j] - deltanew[j] / 2)))) * (1 - psinew[j])    # P(no event, no risk)
-    
-    sensnew[j] <- pi11new[j] / (pi11new[j] + pi01new[j])
-    specnew[j] <- pi00new[j] / (pi00new[j] + pi10new[j])
-    
-    PPVnew[j] <- pi11new[j] / (pi11new[j] + pi10new[j])
-    NPVnew[j] <- pi00new[j] / (pi00new[j] + pi01new[j])
-    
-    LRpnew[j] <- sensnew[j] / (1 - specnew[j])
-    LRmnew[j] <- (1 - sensnew[j]) / specnew[j]
-    
-  }
-}", fill = TRUE)
-sink()
 
 ### fun trial using multivariate normal instead of indep normals
 S <- length(a) 
@@ -325,27 +173,6 @@ meta_anal1 <- jags(meta.data, inits = init.gen, meta.params, "meta_confusion.txt
                   n.iter=21000, n.burnin=1000, n.thin=2, DIC=F)
 
 meta_sims1 <- meta_anal1$BUGSoutput$sims.matrix
-# 1-100 are pi00
-# 101-200 are pi01
-# 201-300 are pi10
-# 301-400 are pi11
-
-# sens1 <- apply(meta_sims1[,301:400] / (meta_sims1[,301:400] + meta_sims1[,101:200]), 
-#               1, quantile, 0.5)
-# 
-# spec1 <- apply(meta_sims1[,1:100] / (meta_sims1[,1:100] + meta_sims1[,201:300]),
-#               1, quantile, 0.5)
-# 
-# PPV1 <- apply(meta_sims1[,301:400] / (meta_sims1[,301:400] + meta_sims1[,201:300]),
-#              1, quantile, 0.5)
-# NPV1 <- apply(meta_sims1[,1:100] / (meta_sims1[,1:100] + meta_sims1[,101:200]),
-#              1, quantile, 0.5)
-# 
-# LRp1 <- apply((meta_sims1[,301:400] * (meta_sims1[,1:100] + meta_sims1[,201:300])) / (meta_sims1[,201:300] * (meta_sims1[,301:400] + meta_sims1[,101:200])),
-#              1, quantile, 0.5)
-# 
-# LRm1 <- apply((meta_sims1[,101:200] * (meta_sims1[,1:100] + meta_sims1[,201:300])) / (meta_sims1[,1:100] * (meta_sims1[,301:400] + meta_sims1[,101:200])),
-#              1, quantile, 0.5)
 
 LRm.med <- apply(meta_sims1[,1:100], 1, quantile, 0.5)
 LRp.med <- apply(meta_sims1[,101:200], 1, quantile, 0.5)
