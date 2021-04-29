@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  28 APR 2021 18:56
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  28 APR 2021 19:04
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1049,43 +1049,9 @@ Overfull \vbox (6.46347pt too high) has occurred while \output is active []
 \openout3 = `SpikeSlabMeta.pag'.
 
 ]
-LaTeX Font Info:    Font shape `T1/stix/bx/n' in size <10.03749> not available
-(Font)              Font shape `T1/stix/b/n' tried instead on input line 61.
-
-
-Package natbib Warning: Author undefined for citation`smith1995' 
-(natbib)                on page 2 on input line 61.
-
-
-Package natbib Warning: Author undefined for citation`warn2002' 
-(natbib)                on page 2 on input line 61.
-
-
-Package natbib Warning: Author undefined for citation`ma2016' 
-(natbib)                on page 2 on input line 61.
-
-
-Package natbib Warning: Author undefined for citation`smith1995' 
-(natbib)                on page 2 on input line 63.
-
-
-Package natbib Warning: Author undefined for citation`chu2009' 
-(natbib)                on page 2 on input line 63.
-
-
-Package natbib Warning: Author undefined for citation`chu2009' 
-(natbib)                on page 2 on input line 63.
-
-
-Package natbib Warning: Author undefined for citation`hardy1996' 
-(natbib)                on page 2 on input line 65.
-
-
-Package natbib Warning: Author undefined for citation`KM1998' 
-(natbib)                on page 2 on input line 65.
-
 LaTeX Font Info:    Font shape `T1/stix/bx/n' in size <7> not available
 (Font)              Font shape `T1/stix/b/n' tried instead on input line 66.
+
 [2]
 LaTeX Font Info:    Font shape `T1/stix/bx/n' in size <12> not available
 (Font)              Font shape `T1/stix/b/n' tried instead on input line 72.
@@ -1097,12 +1063,7 @@ Underfull \hbox (badness 1057) in paragraph at lines 123--124
 sti-mand as $[][] \LS1/stix/m/n/10.03749 =
  []
 
-[5]
-
-Package natbib Warning: Author undefined for citation`gelman2006prior' 
-(natbib)                on page 6 on input line 169.
-
-[6] [7] [8]
+[5] [6] [7] [8]
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 (hyperref)                removing `math shift' on input line 236.
@@ -1115,7 +1076,10 @@ Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 (hyperref)                removing `math shift' on input line 236.
 
-(./SpikeSlabMeta.bbl [9] [10]) [11] [12
+(./SpikeSlabMeta.bbl [9] [10]) [11]
+LaTeX Font Info:    Font shape `T1/stix/bx/n' in size <10.03749> not available
+(Font)              Font shape `T1/stix/b/n' tried instead on input line 264.
+ [12
 
 ] [13] [14
 
@@ -1154,7 +1118,7 @@ Here is how much of TeX's memory you used:
  17730 multiletter control sequences out of 15000+600000
  133306 words of font info for 185 fonts, out of 8000000 for 9000
  1167 hyphenation exceptions out of 8191
- 43i,14n,40p,1470b,487s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 43i,14n,40p,1462b,487s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/stix/stix-t1.enc}</usr/lo
 cal/texlive/2016/texmf-dist/fonts/type1/public/stix/STIXGeneral-Bold.pfb></usr/
 local/texlive/2016/texmf-dist/fonts/type1/public/stix/STIXGeneral-Italic.pfb></
@@ -1167,7 +1131,7 @@ fb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/stix/stix-mathit.pfb>
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/stix/stix-mathrm-bold.pf
 b></usr/local/texlive/2016/texmf-dist/fonts/type1/public/stix/stix-mathrm.pfb><
 /usr/local/texlive/2016/texmf-dist/fonts/type1/public/stix/stix-mathscr.pfb>
-Output written on SpikeSlabMeta.pdf (16 pages, 271434 bytes).
+Output written on SpikeSlabMeta.pdf (16 pages, 270954 bytes).
 PDF statistics:
  297 PDF objects out of 1000 (max. 8388607)
  261 compressed objects within 3 object streams
