@@ -1,0 +1,99 @@
+\begin{thebibliography}{10}
+\providecommand \doibase [0]{http://dx.doi.org/}%
+
+\bibitem{gibson2018}
+Gibson TA, Weiss RE, Sun BC. Predictors of short-term outcomes after syncope: a
+  systematic review and meta-analysis. {\it Western Journal of Emergency
+  Medicine} 2018\string; 19(3)\string: 517.
+
+\bibitem{smith1995}
+Smith TC, Spiegelhalter DJ, Thomas A. Bayesian approaches to random-effects
+  meta-analysis: a comparative study. {\it Statistics in Medicine} 1995\string;
+  14(24)\string: 2685--2699.
+
+\bibitem{warn2002}
+Warn D, Thompson S, Spiegelhalter D. Bayesian random effects meta-analysis of
+  trials with binary outcomes: methods for the absolute risk difference and
+  relative risk scales. {\it Statistics in medicine} 2002\string;
+  21(11)\string: 1601--1623.
+
+\bibitem{ma2016}
+Ma X, Nie L, Cole SR, Chu H. Statistical methods for multivariate meta-analysis
+  of diagnostic tests: an overview and tutorial. {\it Statistical Methods in
+  Medical Research} 2016\string; 25(4)\string: 1596--1619.
+
+\bibitem{rutter2001}
+Rutter CM, Gatsonis CA. A hierarchical regression approach to meta-analysis of
+  diagnostic test accuracy evaluations. {\it Statistics in Medicine}
+  2001\string; 20(19)\string: 2865--2884.
+
+\bibitem{moses1993}
+Moses LE, Shapiro D, Littenberg B. {Combining independent studies of a
+  diagnostic test into a summary ROC curve: data-analytic approaches and some
+  additional considerations}. {\it Statistics in Medicine} 1993\string;
+  12(14)\string: 1293--1316.
+
+\bibitem{reitsma2005}
+Reitsma JB, Glas AS, Rutjes AW, Scholten RJ, Bossuyt PM, Zwinderman AH.
+  Bivariate analysis of sensitivity and specificity produces informative
+  summary measures in diagnostic reviews. {\it Journal of Clinical
+  Epidemiology} 2005\string; 58(10)\string: 982--990.
+
+\bibitem{chu2006}
+Chu H, Cole SR. Bivariate meta-analysis of sensitivity and specificity with
+  sparse data: a generalized linear mixed model approach. {\it Journal of
+  Clinical Epidemiology} 2006\string; 59(12)\string: 1331.
+
+\bibitem{arends2008}
+Arends L, Hamza T, Van~Houwelingen J, Heijenbrok-Kal M, Hunink M, Stijnen T.
+  Bivariate random effects meta-analysis of {ROC} curves. {\it Medical Decision
+  Making} 2008\string; 28(5)\string: 621--638.
+
+\bibitem{chu2009}
+Chu H, Nie L, Cole SR, Poole C. Meta-analysis of diagnostic accuracy studies
+  accounting for disease prevalence: alternative parameterizations and model
+  selection. {\it Statistics in Medicine} 2009\string; 28(18)\string:
+  2384--2399.
+
+\bibitem{higgins2009}
+Higgins JP, Thompson SG, Spiegelhalter DJ. A re-evaluation of random-effects
+  meta-analysis. {\it Journal of the Royal Statistical Society: Series A
+  (Statistics in Society)} 2009\string; 172(1)\string: 137--159.
+
+\bibitem{follmann1999}
+Follmann DA, Proschan MA. Valid inference in random effects meta-analysis. {\it
+  Biometrics} 1999\string; 55(3)\string: 732--737.
+
+\bibitem{hardy1996}
+Hardy RJ, Thompson SG. A likelihood approach to meta-analysis with random
+  effects. {\it Statistics in Medicine} 1996\string; 15(6)\string: 619--629.
+
+\bibitem{GM1993}
+George EI, McCulloch RE. Variable selection via {Gibbs} sampling. {\it Journal
+  of the American Statistical Association} 1993\string; 88(423)\string:
+  881--889.
+
+\bibitem{GM1997}
+George EI, McCulloch RE. Approaches for {Bayesian} variable selection. {\it
+  Statistica Sinica} 1997\string; 7(2)\string: 339--373.
+
+\bibitem{KM1998}
+Kuo L, Mallick B. Variable selection for regression models. {\it Sankhy{\=a}:
+  The Indian Journal of Statistics, Series B} 1998\string; 60(1)\string:
+  65--81.
+
+\bibitem{ishwaran2005}
+Ishwaran H, Rao JS, others . {Spike and slab variable selection: frequentist
+  and Bayesian strategies}. {\it Annals of Statistics} 2005\string;
+  33(2)\string: 730--773.
+
+\bibitem{gelman2006prior}
+Gelman A, others . {Prior distributions for variance parameters in hierarchical
+  models (comment on article by Browne and Draper)}. {\it Bayesian Analysis}
+  2006\string; 1(3)\string: 515--534.
+
+\bibitem{barbieri2004}
+Barbieri MM, Berger JO, others . Optimal predictive model selection. {\it The
+  annals of statistics} 2004\string; 32(3)\string: 870--897.
+
+\end{thebibliography}

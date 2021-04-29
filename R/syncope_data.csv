@@ -1,0 +1,359 @@
+Variable,event_exposure,event_noexposure,noevent_exposure,noevent_noexposure,event_total,nonevent_total,Orhat,OR.lower,OR.upper,Chisquare,Paper,Relationship
+ECG,19,12,63,176,31,239,,,,,Colivicchi,Univariate
+ECG,30, ,188, ,41,629,,,,,Costantino,Univariate
+ECG,41, ,93, ,44,216,,,,,Del Rosso,Univariate
+ECG,,,,,,,,,,,Derose,Univariate
+ECG,10, ,34, ,68,225,,,,,Grossman,Univariate
+ECG,,,,,,,2.5,1.1,5.6,,Martin,Multivariate
+ECG,44, ,106, ,79,605,,,,,Quinn,Univariate
+ECG,,,,,,,,,,,Reed,Multivariate
+ECG,,,,,,,11.6,4.6,29.5,,Sarasin,Univariate
+ECG,123, ,1206, ,173,2411,,,,,Sun 2009,Univariate
+ECG,,,,,,,,,,,Thiruganasambandamoorthy,Univariate
+ECG,28, ,31, ,39,192,,,,,Kayayurt,Univariate
+ECG,41, ,135, ,56,421,,,,,Sun 2007,Univariate
+ECG,,,,,,,,,,,Gabayan,Univariate
+ECG,,,,,,,23.5,7,78.7,,Oh,Multivariate
+ECG,49, ,167, ,79,605,,,,,Quinn 2011,Univariate
+Age,27,4,96,243,31,239,,,,,Colivicchi,Univariate
+Age,32, ,290, ,41,629,,,,,Costantino,Univariate
+Age,37, ,114, ,44,216,,,,,Del Rosso,Univariate
+Age,253, ,11329, ,281,21908,,,,,Derose,Univariate
+Age,,,,,,,,,,,Grossman,Multivariate
+Age,,,,,,,2.8,1,7.8,,Martin,Univariate
+Age,,,,,,,,,,,Quinn,Multivariate
+Age,,,,,,,,,,,Reed,Univariate
+Age,,,,,,,13.4,3,58.5,,Sarasin,Univariate
+Age,,,,,,,,,,,Sun 2009,Univariate
+Age,29, ,137, ,49,456,,,,,Thiruganasambandamoorthy,Univariate
+Age,32, ,68, ,39,192,,,,,Kayayurt,Univariate
+Age,43, ,181, ,56,421,,,,,Sun 2007,Univariate
+Age,72, ,871, ,147,3883,,,,,Thiruganasambandamoorthy 2016,Univariate
+Age,,,,,,,0.789,0.237,2.625,,Numeroso 2016,Univariate
+Heart Disease,20, ,144, ,41,629,,,,,Costantino,Univariate
+Heart Disease,,,,,,,,,,,Del Rosso,Univariate
+Heart Disease,59, ,1516, ,281,21908,,,,,Derose,Multivariate
+Heart Disease,19, ,40, ,68,225,,,,,Grossman,Univariate
+Heart Disease,,,,,,,,,,,Martin,Multivariate
+Heart Disease,19, ,97, ,79,605,,,,,Quinn,Univariate
+Heart Disease,,,,,,,,,,,Reed,Univariate
+Heart Disease,,,,,,,,,,,Sarasin,Univariate
+Heart Disease,43, ,506, ,173,2411,,,,,Sun 2009,Univariate
+Heart Disease,17, ,82, ,49,456,,,,,Thiruganasambandamoorthy,Univariate
+Heart Disease,11, ,19, ,39,192,,,,,Kayayurt,Univariate
+Heart Disease,,,,,,,,,,,Sun 2007,Univariate
+Heart Disease,212, ,2839, ,893,34437,,,,,Gabayan,Univariate
+Heart Disease,83, ,748, ,138,3639,,,,,Thiruganasambandamoorthy 2016,Univariate
+No Prodromes,25,6,69,170,31,239,,,,,Colivicchi,Univariate
+No Prodromes,19, ,171, ,41,629,,,,,Costantino,Univariate
+No Prodromes,23, ,56, ,44,216,,,,,Del Rosso,Univariate
+No Prodromes,,,,,,,,,,,Derose,Multivariate
+No Prodromes,,,,,,,,,,,Grossman,Univariate
+No Prodromes,,,,,,,,,,,Martin,Multivariate
+No Prodromes,54, ,370, ,79,605,,,,,Quinn,Univariate
+No Prodromes,,,,,,,,,,,Reed,Univariate
+No Prodromes,,,,,,,,,,,Sarasin,Univariate
+No Prodromes,40, ,386, ,173,2411,,,,,Sun 2009,Univariate
+No Prodromes,13, ,123, ,48,455,,,,,Thiruganasambandamoorthy,Univariate
+No Prodromes,20, ,155, ,39,192,,,,,Kayayurt,Univariate
+No Prodromes,62, ,914, ,144,3817,,,,,Thiruganasambandamoorthy 2016,Univariate
+No Prodromes,,,,,,,0.786,0.289,2.133,,Numeroso 2016,Univariate
+Male Gender,18,13,107,132,31,239,,,,,Colivicchi,Univariate
+Male Gender,27, ,267, ,41,629,,,,,Costantino,Univariate
+Male Gender,34, ,122, ,44,216,,,,,Del Rosso,Multivariate
+Male Gender,156, ,9306, ,281,21908,,,,,Derose,Univariate
+Male Gender,40, ,81, ,68,225,,,,,Grossman,Multivariate
+Male Gender,,,,,,,,,,,Martin,Univariate
+Male Gender,,,,,,,,,,,Quinn,Univariate
+Male Gender,,,,,,,,,,,Reed,Univariate
+Male Gender,,,,,,,,,,,Sarasin,Univariate
+Male Gender,102, ,989, ,173,2411,,,,,Sun 2009,Univariate
+Male Gender,,,,,,,,,,,Thiruganasambandamoorthy,Univariate
+Male Gender,,,,,,,,,,,Kayayurt,Multivariate
+Male Gender,37, ,173, ,56,421,,,,,Sun 2007,Univariate
+Male Gender,524, ,15055, ,893,34437,,,,,Gabayan,Univariate
+Male Gender,,,,,,,2.6,,,5.2,Reed,Univariate
+Male Gender,,,,,,,0.651,0.325,1.302,,Numeroso 2014,Univariate
+Male Gender,84, ,1708, ,147,3883,,,,,Thiruganasambandamoorthy 2016,Univariate
+Male Gender,,,,,,,1.685,0.64,4.434,,Numeroso 2016,Univariate
+Cerebrovascular,8, ,78, ,41,629,,,,,Costantino,Univariate
+Cerebrovascular,,,,,,,,,,,Del Rosso,Multivariate
+Cerebrovascular,35, ,1378, ,281,21908,,,,,Derose,Univariate
+Cerebrovascular,,,,,,,,,,,Grossman,Univariate
+Cerebrovascular,,,,,,,,,,,Martin,Univariate
+Cerebrovascular,,,,,,,,,,,Quinn,Univariate
+Cerebrovascular,,,,,,,,,,,Reed,Univariate
+Cerebrovascular,,,,,,,,,,,Sarasin,Univariate
+Cerebrovascular,,,,,,,,,,,Sun 2009,Univariate
+Cerebrovascular,,,,,,,,,,,Thiruganasambandamoorthy,Univariate
+Cerebrovascular,,,,,,,,,,,Kayayurt,Univariate
+Cerebrovascular,,,,,,,,,,,Sun 2007,Univariate
+Cerebrovascular,124, ,3000, ,893,34437,,,,,Gabayan,Multivariate
+Arrhythmia,1, ,11, ,41,629,,,,,Costantino,Univariate
+Arrhythmia,,,,,,,,,,,Del Rosso,Multivariate
+Arrhythmia,91, ,2638, ,281,21908,,,,,Derose,Univariate
+Arrhythmia,0, ,1, ,68,225,,,,,Grossman,Univariate
+Arrhythmia,,,,,,,5.4,2.1,14.2,,Martin,Univariate
+Arrhythmia,15, ,43, ,79,605,,,,,Quinn,Univariate
+Arrhythmia,,,,,,,,,,,Reed,Univariate
+Arrhythmia,,,,,,,,,,,Sarasin,Univariate
+Arrhythmia,52, ,289, ,173,2411,,,,,Sun 2009,Univariate
+Arrhythmia,13, ,45, ,49,456,,,,,Thiruganasambandamoorthy,Univariate
+Arrhythmia,,,,,,,,,,,Kayayurt,Univariate
+Arrhythmia,,,,,,,,,,,Sun 2007,Univariate
+Arrhythmia,512, ,5484, ,893,34437,,,,,Gabayan,Univariate
+Trauma,10,21,31,208,31,239,,,,,Colivicchi,Multivariate
+Trauma,17, ,144, ,41,629,,,,,Costantino,Univariate
+Trauma,,,,,,,,,,,Del Rosso,Multivariate
+Trauma,,,,,,,,,,,Derose,Univariate
+Trauma,,,,,,,,,,,Grossman,Univariate
+Trauma,,,,,,,,,,,Martin,Univariate
+Trauma,,,,,,,,,,,Quinn,Univariate
+Trauma,,,,,,,,,,,Reed,Univariate
+Trauma,,,,,,,,,,,Sarasin,Multivariate
+Trauma,14, ,72, ,173,2411,,,,,Sun 2009,Univariate
+Palpitations,4, ,2, ,44,216,,,,,Del Rosso,Multivariate
+Palpitations,,,,,,,,,,,Derose,Univariate
+Palpitations,4, ,1, ,68,225,,,,,Grossman,Univariate
+Palpitations,,,,,,,,,,,Martin,Univariate
+Palpitations,4, ,63, ,79,605,,,,,Quinn,Univariate
+Palpitations,,,,,,,,,,,Reed,Univariate
+Palpitations,,,,,,,,,,,Sarasin,Univariate
+Palpitations,,,,,,,,,,,Sun 2009,Univariate
+Palpitations,2, ,14, ,49,456,,,,,Thiruganasambandamoorthy,Multivariate
+Palpitations,8, ,15, ,39,192,,,,,Kayayurt,Univariate
+Supine,6, ,6, ,44,216,,,,,Del Rosso,Multivariate
+Supine,,,,,,,,,,,Derose,Univariate
+Supine,,,,,,,,,,,Grossman,Univariate
+Supine,,,,,,,,,,,Martin,Univariate
+Supine,32, ,279, ,79,605,,,,,Quinn,Univariate
+Supine,,,,,,,,,,,Reed,Univariate
+Supine,,,,,,,,,,,Sarasin,Univariate
+Supine,,,,,,,,,,,Sun 2009,Univariate
+Supine,,,,,,,,,,,Thiruganasambandamoorthy,Multivariate
+Supine,7, ,5, ,39,192,,,,,Kayayurt,Univariate
+Effort,6, ,2, ,44,216,,,,,Del Rosso,Multivariate
+Effort,,,,,,,,,,,Derose,Univariate
+Effort,0, ,1, ,68,225,,,,,Grossman,Univariate
+Effort,,,,,,,,,,,Martin,Univariate
+Effort,6, ,47, ,79,605,,,,,Quinn,Univariate
+Effort,,,,,,,,,,,Reed,Univariate
+Effort,,,,,,,,,,,Sarasin,Univariate
+Effort,,,,,,,,,,,Sun 2009,Multivariate
+Effort,2, ,26, ,49,456,,,,,Thiruganasambandamoorthy,Univariate
+Effort,10, ,13, ,39,192,,,,,Kayayurt,Multivariate
+Congestive,120, ,2316, ,281,21908,,,,,Derose,Univariate
+Congestive,5, ,11, ,68,225,,,,,Grossman,Univariate
+Congestive,,,,,,,2.5,1.03,5.9,,Martin,Univariate
+Congestive,14, ,27, ,79,605,,,,,Quinn,Univariate
+Congestive,,,,,,,,,,,Reed,Univariate
+Congestive,,,,,,,8.6,3.5,21.1,,Sarasin,Univariate
+Congestive,29, ,193, ,173,2411,,,,,Sun 2009,Univariate
+Congestive,8, ,22, ,49,456,,,,,Thiruganasambandamoorthy,Univariate
+Congestive,13, ,9, ,39,192,,,,,Kayayurt,Univariate
+Congestive,9, ,29, ,56,421,,,,,Sun 2007,Multivariate
+Congestive,347, ,4362, ,893,34437,,,,,Gabayan,Univariate
+Dyspnea,4, ,2, ,44,216,,,,,Del Rosso,Multivariate
+Dyspnea,,,,,,,,,,,Derose,Univariate
+Dyspnea,7, ,11, ,68,225,,,,,Grossman,Univariate
+Dyspnea,,,,,,,,,,,Martin,Univariate
+Dyspnea,18, ,33, ,79,605,,,,,Quinn,Univariate
+Dyspnea,,,,,,,,,,,Reed,Univariate
+Dyspnea,,,,,,,,,,,Sarasin,Univariate
+Dyspnea,22, ,169, ,173,2411,,,,,Sun 2009,Multivariate
+Dyspnea,12, ,42, ,49,454,,,,,Thiruganasambandamoorthy,Univariate
+Dyspnea,7, ,3, ,39,192,,,,,Kayayurt,Multivariate
+Dyspnea,11, ,46, ,56,421,,,,,Sun 2007,Univariate
+Hematocrit,2, ,4, ,68,225,,,,,Grossman,Univariate
+Hematocrit,,,,,,,,,,,Martin,Univariate
+Hematocrit,18, ,33, ,79,605,,,,,Quinn,Univariate
+Hematocrit,,,,,,,,,,,Reed,Univariate
+Hematocrit,,,,,,,,,,,Sarasin,Univariate
+Hematocrit,9, ,121, ,173,2411,,,,,Sun 2009,Univariate
+Hematocrit,8, ,76, ,49,456,,,,,Thiruganasambandamoorthy,Multivariate
+Hematocrit,6, ,6, ,39,192,,,,,Kayayurt,Univariate
+Hematocrit,8, ,17, ,56,421,,,,,Sun 2007,Multivariate
+Hematocrit,13, ,113, ,147,3883,,,,,Thiruganasambandamoorthy 2016,Univariate
+Hypotension,3, ,4, ,68,225,,,,,Grossman,Univariate
+Hypotension,,,,,,,,,,,Martin,Univariate
+Hypotension,12, ,24, ,79,605,,,,,Quinn,Univariate
+Hypotension,,,,,,,,,,,Reed,Univariate
+Hypotension,,,,,,,,,,,Sarasin,Univariate
+Hypotension,5, ,48, ,173,2411,,,,,Sun 2009,Multivariate
+Hypotension,13, ,7, ,49,453,,,,,Thiruganasambandamoorthy,Univariate
+Hypotension,,,,,,,,,,,Kayayurt,Multivariate
+Hypotension,5, ,21, ,56,421,,,,,Sun 2007,Univariate
+Oxygen,0, ,0, ,68,225,,,,,Grossman,Univariate
+Oxygen,,,,,,,,,,,Martin,Univariate
+Oxygen,15, ,65, ,79,605,,,,,Quinn,Multivariate
+Oxygen,,,,,,,,,,,Reed,Univariate
+Oxygen,,,,,,,,,,,Sarasin,Univariate
+Oxygen,,,,,,,,,,,Sun 2009,Univariate
+Oxygen,12, ,74, ,42,384,,,,,Thiruganasambandamoorthy,Univariate
+Oxygen,,,,,,,3,,,5.1,Reed,Univariate
+Hypertension,18,13,74,165,31,239,,,,,Colivicchi,Multivariate
+Hypertension,,,,,,,,,,,Costantino,Univariate
+Hypertension,,,,,,,,,,,Del Rosso,Multivariate
+Hypertension,218, ,11169, ,281,21908,,,,,Derose,Univariate
+Hypertension,,,,,,,,,,,Grossman,Univariate
+Hypertension,,,,,,,,,,,Martin,Univariate
+Hypertension,31, ,175, ,79,605,,,,,Quinn,Univariate
+Hypertension,,,,,,,,,,,Reed,Univariate
+Hypertension,,,,,,,,,,,Sarasin,Univariate
+Hypertension,106, ,1495, ,173,2411,,,,,Sun 2009,Univariate
+Hypertension,24, ,150, ,49,456,,,,,Thiruganasambandamoorthy,Univariate
+Hypertension,,,,,,,,,,,Kayayurt,Univariate
+Hypertension,,,,,,,,,,,Sun 2007,Univariate
+Hypertension,711, ,18582, ,893,34437,,,,,Gabayan,Univariate
+Diabetes,8,23,24,215,31,239,,,,,Colivicchi,Multivariate
+Diabetes,4, ,62, ,41,629,,,,,Costantino,Univariate
+Diabetes,,,,,,,,,,,Del Rosso,Multivariate
+Diabetes,112, ,4083, ,281,21908,,,,,Derose,Univariate
+Diabetes,,,,,,,,,,,Grossman,Univariate
+Diabetes,,,,,,,,,,,Martin,Univariate
+Diabetes,13, ,50, ,79,605,,,,,Quinn,Univariate
+Diabetes,,,,,,,,,,,Reed,Univariate
+Diabetes,,,,,,,,,,,Sarasin,Univariate
+Diabetes,40, ,482, ,173,2411,,,,,Sun 2009,Univariate
+Diabetes,11, ,54, ,49,456,,,,,Thiruganasambandamoorthy,Univariate
+Diabetes,,,,,,,,,,,Kayayurt,Univariate
+Diabetes,,,,,,,,,,,Sun 2007,Univariate
+Diabetes,301, ,7124, ,893,34437,,,,,Gabayan,Univariate
+Previous Syncope,6,25,81,158,31,239,,,,,Colivicchi,Multivariate
+Previous Syncope,,,,,,,,,,,Costantino,Univariate
+Previous Syncope,,,,,,,,,,,Del Rosso,Multivariate
+Previous Syncope,,,,,,,,,,,Derose,Univariate
+Previous Syncope,4, ,32, ,68,225,,,,,Grossman,Univariate
+Previous Syncope,,,,,,,,,,,Martin,Univariate
+Previous Syncope,13, ,111, ,79,605,,,,,Quinn,Univariate
+Previous Syncope,,,,,,,,,,,Reed,Univariate
+Previous Syncope,,,,,,,,,,,Sarasin,Multivariate
+Previous Syncope,3, ,48, ,173,2411,,,,,Sun 2009,Univariate
+Previous Syncope,,,,,,,0.48,0.182,1.267,,Numeroso 2016,Univariate
+Incontinence,3, ,4, ,44,216,,,,,Del Rosso,Univariate
+Incontinence,,,,,,,,,,,Derose,Univariate
+Incontinence,,,,,,,,,,,Grossman,Univariate
+Incontinence,,,,,,,,,,,Martin,Univariate
+Incontinence,2, ,21, ,79,605,,,,,Quinn,Univariate
+Nonwhite Race,,,,,,,2.7,1.1,6.7,,Martin,Multivariate
+Nonwhite Race,21, ,506, ,173,2411,,,,,Sun 2009,Univariate
+Nonwhite Race,,,,,,,,,,,Thiruganasambandamoorthy,Multivariate
+Nonwhite Race,,,,,,,,,,,Kayayurt,Univariate
+Nonwhite Race,8, ,101, ,56,421,,,,,Sun 2007,Univariate
+Nonwhite Race,311, ,18436, ,893,34437,,,,,Gabayan,Univariate
+Chest Pain,3, ,20, ,68,225,,,,,Grossman,Univariate
+Chest Pain,,,,,,,,,,,Martin,Multivariate
+Chest Pain,12, ,46, ,79,605,,,,,Quinn,Univariate
+Chest Pain,,,,,,,,,,,Reed,Multivariate
+Chest Pain,,,,,,,,,,,Sarasin,Univariate
+Chest Pain,19, ,169, ,173,2411,,,,,Sun 2009,Univariate
+Seizure,22, ,787, ,281,21908,,,,,Derose,Univariate
+Seizure,,,,,,,,,,,Grossman,Univariate
+Seizure,,,,,,,,,,,Martin,Univariate
+Seizure,1, ,13, ,79,605,,,,,Quinn,Univariate
+Seizure,,,,,,,,,,,Reed,Univariate
+Seizure,,,,,,,,,,,Sarasin,Multivariate
+Seizure,,,,,,,,,,,Sun 2009,Univariate
+Seizure,,,,,,,,,,,Thiruganasambandamoorthy,Univariate
+Seizure,,,,,,,,,,,Kayayurt,Univariate
+Seizure,,,,,,,,,,,Sun 2007,Multivariate
+Seizure,65, ,1939, ,893,34437,,,,,Gabayan,Univariate
+Stroke,1, ,23, ,79,605,,,,,Quinn,Univariate
+Stroke,,,,,,,,,,,Reed,Multivariate
+Stroke,,,,,,,,,,,Sarasin,Univariate
+Stroke,25, ,362, ,173,2411,,,,,Sun 2009,Univariate
+Arrhythmic Medication,2, ,11, ,68,225,,,,,Grossman,Univariate
+Arrhythmic Medication,,,,,,,,,,,Martin,Multivariate
+Arrhythmic Medication,9, ,24, ,79,605,,,,,Quinn,Univariate
+Respiratory Rate,0, ,0, ,68,225,,,,,Grossman,Multivariate
+Respiratory Rate,,,,,,,,,,,Martin,Univariate
+Respiratory Rate,9, ,14, ,79,605,,,,,Quinn,Univariate
+Respiratory Rate,12, ,109, ,147,3883,,,,,Thiruganasambandamoorthy 2016,Univariate
+Murmur,2, ,2, ,68,225,,,,,Grossman,Univariate
+Murmur,,,,,,,,,,,Martin,Univariate
+Murmur,21, ,103, ,79,605,,,,,Quinn,Univariate
+Murmur,,,,,,,,,,,Reed,Univariate
+Murmur,,,,,,,,,,,Sarasin,Univariate
+Murmur,24, ,265, ,173,2411,,,,,Sun 2009,Univariate
+Murmur,,,,,,,,,,,Thiruganasambandamoorthy,Multivariate
+Murmur,8, ,4, ,39,192,,,,,Kayayurt,Univariate
+Hispanic,17, ,289, ,173,2411,,,,,Sun 2009,Multivariate
+Hispanic,,,,,,,,,,,Thiruganasambandamoorthy,Univariate
+Hispanic,,,,,,,,,,,Kayayurt,Univariate
+Hispanic,6, ,42, ,56,421,,,,,Sun 2007,Univariate
+Pacemaker,3, ,7, ,68,225,,,,,Grossman,Univariate
+Pacemaker,,,,,,,,,,,Martin,Univariate
+Pacemaker,,,,,,,,,,,Quinn,Univariate
+Pacemaker,,,,,,,,,,,Reed,Univariate
+Pacemaker,,,,,,,,,,,Sarasin,Univariate
+Pacemaker,14, ,121, ,173,2411,,,,,Sun 2009,Multivariate
+Pacemaker,,,,,,,,,,,Thiruganasambandamoorthy,Univariate
+Pacemaker,,,,,,,,,,,Kayayurt,Multivariate
+Pacemaker,,,,,,,,,,,Sun 2007,Univariate
+Pacemaker,99, ,1439, ,893,34437,,,,,Gabayan,Univariate
+Myocardial Infarction,43, ,1122, ,281,21908,,,,,Derose,Univariate
+Myocardial Infarction,,,,,,,,,,,Grossman,Univariate
+Myocardial Infarction,,,,,,,,,,,Martin,Univariate
+Myocardial Infarction,,,,,,,,,,,Quinn,Univariate
+Myocardial Infarction,,,,,,,,,,,Reed,Univariate
+Myocardial Infarction,,,,,,,4.3,1.7,10.9,,Sarasin,Univariate
+Myocardial Infarction,,,,,,,,,,,Sun 2009,Univariate
+Myocardial Infarction,,,,,,,,,,,Thiruganasambandamoorthy,Univariate
+Myocardial Infarction,,,,,,,,,,,Kayayurt,Univariate
+Myocardial Infarction,,,,,,,,,,,Sun 2007,Multivariate
+Myocardial Infarction,246, ,2140, ,893,34437,,,,,Gabayan,Univariate
+Hemoglobin,,,,,,,,,,,Colivicchi,Multivariate
+Hemoglobin,,,,,,,,,,,Costantino,Univariate
+Hemoglobin,,,,,,,,,,,Del Rosso,Univariate
+Hemoglobin,,,,,,,,,,,Derose,Univariate
+Hemoglobin,,,,,,,,,,,Grossman,Multivariate
+Hemoglobin,,,,,,,,,,,Martin,Univariate
+Hemoglobin,,,,,,,,,,,Quinn,Univariate
+Hemoglobin,,,,,,,6.7,,,11,Reed,Univariate
+Hemoglobin,,,,,,,,,,,Sarasin,Univariate
+Hemoglobin,,,,,,,,,,,Sun 2009,Univariate
+Hemoglobin,8, ,76, ,49,456,,,,,Thiruganasambandamoorthy,Univariate
+BNP,,,,,,,7.3,,,15.9,Reed,Multivariate
+BNP,,,,,,,,,,,Sarasin,Univariate
+BNP,,,,,,,,,,,Sun 2009,Univariate
+BNP,,,,,,,,,,,Thiruganasambandamoorthy,Univariate
+BNP,,,,,,,,,,,Kayayurt,Univariate
+BNP,,,,,,,,,,,Sun 2007,Univariate
+BNP,,,,,,,,,,,Gabayan,Univariate
+BNP,,,,,,,,,,,Oh,Univariate
+BNP,,,,,,,,,,,Sule,Multivariate
+BNP,20,21,7,65,41,72,,,,,Isbitan,Univariate
+Troponin_99,43, ,241, ,173,2411,,,,,Sun 2009,Univariate
+Troponin_99,,,,,,,,,,,Thiruganasambandamoorthy,Univariate
+Troponin_99,,,,,,,,,,,Kayayurt,Univariate
+Troponin_99,,,,,,,,,,,Sun 2007,Univariate
+Troponin_99,,,,,,,,,,,Gabayan,Univariate
+Troponin_99,,,,,,,,,,,Oh,Univariate
+Troponin_99,,,,,,,,,,,Sule,Univariate
+Troponin_99,,,,,,,,,,,Isbitan,Univariate
+Troponin_99,,,,,,,,,,,Numeroso,Univariate
+Troponin_99,,,,,,,,,,,Quinn 2011,Multivariate
+Troponin_99,33,12,87,206,45,293,,,,,Reed 2012,Univariate
+Troponin_99,37, ,132, ,147,3883,,,,,Thiruganasambandamoorthy 2016,Univariate
+Urea,15, ,11, ,49,456,,,,,Thiruganasambandamoorthy,Univariate
+Urea,,,,,,,,,,,Kayayurt,Univariate
+Urea,,,,,,,,,,,Sun 2007,Univariate
+Urea,,,,,,,,,,,Gabayan,Univariate
+Urea,,,,,,,,,,,Oh,Univariate
+Urea,,,,,,,,,,,Sule,Univariate
+Urea,,,,,,,,,,,Isbitan,Univariate
+Urea,,,,,,,,,,,Numeroso,Univariate
+Urea,,,,,,,,,,,Quinn 2011,Multivariate
+Urea,,,,,,,,,,,Reed 2012,Univariate
+Urea,21, ,164, ,147,3883,,,,,Thiruganasambandamoorthy 2016,Univariate
+Creatinine,13, ,15, ,49,456,,,,,Thiruganasambandamoorthy,Univariate
+Creatinine,,,,,,,,,,,Kayayurt,Univariate
+Creatinine,,,,,,,,,,,Sun 2007,Univariate
+Creatinine,,,,,,,,,,,Gabayan,Univariate
+Creatinine,,,,,,,,,,,Oh,
+Creatinine,,,,,,,,,,,Sule,
+Creatinine,,,,,,,,,,,Isbitan,
+Creatinine,,,,,,,,,,,Numeroso,
+Creatinine,,,,,,,,,,,Quinn 2011,
+Creatinine,,,,,,,,,,,Reed 2012,
+Creatinine,17, ,170, ,147,3883,,,,,Thiruganasambandamoorthy 2016,
