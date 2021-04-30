@@ -1,11 +1,6 @@
 \begin{thebibliography}{10}
 \providecommand \doibase [0]{http://dx.doi.org/}%
 
-\bibitem{gibson2018}
-Gibson TA, Weiss RE, Sun BC. Predictors of short-term outcomes after syncope: a
-  systematic review and meta-analysis. {\it Western Journal of Emergency
-  Medicine} 2018\string; 19(3)\string: 517.
-
 \bibitem{smith1995}
 Smith TC, Spiegelhalter DJ, Thomas A. Bayesian approaches to random-effects
   meta-analysis: a comparative study. {\it Statistics in Medicine} 1995\string;
@@ -48,6 +43,11 @@ Chu H, Cole SR. Bivariate meta-analysis of sensitivity and specificity with
 Arends L, Hamza T, Van~Houwelingen J, Heijenbrok-Kal M, Hunink M, Stijnen T.
   Bivariate random effects meta-analysis of {ROC} curves. {\it Medical Decision
   Making} 2008\string; 28(5)\string: 621--638.
+
+\bibitem{gibson2018}
+Gibson TA, Weiss RE, Sun BC. Predictors of short-term outcomes after syncope: a
+  systematic review and meta-analysis. {\it Western Journal of Emergency
+  Medicine} 2018\string; 19(3)\string: 517.
 
 \bibitem{chu2009}
 Chu H, Nie L, Cole SR, Poole C. Meta-analysis of diagnostic accuracy studies

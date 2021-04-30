@@ -181,6 +181,5 @@ PPV.med <- apply(meta_sims1[,301:400], 1, quantile, 0.5)
 sens.med <- apply(meta_sims1[,401:500], 1, quantile, 0.5)
 spec.med <- apply(meta_sims1[,501:600], 1, quantile, 0.5)
 
-baddies1 <- which(LRp1 > 100)
-
+baddies1 <- which(LRp1 > 100))
 
