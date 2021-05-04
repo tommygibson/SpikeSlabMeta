@@ -196,6 +196,14 @@ A submodel of the SS prior model has a fixed effect for the log-odds ratio $\del
 \end{align}
 where $\delta_0$ has the SS prior \eqref{eq:delta0spike} - \eqref{eq:delta}.
 
+\subsection{Synthesizing other data sources} \label{sec:synthesis}
+
+Researchers do not always report a raw 2$\times$2 table and sometimes instead report an odds ratio and its confidence interval or, equivalently, a log-odds ratio and its standard error. If study $i$ reported in this form, we can incorporate this information by first putting it in the form of a log-odds ratio and standard error. We then say that study $i$'s observed log-odds ratio $\hat{\delta}_i$ was drawn from a normal distribution centered around its true log-odds ratio $\delta_i$ with variance equal to the square of the observed standard error $\mbox{SE}(\hat{\delta}_i)$
+\begin{align}
+\hat{\delta}_i \vert \delta_i &\sim \mbox{N}(\delta_i, \mbox{SE}(\hat{\delta}_i)^2), \label{eq:deltahat} 
+\end{align}
+where the true log-odds ratio $\delta_i$ is distributed as in \eqref{eq:deltai}. Studies modeled in this way offer information on $\delta_0$ and $\sigma^2_\delta$, but not the other hyperparameters $\beta_0$, $\nu_0$, $\sigma^2_\beta$, and $\sigma^2_\nu$. 
+
 \section{Simulation study} \label{sec:simulation}
 
 We perform a series of three simulations to determine 
