@@ -55,7 +55,7 @@
 
 Data from medical studies can often be tabulated appropriately in a 2$\times$2 contingency table. The tables have columns stratified by a dichotomous outcome and rows stratified by a dichotomous covariate. Summary statistics from a 2$\times$2 contingency table include positive/negative predictive value (PPV/NPV), sensitivity and specificity, and positive and negative likelihood ratios (LR+/LR-), among others. We will refer to any statistic that can be calculated as functions of some or all of the four values in a 2$\times$2 contingency table as a \textit{contingency table statistic} (CTS). For an individual study's table, this would mean using the counts in each cell, and for a population it would mean using the underlying multinomial cell probabilities. CTS's describe the relationship between the outcome and the covariate, and calculating most CTS's requires conditioning on either rows or columns. Meta-analysis methods for contingency table data reflect this conditioning, and differ based on the statistics of interest. 
 
-There are two types of meta-analysis models for 2$\times$2 data. The first type models CTS's that condition on the presence (RF) or absence $(\RFbar)$ of a risk factor, while the second type models CTS's that condition on the presence (E) or absence $(\Ebar)$ of an adverse event. CTS's conditioning on RF, which we refer to as \textit{row-CTS's}, include the odds ratio (OR), relative risk (RR), risk difference (RD), and positive/negative predictive values (PPV/NPV). A standard random effects model for row-CTS's is given in Smith et al. \cite{smith1995}, with the log-odds ratio $\log(\mbox{OR})$ as the main inference target. Warn et al. \cite{warn2002} provides a model to explicitly model both RRs and RDs. These methods condition on group $j = 0, 1$ where $j=1$ when the RF is present and $j=0$ when it is absent, and use binomial likelihoods, where the number of events $y_{ij}$ in study $i, i = 1, \dots, S$, group $j$ depends on the number of people $n_{ij}$ in study $i$, group $j$, and the probability of an event in that group, $\pi_{ij}$. CTS's conditioning on E, which we call \textit{column-CTS's}, include sensitivity, specificity, ORs, and positive/negative likelihood ratios (LR+/LR-). Ma et al. \cite{ma2016} reviews models that condition on event status, including the summary receiver operating characteristic (SROC) curve \cite{rutter2001, moses1993} and bivariate random effects models \cite{reitsma2005, chu2006, arends2008}, which use binomial likelihoods to model $\mbox{P}(\E \vert \RF)$ and $\mbox{P}(\E \vert \RFbar)$. 
+There are two types of meta-analysis models for 2$\times$2 data. The first type models CTS's that condition on the presence (RF) or absence $(\RFbar)$ of a risk factor, while the second type models CTS's that condition on the presence (E) or absence $(\Ebar)$ of an adverse event. CTS's conditioning on RF, which we refer to as \textit{row-CTS's}, include the odds ratio (OR), relative risk (RR), risk difference (RD), and positive/negative predictive values (PPV/NPV). A standard random effects model for row-CTS's is given in Smith et al. \cite{smith1995}, with the log-odds ratio $\log(\mbox{OR})$ as the main inference target. Warn et al. \cite{warn2002} provides a model to explicitly model both RRs and RDs. These methods condition on group $j = 0, 1$ where $j=1$ when the RF is present and $j=0$ when it is absent, and use binomial likelihoods, where the number of events $y_{ij}$ in study $i, i = 1, \dots, S$, group $j$ depends on the number of people $n_{ij}$ in study $i$, group $j$, and the probability of an event in that group, $\pi_{ij}$. CTS's conditioning on E, which we call \textit{column-CTS's}, include sensitivity (Sens), specificity (Spec), ORs, and positive/negative likelihood ratios (LR+/LR-). Ma et al. \cite{ma2016} reviews models that condition on event status, including the summary receiver operating characteristic (SROC) curve \cite{rutter2001, moses1993} and bivariate random effects models \cite{reitsma2005, chu2006, arends2008}, which use binomial likelihoods to model Sens and Spec. 
 
 An area of medical literature particularly suited to generating 2$\times$2 data is emergency department (ED) visits for syncope (fainting), where around 5-10\% of older syncope patients experience an adverse event in the 30 days after their initial ED visit \cite{gibson2018}. Many studies provide 2$\times$2 tables of counts for dichotomous covariates that are regularly collected during an ED visit for syncope patients, including comorbidities, symptoms, and test characteristics. The syncope data is \textit{observational data} (OD), where neither row totals or column totals are fixed by study investigators. For OD we are interested in both row- and column-CTS's. We would also like to ``weed out" those covariates that do not have diagnostic value in predicting adverse events. 
 
@@ -65,7 +65,7 @@ Determining which covariates have no diagnostic value corresponds to a natural s
 
 We introduce a mixture spike-and-slab prior distribution \cite{GM1993, GM1997, KM1998, ishwaran2005} on the mean parameter for random effects on the $\log(\mbox{OR})$ in the 3 RE model, which allows us to calculate the posterior probability that the null hypothesis is true. The mixture prior places point mass on the probability that the mean $\log(\mbox{OR}) = 0$ (the spike), and if not 0, models uncertainty in the mean $\log(\mbox{OR})$ with a continuous prior distribution (the slab). To our knowledge, spike-and-slab priors have not been used in the Bayesian meta-analysis literature. 
 
-We present the 3 RE meta-analysis model and detail where a spike-and-slab prior can be used in Section \ref{sec:methods}. Section \ref{sec:simulation} presents a simulation. Section \ref{sec:syncope} illustrates in application to syncope data. The paper closes with a discussion. 
+We present the 3 RE meta-analysis model and detail where a spike-and-slab prior can be used in Section \ref{sec:3REmodel}. Section \ref{sec:simulation} presents a simulation. Section \ref{sec:syncope} illustrates an application to syncope data. The paper closes with a discussion. 
 
 \section{Three RE meta-analysis model} \label{sec:3REmodel}
 
@@ -87,9 +87,9 @@ y_{ij} \vert \pi_{ij} & \sim \mbox{Bin}(n_{ij}, \pi_{ij})  \label{eq:likelihood}
 \end{align}
 \noindent and unknown hyperparameters for the mean $\log(\mbox{OR})$ $\delta_0$, mean $\log(\mbox{odds})$ of the event $\beta_0$,  variance of $\log(\mbox{OR})$'s $\sigma^2_{\delta}$, and variance in $\log(\mbox{odds})$ of the event $\sigma^2_{\beta}$ have appropriate prior distributions which we discuss in Section \ref{sec:priors}. 
 
-We now expand \eqref{eq:likelihood} - \eqref{eq:betai} and add a random effect $\psi_i = \mbox{P}(\RF_{ij}$, the probability of having the risk factor for subject $j$ in study $i$. Defining $\nu_i = \mbox{logit}(\psi_i)$, we assume binomial sampling for $n_{i1}$ from $N_i$ and model $\nu_i$ as normal
+We now expand \eqref{eq:likelihood} - \eqref{eq:betai} and add a random effect $\psi_i = \mbox{P}(\RF_{ij})$, the probability of having the risk factor for subject $j$ in study $i$. Defining $\nu_i = \mbox{logit}(\psi_i)$, we assume binomial sampling for $n_{i1}$ from $N_i$ and model $\nu_i$ as normal
 \begin{align}
-n_{ij} \vert \psi_i &\sim \mbox{Bin}(N_i, \psi_i) \label{eq:nij} \\
+n_{i1} \vert \psi_i &\sim \mbox{Bin}(N_i, \psi_i) \label{eq:nij} \\
 \nu_i \vert \nu_0, \sigma^2_\nu & \sim \mbox{N}(\nu_0, \sigma^2_\nu), \label{eq:nui}
 \end{align}
 \noindent where the unknown hyperpriors $\nu_0$ and $\sigma^2_\nu$ have priors $f(\nu_0)$ and $f(\sigma^2_{\nu})$. 
@@ -129,7 +129,7 @@ The CTS with largest variance is $\mbox{LR}+$, where Var($\mbox{LR}+_{S+1}$) can
 
 \subsection{Spike-and-slab prior for the log-odds ratio} \label{sec:spike}
 
-It is of explicit interest to researchers to formally test the null hypothesis $H_0: \delta0 = 0$ that the $\log(\mbox{OR})$ is 0 against $H_A: \delta_0 \ne 0$. The Bayesian approach to testing is to build a larger model where both $H_0$ and $H_A$ have positive probability, for example, with a spike-and-slab prior $p_1(\delta_0)$ for $\delta_0$
+It is of explicit interest to researchers to formally test the null hypothesis $H_0: \delta_0 = 0$ that the $\log(\mbox{OR})$ is 0 against $H_A: \delta_0 \ne 0$. The Bayesian approach to testing is to build a larger model where both $H_0$ and $H_A$ have positive probability, for example, with a spike-and-slab prior $p_1(\delta_0)$ for $\delta_0$
 \begin{align}
 \delta_0 & = \left\{
 		\begin{array}{ll}
@@ -167,22 +167,6 @@ where $y \sim \mbox{half-Cauchy}(A)$ with scale parameter $A$ has density $p(y) 
 \noindent where $(c_\cdot, d_\cdot)$ are chosen to heavily restrict large values of standard deviations, such as (4, 2) or (3, 2). With very few studies (2 or 3), large standard deviations can lead calculation problems for the statistics $\mbox{LR}+$ or $\mbox{LR}-$ as specificity can be very close to 1 or 0 in some samples.
 
 
-%  Do I really want the opposite parameterization as a subsection? Would require re-wiring notation for the reader...
-%\subsection{Opposite parameterization} \label{sec:opposite_parameterization}
-
-% It may be desirable to reparameterize the model to be able to incorporate prior information on the statistics Sens and Spec. We can redefine the 2$\times$2 tables from each study to instead condition on columns (E or $\Ebar$) rather than rows, as shown in Table . In this case, $n_{ij}$ is the number of people in study $i$ group $j = 0, 1$, where $j = 0$ represents $\Ebar$ and $j = 1$ represents $\E$, $y_{ij}$ is the number of people with the $\RF$ in study $i$, group $j$, and $\pi_{ij}$ is the probability of having the $\RF$ in study $i$, group $j$. The parameters $\beta_i$ and $\delta_i$ would then represent the `average' log-odds of the $\RF$ in study $i$ (unweighted by event group) and the log-odds ratio of having the $\RF$ by event group in study $i$. The random effects $\nu_i$ model the log-odds of the event in study $i$. The calculation of CTSs would then `flip', where statistics conditioning on $\E$ such as Sens and Spec are
-%\begin{align}
-%\mbox{Sens}_i &= \pi_{i1} \nonumber \\
-%\mbox{Spec}_i &= 1 - \pi_{i0}, \nonumber 
-%\end{align}
-%\noindent while CTSs conditioning on $\RF$ are
-%\begin{align}
-%\mbox{PPV}_i &= \frac{\pi_{i1} \psi_i}{\pi_{i1} \psi_i + \pi_{i0} (1 - \psi_i)} \nonumber \\
-%\mbox{NPV}_i &= \frac{(1 - \pi_{i0})(1 - \psi_i)}{(1 - \pi_{i0})(1 - \psi_i) + (1 - \pi_{i1}) \psi_i} \nonumber \\
-%\mbox{RR}_i &= \frac{\pi_{i1} \psi_i}{(1 - \pi_{i1})\psi_i} \nonumber \\
-%\mbox{RD}_i &= \pi_{i1} \psi_i - (1 - \pi_{i1})\psi_i. \nonumber
-%\end{align}
-
 \subsection{Special case: fixed effect for the log-odds ratio}
 
 A submodel of the SS prior model has a fixed effect for the log-odds ratio $\delta_0$, where the posterior height of the spike is then the probability that the log(OR) is zero for every study in the analysis. Conveniently, the height of the spike is then also the probability that a number of $\mbox{CTS}_0$'s are equal to their null values. These include $\mbox{RD}_0 = 0$, $\mbox{RR}_0 = 1$, $\mbox{LR}+_0 = 1$, and $\mbox{LR}-_0 = 1$. We need not worry about integrating out the random effects $\beta_{S+1}$ and $\nu_{S+1}$ because $\delta_0 = 0$ implies $\pi_{[S+1]1} = \pi_{[S+1]0}$, and the CTS's no longer depend on any of the random effects. In the model, we change \eqref{eq:logit} to 
@@ -198,11 +182,13 @@ where $\delta_0$ has the SS prior \eqref{eq:delta0spike} - \eqref{eq:delta}.
 
 \subsection{Synthesizing other data sources} \label{sec:synthesis}
 
-Researchers do not always report a raw 2$\times$2 table and sometimes instead report an odds ratio and its confidence interval or, equivalently, a log-odds ratio and its standard error. If study $i$ reported in this form, we can incorporate this information by first putting it in the form of a log-odds ratio and standard error. We then say that study $i$'s observed log-odds ratio $\hat{\delta}_i$ was drawn from a normal distribution centered around its true log-odds ratio $\delta_i$ with variance equal to the square of the observed standard error $\mbox{SE}(\hat{\delta}_i)$
+Researchers do not always report a raw 2$\times$2 table and will instead report an odds ratio and its confidence interval or, equivalently, a log-odds ratio and its standard error. If study $i$ reported in this form, we can incorporate this information by first putting it in the form of a log-odds ratio and standard error. We then say that study $i$'s observed log-odds ratio $\widehat{\delta}_i$ was drawn from a normal distribution centered around its true log-odds ratio $\delta_i$ with variance equal to the square of the observed standard error $\mbox{SE}(\widehat{\delta}_i)$
 \begin{align}
-\hat{\delta}_i \vert \delta_i &\sim \mbox{N}(\delta_i, \mbox{SE}(\hat{\delta}_i)^2), \label{eq:deltahat} 
+\widehat{\delta}_i \vert \delta_i &\sim \mbox{N}(\delta_i, \mbox{SE}(\widehat{\delta}_i)^2), \label{eq:deltahat} 
 \end{align}
 where the true log-odds ratio $\delta_i$ is distributed as in \eqref{eq:deltai}. Studies modeled in this way offer information on $\delta_0$ and $\sigma^2_\delta$, but not the other hyperparameters $\beta_0$, $\nu_0$, $\sigma^2_\beta$, and $\sigma^2_\nu$. 
+
+We can also incorporate information from studies that fix row-totals - for example, if study investigators needed to oversample from some population with a rare risk factor. For these studies we simply do not model $\psi_i = \mbox{P(RF)}$ in study $i$, and only model $(\beta_i, \delta_i)$ as in \eqref{eq:likelihood} - \eqref{eq:betai}. Studies modeled in this fashion help in estimation of the hyperparamters $(\beta_0, \delta_0, \sigma^2_\delta, \sigma^2_\beta)$, but not $\nu_0$ or $\sigma^2_\nu$.
 
 \section{Simulation study} \label{sec:simulation}
 
@@ -242,7 +228,13 @@ Table \ref{table:syncope} details results. Of the 31 variables analyzed 11 had p
 
 \section{Discussion}
 
+In this paper we have described a Bayesian meta-analysis method for observational 2$\times$2 contingency table data, where we model the probability of having the risk factor along with the log-odds ratio and the probability of the event for each study with random effects. This allows the user to estimate any contingency table statistic (CTS) they want, regardless of whether it conditions on the presence of the risk factor (eg. PPV, NPV) or the presence of the event (sensitivity, specificity). One can calculate study specific $\mbox{CTS}_i$'s or global $\mbox{CTS}_0$'s, which we define as the expected value of a given CTS for a new study, and we outline a Monte Carlo procedure within MCMC to sample from the latter estimand. We show how one can use a spike-and-slab prior distribution on the log-odds ratio to calculate the posterior probability that a potential risk factor has diagnostic value in predicting the presence or absence of the event.
 
+Through a simulation study we show that the spike-and-slab prior correctly identifies true zero effects and true non-zero effects with high accuracy, and lower levels of heterogeneity and larger true effect sizes lead to higher accuracy. Simulations also showed that the model without the spike-and-slab prior has bias that is either negligible or is not different from zero for CTS's that condition on rows and columns. 
+
+We applied the model to a set of studies on patients presenting to the emergency department with syncope. There were 31 dichotomous risk factors for which at least two papers reported 2$\times$2 table data. In a two-step process for each risk factor, we calculated the posterior height of the spike at zero for the log-odds ratio, and if the spike was small we moved on to calculate diagnostic CTS's. The syncope data is appropriate for the model because it is observational, and study investigators for included studies did not fix row- or column-totals. 
+
+One can incorporate information from studies that only report a log-odds ratio and its standard error, as well as from studies in which the row-totals were fixed by investigators. The former provide information on the mean and variance $(\delta_0, \sigma^2_\delta)$ of the random effects for the log-odds ratio, while the latter also provides information on the mean and variance $(\beta_0, \sigma^2_\beta)$ of the random effects for the log-odds of the event. One could formulate the model using the ``opposite" parameterization, where the parameters $(\beta_i, \delta_i, \nu_i)$ represent the log-odds of the risk factor, the diagnostic log-odds ratio, and the probability of the event in study $i$. In this case, one could incorporate information from studies in which column-totals are fixed, as is often true for case-control or diagnostic studies. 
 
 
 \bibliography{SpikeSlab}

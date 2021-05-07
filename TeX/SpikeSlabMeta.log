@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  3 MAY 2021 22:43
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  6 MAY 2021 18:14
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1050,14 +1050,9 @@ Overfull \vbox (6.46347pt too high) has occurred while \output is active []
 \openout3 = `SpikeSlabMeta.pag'.
 
 ]
-LaTeX Font Info:    Font shape `T1/stix/bx/n' in size <10.03749> not available
-(Font)              Font shape `T1/stix/b/n' tried instead on input line 68.
-
-
-LaTeX Warning: Reference `sec:methods' on page 2 undefined on input line 68.
-
 LaTeX Font Info:    Font shape `T1/stix/bx/n' in size <7> not available
 (Font)              Font shape `T1/stix/b/n' tried instead on input line 73.
+
 [2]
 LaTeX Font Info:    Font shape `T1/stix/bx/n' in size <12> not available
 (Font)              Font shape `T1/stix/b/n' tried instead on input line 97.
@@ -1073,52 +1068,51 @@ ion of $[]\LS1/stix/m/n/10.03749 [\LS1/stix/m/it/10.03749 g\LS1/stix/m/n/10.037
 [4] [5] [6] [7]
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 229.
+(hyperref)                removing `math shift' on input line 215.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `subscript' on input line 229.
+(hyperref)                removing `subscript' on input line 215.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 229.
+(hyperref)                removing `math shift' on input line 215.
 
-[8] (./SpikeSlabMeta.bbl [9] [10]) [11] [12
+[8] [9] (./SpikeSlabMeta.bbl [10] [11]) [12]
+LaTeX Font Info:    Font shape `T1/stix/bx/n' in size <10.03749> not available
+(Font)              Font shape `T1/stix/b/n' tried instead on input line 257.
+ [13
 
-] [13]
-<spike_boxplot.pdf, id=176, 361.35pt x 289.08pt>
+] [14]
+<spike_boxplot.pdf, id=183, 361.35pt x 289.08pt>
 File: spike_boxplot.pdf Graphic file (type pdf)
  <use spike_boxplot.pdf>
-Package pdftex.def Info: spike_boxplot.pdf used on input line 355.
+Package pdftex.def Info: spike_boxplot.pdf used on input line 347.
 (pdftex.def)             Requested size: 361.35463pt x 289.09251pt.
 
-<SSP-plot.pdf, id=177, 433.62pt x 433.62pt>
+<SSP-plot.pdf, id=184, 433.62pt x 433.62pt>
 File: SSP-plot.pdf Graphic file (type pdf)
  <use SSP-plot.pdf>
-Package pdftex.def Info: SSP-plot.pdf used on input line 361.
+Package pdftex.def Info: SSP-plot.pdf used on input line 353.
 (pdftex.def)             Requested size: 433.63878pt x 433.63878pt.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 370.
- [14
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 362.
+ [15
 
-] [15 <./spike_boxplot.pdf>] [16 <./SSP-plot.pdf>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 370.
+] [16 <./spike_boxplot.pdf>] [17 <./SSP-plot.pdf>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 362.
  (./SpikeSlabMeta.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 370.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 370.
-
-
-LaTeX Warning: There were undefined references.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 370.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 362.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 362.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 362.
  ) 
 Here is how much of TeX's memory you used:
  14540 strings out of 493014
- 204527 string characters out of 6133351
+ 204521 string characters out of 6133351
  311784 words of memory out of 5000000
- 17734 multiletter control sequences out of 15000+600000
+ 17733 multiletter control sequences out of 15000+600000
  133306 words of font info for 185 fonts, out of 8000000 for 9000
  1167 hyphenation exceptions out of 8191
- 43i,14n,40p,1591b,485s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 43i,14n,40p,1562b,491s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/stix/stix-t1.enc}</usr/lo
 cal/texlive/2016/texmf-dist/fonts/type1/public/stix/STIXGeneral-Bold.pfb></usr/
 local/texlive/2016/texmf-dist/fonts/type1/public/stix/STIXGeneral-Italic.pfb></
@@ -1130,10 +1124,10 @@ pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/stix/stix-mathex.pfb
 fb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/stix/stix-mathit.pfb>
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/stix/stix-mathrm.pfb></u
 sr/local/texlive/2016/texmf-dist/fonts/type1/public/stix/stix-mathscr.pfb>
-Output written on SpikeSlabMeta.pdf (16 pages, 268202 bytes).
+Output written on SpikeSlabMeta.pdf (17 pages, 271075 bytes).
 PDF statistics:
- 304 PDF objects out of 1000 (max. 8388607)
- 269 compressed objects within 3 object streams
- 77 named destinations out of 1000 (max. 500000)
+ 311 PDF objects out of 1000 (max. 8388607)
+ 275 compressed objects within 3 object streams
+ 78 named destinations out of 1000 (max. 500000)
  139 words of extra memory for PDF output out of 10000 (max. 10000000)
 
