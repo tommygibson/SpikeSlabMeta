@@ -647,85 +647,11 @@ syncope_summary <- as.data.frame(do.call(rbind, summaries))[, c(1:3, 5, 4, 6:9)]
 names(syncope_summary) <- c("Variable", "Num. Papers", "Spike", "LR+", "LR-", "NPV", "PPV", "Sens", "Spec")
 
 # save results!
-print(xtable(syncope_summary, caption = "Results of 31 meta-analyses of syncope studies", type = "latex"), file = "syncope.summary.tex", include.rownames = FALSE)
-
-######## We want to test why these guys are spitting out errors
-
-# which_errors <- c(8, 10, 16, 19, 22, 23, 25, 30, 31, 32)
-# syncope_baddies <- syncope %>%
-#   filter(Varnum %in% which_errors)
-# 
-# summaries_baddies <- list()
-# 
-# set.seed(11223)
-# index <- 0
-# for(i in 1:max(syncope$Varnum)){
-#   
-#   syncope_curr <- syncope %>%
-#     filter(Varnum == i, counts == 1)
-#   
-#   # only do the analysis with at least two papers that provide counts
-#   if(dim(syncope_curr)[1] < 2) next 
-#   
-#   index <- index + 1
-#   
-#   # syncope_curr <- rbind(syncope_curr, syncope_curr)
-#   # data for the analyses
-#   M <- 100
-#   S <- dim(syncope_curr)[1]
-#   n <- syncope_curr %>%
-#     ungroup() %>%
-#     select(c("n_i1", "n_i0"))
-#   y <- syncope_curr %>%
-#     ungroup() %>%
-#     select(c("y_i1", "y_i0"))
-#   n.tot = rowSums(n)
-#   
-#   
-#   # we'll do two analyses per variable
-#   # one with the spike/slab prior, one without
-#   
-#   # these values will be the same for pretty much every anal
-#   # until we do sensitivity analysis
-#   
-#   meta.data <- list(M = M, S = S, n = n, y = y, n.tot = n.tot,
-#                     a = -2, b = 0.5, c = 0, d = 0.5, e = 0, f = 0.5)
-#   
-#   # meta.data.spike <- list(M = M, S = S, n = n, y = y, n.tot = n.tot, 
-#   #                   a = -2, b = 0.5, c = 0, d = 0.1, e = 0, f = 0.5, p = 0.5)
-#   
-#   # as a first run we'll just follow the hyperparameters
-#   meta.params <- c("beta0", "delta0", "nu0", "sigma.beta", "sigma.delta", "sigma.nu")
-#   # meta.params.spike <- c("beta0", "delta0", "nu0", "rho")
-#   
-#   meta.anal <- jags(data = meta.data, inits = init.gen, parameters.to.save = meta.params,
-#                     model.file = "meta_confusion.txt",
-#                     n.chains = 2, n.iter = 10000, n.thin = 2, n.burnin = 1000, DIC = FALSE)
-#   # meta.anal.spike <- jags(data = meta.data.spike, inits = init.gen.spike, parameters.to.save = meta.params.spike,
-#   #                         model.file = "meta_confusion_spike.txt", 
-#   #                         n.chains = 2, n.iter = 21000, n.thin = 2, n.burnin = 1000, DIC = FALSE)
-#   
-#   # meta.sum <- meta.anal.spike$BUGSoutput$summary
-#   
-#   # meta.sims <- meta.anal$BUGSoutput$sims.matrix
-#   
-#   
-#   
-#   # summaries[[index]] <- matrix(c(syncope_curr$Variable[1], dim(syncope_curr)[1], make_CTS_sum(meta.anal$BUGSoutput$sims.matrix, 1)), nrow = 1)
-#   summaries_baddies[[index]] <- matrix(c(syncope_curr$Variable[1], dim(syncope_curr)[1], make_simple_sum(meta.anal$BUGSoutput$summary)), nrow = 1)
-#   
-#   
-#   colnames(summaries_baddies[[index]]) <- c("Variable", "Num.papers", meta.params[order(meta.params)])
-#   
-#   # summaries[[i]] <- c(syncope_curr$Variable[1], dim(syncope_curr)[1], make_sum(meta.sum))
-#   
-#   
-# }
-# 
-# do.call(rbind, summaries_baddies)
+print(xtable(syncope_summary, caption = "Results of 31 meta-analyses of syncope studies", type = "latex"), file = "TeX/syncope.summary.tex", include.rownames = FALSE)
 
 
-#### Try again but with gamma priors on the standard devations
+
+#### Try again but with gamma priors on the standard deviations
 
 summaries_gamma <- list()
 

@@ -10,251 +10,13 @@ library(pROC)
 library(extrafont)
 library(here)
 
-# only necessary if hasn't been imported before
+source("R/spike.functions.R")
+
+# next line only necessary if hasn't been imported before
 # font_import(pattern = "lmroman*")
 
-#### First, the models
 
-####### STANDARD, NO SPIKE/SLAB
-sink("meta_confusion.txt")
-cat("
-model
-{
-  for(i in 1:S){
-    y[i,1] ~ dbin(pi[i,1], n[i,1])
-    y[i,2] ~ dbin(pi[i,2], n[i,2])
-    
-    # probability of exposure
-    n[i,1] ~ dbin(psi[i], n.tot[i])
-    
-    psi[i] <- 1 / (1 + exp(-nu[i]))
-    
-    # conditional prob of event given exposure
-    logit(pi[i,1]) <- beta[i] + delta[i]/2
-    logit(pi[i,2]) <- beta[i] - delta[i]/2
-    
-    # meta-regression on the log-odds ratio
-    # do we include intercept?
-    
-    delta[i] ~ dnorm(delta0, D.delta)
-    
-    nu[i] ~ dnorm(nu0, D.nu)
-    
-    beta[i] ~ dnorm(beta0, D.beta)
-    
-  }
-  
-  beta0 ~ dnorm(a, b)
-  delta0 ~ dnorm(c, d)
-  nu0 ~ dnorm(e, f)
-  
-  # HALF T ON ALL THESE BITCHES
-  D.beta <- pow(sigma.beta, -2)
-  D.nu <- pow(sigma.nu, -2)
-  D.delta <- pow(sigma.delta, -2)
-  
-  # half-t prior on sigma.delta
-  sigma.beta ~ dt(0, 1, 1) T(0,)
-  sigma.nu ~ dt(0, 1, 1) T(0,)
-  sigma.delta ~ dt(0, 1, 1) T(0,)
 
-  #draw M new observations for each parameter w/ random effects
-  
-  for(j in 1:M){
-    deltanew[j] ~ dnorm(delta0, D.delta)
-    betanew[j] ~ dnorm(beta0, D.beta)
-    nunew[j] ~ dnorm(nu0, D.nu)
-    psinew[j] <- 1 / (1  + exp(-nunew[j]))
-    
-    pi1new[j] <- 1 / (1 + exp(-(betanew[j] + deltanew[j] / 2)))
-    pi0new[j] <- 1 / (1 + exp(-(betanew[j] - deltanew[j] / 2)))
-    
-    pi11new[j] <- pi1new[j] * psinew[j]                  # P(event, risk)
-    pi10new[j] <- (1 - pi1new[j]) * psinew[j]            # P(no event, risk)
-    pi01new[j] <- pi0new[j] * (1 - psinew[j])            # P(event, no risk)
-    pi00new[j] <- (1 - pi0new[j]) * (1 - psinew[j])      # P(no event, no risk)
-    
-    sensnew[j] <- pi11new[j] / (pi11new[j] + pi01new[j])
-    specnew[j] <- pi00new[j] / (pi00new[j] + pi10new[j])
-    
-    PPVnew[j] <- pi11new[j] / (pi11new[j] + pi10new[j])
-    NPVnew[j] <- pi00new[j] / (pi00new[j] + pi01new[j])
-    
-    LRpnew[j] <- sensnew[j] / (1 - specnew[j])
-    LRmnew[j] <- (1 - sensnew[j]) / specnew[j]
-    
-  }
-  pi1.h <- 1 / (1 + exp(-(beta0 + delta0 / 2)))
-  pi0.h <- 1 / (1 + exp(-(beta0 - delta0 / 2)))
-  psi.h <- 1 / (1 + exp(-(nu0)))
-  
-  pi11.h <- pi1.h * psi.h
-  pi10.h <- (1 - pi1.h) * psi.h
-  pi01.h <- pi0.h * (1 - psi.h)
-  pi00.h <- (1 - pi0.h) * (1 - psi.h)
-  
-  sens.h <- pi11.h / (pi11.h + pi01.h)
-  spec.h <- pi00.h / (pi00.h + pi10.h)
-  
-  LRp.h <- sens.h / (1 - spec.h)
-  LRm.h <- (1 - sens.h) / spec.h
-  
-}", fill = TRUE)
-sink()
-
-########## SPIKE/SLAB
-sink("meta_confusion_spike.txt")
-cat("
-model
-{
-  for(i in 1:S){
-    y[i,1] ~ dbin(pi[i,1], n[i,1])
-    y[i,2] ~ dbin(pi[i,2], n[i,2])
-    
-    # probability of exposure
-    n[i,1] ~ dbin(psi[i], n.tot[i])
-    
-    psi[i] <- 1 / (1 + exp(-nu[i]))
-    
-    # conditional prob of event given exposure
-    logit(pi[i,1]) <- beta[i] + delta[i]/2
-    logit(pi[i,2]) <- beta[i] - delta[i]/2
-    
-    
-    delta[i] ~ dnorm(delta0, D.delta)
-    
-    nu[i] ~ dnorm(nu0, D.nu)
-    
-    beta[i] ~ dnorm(beta0, D.beta)
-    
-  }
-  
-  beta0 ~ dnorm(a, b)
-  nu0 ~ dnorm(e, f)
-  
-  delta0 <- delta1 * rho
-  delta1 ~ dnorm(c, d)
-  rho ~ dbern(p)
-  spike <- 1 - rho
-  
-  # HALF T ON ALL THESE BITCHES
-  D.beta <- pow(sigma.beta, -2)
-  D.nu <- pow(sigma.nu, -2)
-  D.delta <- pow(sigma.delta, -2)
-  
-  # half-t prior on sigma.delta
-  sigma.beta ~ dt(0, 1, 1) T(0,)
-  sigma.nu ~ dt(0, 1, 1) T(0,)
-  sigma.delta ~ dt(0, 1, 1) T(0,)
-
-  #draw M new observations for each parameter w/ random effects
-  
-  for(j in 1:M){
-    deltanew[j] ~ dnorm(delta0, D.delta)
-    betanew[j] ~ dnorm(beta0, D.beta)
-    nunew[j] ~ dnorm(nu0, D.nu)
-    psinew[j] <- 1 / (1  + exp(-nunew[j]))
-    
-    pi1new[j] <- 1 / (1 + exp(-(betanew[j] + deltanew[j] / 2)))
-    pi0new[j] <- 1 / (1 + exp(-(betanew[j] - deltanew[j] / 2)))
-    
-    pi11new[j] <- pi1new[j] * psinew[j]                  # P(event, risk)
-    pi10new[j] <- (1 - pi1new[j]) * psinew[j]            # P(no event, risk)
-    pi01new[j] <- pi0new[j] * (1 - psinew[j])            # P(event, no risk)
-    pi00new[j] <- (1 - pi0new[j]) * (1 - psinew[j])      # P(no event, no risk)
-    
-    sensnew[j] <- pi11new[j] / (pi11new[j] + pi01new[j])
-    specnew[j] <- pi00new[j] / (pi00new[j] + pi10new[j])
-    
-    PPVnew[j] <- pi11new[j] / (pi11new[j] + pi10new[j])
-    NPVnew[j] <- pi00new[j] / (pi00new[j] + pi01new[j])
-    
-    LRpnew[j] <- sensnew[j] / (1 - specnew[j])
-    LRmnew[j] <- (1 - sensnew[j]) / specnew[j]
-    
-  }
-}", fill = TRUE)
-sink()
-
-## some useful functions
-
-# 3 significant digits (won't round to 2)
-sigfig <- function(x, n=3){ 
-  
-  trimws(format(round(x, n), nsmall = n), which = "both")
-  
-}   
-
-# summary from MCMC sims for CTSs
-make_CTS_sum1 <- function(x, M = 100){
-  
-  # averaging over stat_new in each iteration to get the posterior
-  stats <- apply(x[, 1:M], 1, mean)
-  
-  
-  means <- mean(stats)
-  low.up <- quantile(stats, c(.025, .5, .975))
-  sds <- sd(stats)
-  stat.summ <- c(means, sds, low.up)
-  
-  return(stat.summ)
-  
-}
-
-CTS.overall.sum <- function(x, target){
-  
-  # LR+
-  bias <- mean(x[,1]) - target[1] # bias
-  var.est <- var(x[,1]) # mean of estimator
-  avg.sd <- mean(x[,2]) # average SD
-  cover.95 <- sum(x[,3] < target[1] & x[,5] > target[1]) / dim(x)[1] # 95% coverage probability
-  length.95 <- mean(x[, 5] - x[, 3]) # average 95% length
-  RMSE <- sqrt(mean((x[, 1] - target[1])^2)) # root(MSE)
-  
-  return(c(bias, var.est, avg.sd, cover.95, length.95, RMSE))
-}
-
-reject_by_cutoff <- function(cut, mat){
-  
-  return(apply(mat, 2, function(x) sum(x > cut) / length(x)))
-  
-}
-
-#### Init generators
-
-init.gen <- function(){
-  list(
-    delta = runif(S, -1, 1),
-    beta = runif(S, -1, 1),
-    nu = runif(S, -1, 1),
-    delta0 = runif(1, -1, 1),
-    beta0 = runif(1, -1, 1),
-    nu0 = runif(1, -1, 1),
-    sigma.delta = runif(1, 0.2, 1),
-    sigma.beta = runif(1, 0.2, 1),
-    sigma.nu = runif(1, 0.2, 1),
-    deltanew = runif(M, -1, 1),
-    betanew = runif(M, -1, 1),
-    nunew = runif(M, -1, 1)
-  )
-}
-init.gen.spike <- function(){
-  list(
-    delta = runif(S, -1, 1),
-    beta = runif(S, -1, 1),
-    nu = runif(S, -1, 1),
-    delta1 = runif(1, -1, 1),
-    beta0 = runif(1, -1, 1),
-    nu0 = runif(1, -1, 1),
-    sigma.delta = runif(1, 0.2, 1),
-    sigma.beta = runif(1, 0.2, 1),
-    sigma.nu = runif(1, 0.2, 1),
-    deltanew = runif(M, -1, 1),
-    betanew = runif(M, -1, 1),
-    nunew = runif(M, -1, 1),
-    rho = 1
-  )
-}
 ########### DATA GENERATION
 
 # FIND EXPECTED VALUES FOR STATS GIVEN HYPERPARAMETER VALUES
@@ -363,7 +125,7 @@ for(i in 1:length(sigma.delta)){
     meta.params <- c("spike")
     
     spike.zero <- jags(data = meta.dat, inits = init.gen.spike, parameters.to.save = meta.params,
-                       model.file = "meta_confusion_spike.txt",
+                       model.file = "R/meta_confusion_spike.txt",
                        n.chains = 2, n.iter = 6000, n.thin = 2, n.burnin = 1000, DIC = FALSE)
     
     # columns 1 and 3 are mean (1 - rho)
@@ -418,7 +180,7 @@ for(i in 1:length(sigma.delta)){
       meta.params <- c("spike")
       
       spike.zero <- jags(data = meta.dat, inits = init.gen.spike, parameters.to.save = meta.params,
-                         model.file = "meta_confusion_spike.txt",
+                         model.file = "R/meta_confusion_spike.txt",
                          n.chains = 2, n.iter = 6000, n.thin = 2, n.burnin = 1000, DIC = FALSE)
       
       # columns represent the two values for sigma_delta (small and moderate)
@@ -478,7 +240,7 @@ for(k in 1:K){
   meta.params <- c("LRmnew", "LRpnew", "sensnew", "specnew", "PPVnew", "NPVnew")
   
   std.model <- jags(data = meta.dat, inits = init.gen, parameters.to.save = meta.params,
-                    model.file = "meta_confusion.txt",
+                    model.file = "R/meta_confusion.txt",
                     n.chains = 2, n.iter = 6000, n.thin = 2, n.burnin = 1000, DIC = FALSE)
   
   
@@ -502,7 +264,7 @@ hope <- as.data.frame(sigfig(t(mapply(CTS.overall.sum, CTSs, stats.means)), n = 
 names(hope) <- c("Bias", "Variance", "Average SD", "95% CI Coverage", "95% CI Length", "root(MSE)")
 hope
 
-print(xtable(hope, caption = "Simulation results from K = 2500 iterations", type = "latex"), file = "CTS.summary.tex")
+print(xtable(hope, caption = "Simulation results from K = 2500 iterations", type = "latex"), file = "TeX/CTS.summary.tex")
 
 
 ########## Plots for catching zero and nonzero!
@@ -519,8 +281,8 @@ names(spike.summary.nonzero) <- c("sigma=0.1, delta=1", "sigma=0.1, delta=2",
 ##### Saving all the simulation iterations 
 all.CTS.summary <- as.data.frame(do.call(cbind, CTSs))
 
-save(spike.summary, file = "meta.catch.spike.R")
-save(spike.summary.nonzero, file = "meta.catch.nospike.R")
-save(all.CTS.summary, file = "meta.CTSs.R")
+save(spike.summary, file = "R/meta.catch.spike.R")
+save(spike.summary.nonzero, file = "R/meta.catch.nospike.R")
+save(all.CTS.summary, file = "R/meta.CTSs.R")
 
 
