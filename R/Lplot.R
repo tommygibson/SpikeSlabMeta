@@ -7,6 +7,8 @@ library(here)
 library(tidyverse)
 library(ggplot2)
 
+source("spike.functions.R")
+
 #### Make plot for a given set of hyperparameters
 
 delta0 <- 2
