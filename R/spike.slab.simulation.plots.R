@@ -7,14 +7,16 @@ library(pROC)
 library(extrafont)
 library(gridExtra)
 library(here)
+library(ggplot2)
+library(scales)
 
 # This only necessary if it hasn't been done before
 # font_import(pattern = "lmroman*")
 
 ##### LOAD DATA FROM SIMULATIONS
-load("meta.catch.spike.R")
-load("meta.catch.nospike.R")
-load("meta.CTSs.R")
+load("R/meta.catch.spike.R")
+load("R/meta.catch.nospike.R")
+load("R/meta.CTSs.R")
 
 
 ########### FUNCITONS WE'LL USE
@@ -68,7 +70,7 @@ reject_by_cutoff <- function(cut, mat){
 
 # for table summary and boxplot
 dat.box <- cbind.data.frame(c(as.vector(unlist(spike.summary)), as.vector(unlist(spike.summary.nonzero))),
-                            c(rep(c("SD = 0.1", "SD = 0.25", "SD = 0.5"), each = 1000), rep(c("SD = 0.1", "SD = 0.25", "SD = 0.5"), each = 2000)),
+                            c(rep(c("sigma[delta] == 0.1", "sigma[delta] == 0.25", "sigma[delta] == 0.5"), each = 1000), rep(c("sigma[delta] == 0.1", "sigma[delta] == 0.25", "sigma[delta] == 0.5"), each = 2000)),
                             c(rep("0", 3000), rep(rep(c("1", "2"), each = 1000), 3)))
 names(dat.box) <- c("P(=0)", "sigma", "delta0")
 
@@ -85,19 +87,18 @@ spike_plot <- dat.box %>%
   theme_bw() +
   theme(text = element_text(size = 12, family = "LM Roman 10")) +
   geom_boxplot(outlier.size = 0, outlier.shape = 1, alpha = 1) +
-  labs(x = "Mean of REs", y = "Height of spike") +
+  labs(x = expression(delta[0]), y = expression(paste('P(', delta[0], '=0 | ', Y[k], ')'))) +
   ylim(c(0, 1)) +
-  facet_wrap(~sigma)
+  facet_wrap(~sigma, labeller = 'label_parsed')
 
-ggsave("spike_boxplot.pdf", plot = spike_plot, 
-       path = "/Users/Tommy/Desktop/Tommy/School/Grad School/Research/My Papers/Spike Slab Meta",
+ggsave("TeX/spike_boxplot.pdf", plot = spike_plot,
        height = 4, width = 5, units = "in")
 
 ####### Plots for catching true zeros and nonzeros
 
 catch.zero <- cbind.data.frame(as.vector(t(sapply(seq(0.01, 1, 0.01), reject_by_cutoff, mat = spike.summary))),
                                seq(0.01, 1, 0.01),
-                               rep(names(spike.summary), each = 100))
+                               rep(c("0.10", "0.25", "0.50"), each = 100))
 names(catch.zero) <- c("P.rej", "cutoff", "situation")
 
 
@@ -106,7 +107,9 @@ zero.plot <- ggplot(catch.zero, mapping = aes(x = cutoff, y = P.rej, linetype = 
   theme_bw() +
   theme(text = element_text(size = 10, family = "LM Roman 10")) +
   labs(title = "Zero mean effect",
-       x = "Cutoff value", y = "P(Spike > Cutoff)", linetype = "SD of REs") +
+       x = "Cutoff", 
+       y = expression(paste('Proportion of P(', delta[0], '=0 | ', Y[k], ') > Cutoff')), 
+       linetype = expression(sigma[delta])) +
   scale_linetype_manual(values = c(1, 2, 3)) + 
   #geom_hline(yintercept = 0.95, color = "gray65", linetype = 6) +
   scale_y_continuous(breaks = seq(0, 1, 0.2))
@@ -115,7 +118,7 @@ catch.nonzero <- cbind.data.frame(as.vector(t(sapply(seq(0.01, 1, 0.01), reject_
                                                      mat = spike.summary.nonzero))),
                                   seq(0.01, 1, 0.01),
                                   rep(names(spike.summary.nonzero), each = 100),
-                                  c(rep("0.1", 200), rep("0.25", 200), rep("0.5", 200)),
+                                  c(rep("0.10", 200), rep("0.25", 200), rep("0.50", 200)),
                                   rep(rep(c("1", "2"), each = 100), 3))
 
 names(catch.nonzero) <- c("P.accept", "cutoff", "situation", "sigma", "delta0")
@@ -125,15 +128,17 @@ nonzero.plot <- ggplot(catch.nonzero, mapping = aes(x = cutoff, y = P.accept, li
   theme_bw() + 
   theme(text = element_text(size = 10, family = "LM Roman 10")) +
   labs(title = "Non-zero mean effect",
-       x = "Cutoff value", y = "P(Spike > Cutoff)", size = "Mean of REs", linetype = "SD of REs") +
+       x = "Cutoff", 
+       y = expression(paste('Proportion of P(', delta[0], '=0 | ', Y[k], ') > Cutoff')), 
+       size = expression(delta[0]), 
+       linetype = expression(sigma[delta])) +
   scale_size_manual(values = c(0.5, 1)) + 
   scale_linetype_manual(values = c(1, 2, 3)) +
   scale_y_continuous(breaks = seq(0, 1, 0.2), limits = c(0, 1)) 
 
 SSP.plot <- grid.arrange(zero.plot, nonzero.plot, nrow = 2)
 
-ggsave("SSP-plot.pdf", plot = SSP.plot, 
-       path = "/Users/Tommy/Desktop/Tommy/School/Grad School/Research/My Papers/Spike Slab Meta",
+ggsave("TeX/SSP-plot.pdf", plot = SSP.plot,
        width = 6, height = 6, units = "in")
 # ggsave("zero-plot.pdf", plot = zero.plot,
 #        path = "/Users/Tommy/Desktop/Tommy/School/Grad School/Research/My Papers/Spike Slab Meta",
