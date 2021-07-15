@@ -74,10 +74,13 @@ model
   pi01.h <- pi0.h * (1 - psi.h)
   pi00.h <- (1 - pi0.h) * (1 - psi.h)
   
-  sens.h <- pi11.h / (pi11.h + pi01.h)
-  spec.h <- pi00.h / (pi00.h + pi10.h)
+  z.sens <- pi11.h / (pi11.h + pi01.h)
+  z.spec <- pi00.h / (pi00.h + pi10.h)
   
-  LRp.h <- sens.h / (1 - spec.h)
-  LRm.h <- (1 - sens.h) / spec.h
+  z.LRp <- sens.h / (1 - spec.h)
+  z.LRm <- (1 - sens.h) / spec.h
+  
+  z.PPV <- pi1.h
+  z.NVP <- 1 - pi0.h
   
 }
