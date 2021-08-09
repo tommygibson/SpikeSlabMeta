@@ -77,10 +77,10 @@ model
   z.sens <- pi11.h / (pi11.h + pi01.h)
   z.spec <- pi00.h / (pi00.h + pi10.h)
   
-  z.LRp <- sens.h / (1 - spec.h)
-  z.LRm <- (1 - sens.h) / spec.h
+  z.LRp <- z.sens / (1 - z.spec)
+  z.LRm <- (1 - z.sens) / z.spec
   
   z.PPV <- pi1.h
-  z.NVP <- 1 - pi0.h
+  z.NPV <- 1 - pi0.h
   
 }

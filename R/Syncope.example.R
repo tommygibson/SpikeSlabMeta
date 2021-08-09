@@ -14,13 +14,6 @@ univOR <- read.csv(here("R", "syncope_data.csv"))
 
 #get rid of obs with no info
 #get rid of obervation(s) from Oh's paper -- weird estimate for ECG
-univOR <- filter(univOR, 
-                 event_exposure > 0 | Orhat > 0,
-                 !(Paper %in% c("Oh", "Colivicchi", "Del Rosso", "Martin")),
-                 !(Variable %in% c("Myocardial Infarction", "Incontinence")),
-                 !(Variable == "ECG" & Paper == "Quinn"),
-                 !(Variable == "Hemoglobin" & Paper == "Thiruganasambandamoorthy"))
-
 # gotta get rid of Colivicci, del rosso, martin as well
 
 #Derose was a subset of Gabayan, and those were the only two papers to contribute to the meta analysis for myocardial infarction
@@ -29,6 +22,13 @@ univOR <- filter(univOR,
 
 # We're taking ECG data from quinn's 2011 paper, which uses the same data as his 2004 paper
 #so delete ECG info from the 2004 paper
+univOR <- filter(univOR, 
+                 event_exposure > 0 | Orhat > 0,
+                 !(Paper %in% c("Oh", "Colivicchi", "Del Rosso", "Martin")),
+                 !(Variable %in% c("Myocardial Infarction", "Incontinence")),
+                 !(Variable == "ECG" & Paper == "Quinn"),
+                 !(Variable == "Hemoglobin" & Paper == "Thiruganasambandamoorthy"))
+
 #fill in contingency table counts
 univOR <- univOR %>% mutate(
                  event_noexposure = event_total - event_exposure,
@@ -62,330 +62,7 @@ keeps <- c("Variable", "lnORhat", "SE.lnOR", "n_i0", "n_i1", "y_i0", "y_i1", "N_
 syncope <- univOR %>% 
   group_by(Variable) %>%
   arrange(Varnum, desc(lnORhat)) %>%
-  select(keeps)
-
-
-######################################
-######### MODELS
-######################################
-
-sink("meta_confusion.txt")
-cat("
-model
-{
-  for(i in 1:S){
-    y[i,1] ~ dbin(pi[i,1], n[i,1])
-    y[i,2] ~ dbin(pi[i,2], n[i,2])
-    
-    # probability of exposure
-    n[i,1] ~ dbin(psi[i], n.tot[i])
-    
-    psi[i] <- 1 / (1 + exp(-nu[i]))
-    
-    # conditional prob of event given exposure
-    logit(pi[i,1]) <- beta[i] + delta[i]/2
-    logit(pi[i,2]) <- beta[i] - delta[i]/2
-    
-    # meta-regression on the log-odds ratio
-    # do we include intercept?
-    
-    delta[i] ~ dnorm(delta0, D.delta)
-    
-    nu[i] ~ dnorm(nu0, D.nu)
-    
-    beta[i] ~ dnorm(beta0, D.beta)
-    
-  }
-  
-  beta0 ~ dnorm(a, b)
-  delta0 ~ dnorm(c, d)
-  nu0 ~ dnorm(e, f)
-  
-  # HALF T ON ALL THESE BITCHES
-  D.beta <- pow(sigma.beta, -2)
-  D.nu <- pow(sigma.nu, -2)
-  D.delta <- pow(sigma.delta, -2)
-  
-  # half-t prior on sigma.delta
-  sigma.beta ~ dt(0, 1, 15) T(0,)
-  sigma.nu ~ dt(0, 1, 15) T(0,)
-  sigma.delta ~ dt(0, 1, 15) T(0,)
-
-  #draw M new observations for each parameter w/ random effects
-  
-  for(j in 1:M){
-    deltanew[j] ~ dnorm(delta0, D.delta)
-    betanew[j] ~ dnorm(beta0, D.beta)
-    nunew[j] ~ dnorm(nu0, D.nu)
-    psinew[j] <- 1 / (1  + exp(-nunew[j]))
-    
-    pi1new[j] <- 1 / (1 + exp(-(betanew[j] + deltanew[j] / 2)))
-    pi0new[j] <- 1 / (1 + exp(-(betanew[j] - deltanew[j] / 2)))
-    
-    pi11new[j] <- pi1new[j] * psinew[j]                  # P(event, risk)
-    pi10new[j] <- (1 - pi1new[j]) * psinew[j]            # P(no event, risk)
-    pi01new[j] <- pi0new[j] * (1 - psinew[j])            # P(event, no risk)
-    pi00new[j] <- (1 - pi0new[j]) * (1 - psinew[j])      # P(no event, no risk)
-    
-    sensnew[j] <- pi11new[j] / (pi11new[j] + pi01new[j])
-    specnew[j] <- pi00new[j] / (pi00new[j] + pi10new[j])
-    
-    PPVnew[j] <- pi11new[j] / (pi11new[j] + pi10new[j])
-    NPVnew[j] <- pi00new[j] / (pi00new[j] + pi01new[j])
-    
-    LRpnew[j] <- sensnew[j] / (1 - specnew[j])
-    LRmnew[j] <- (1 - sensnew[j]) / specnew[j]
-    
-  }
-  pi1.h <- 1 / (1 + exp(-(beta0 + delta0 / 2)))
-  pi0.h <- 1 / (1 + exp(-(beta0 - delta0 / 2)))
-  psi.h <- 1 / (1 + exp(-(nu0)))
-  
-  pi11.h <- pi1.h * psi.h
-  pi10.h <- (1 - pi1.h) * psi.h
-  pi01.h <- pi0.h * (1 - psi.h)
-  pi00.h <- (1 - pi0.h) * (1 - psi.h)
-  
-  sens.h <- pi11.h / (pi11.h + pi01.h)
-  spec.h <- pi00.h / (pi00.h + pi10.h)
-  
-  LRp.h <- sens.h / (1 - spec.h)
-  LRm.h <- (1 - sens.h) / spec.h
-  
-}", fill = TRUE)
-sink()
-
-sink("meta_confusion_gamma.txt")
-cat("
-model
-{
-  for(i in 1:S){
-    y[i,1] ~ dbin(pi[i,1], n[i,1])
-    y[i,2] ~ dbin(pi[i,2], n[i,2])
-    
-    # probability of exposure
-    n[i,1] ~ dbin(psi[i], n.tot[i])
-    
-    psi[i] <- 1 / (1 + exp(-nu[i]))
-    
-    # conditional prob of event given exposure
-    logit(pi[i,1]) <- beta[i] + delta[i]/2
-    logit(pi[i,2]) <- beta[i] - delta[i]/2
-    
-    # meta-regression on the log-odds ratio
-    # do we include intercept?
-    
-    delta[i] ~ dnorm(delta0, D.delta)
-    
-    nu[i] ~ dnorm(nu0, D.nu)
-    
-    beta[i] ~ dnorm(beta0, D.beta)
-    
-  }
-  
-  beta0 ~ dnorm(a, b)
-  delta0 ~ dnorm(c, d)
-  nu0 ~ dnorm(e, f)
-  
-  # Precisions
-  D.beta ~ dgamma(3, 2)
-  D.nu ~ dgamma(3, 2)
-  D.delta ~ dgamma(3, 2)
-  
-  # gamma prior on precisions
-  sigma.beta <- pow(D.beta, -1/2)
-  sigma.nu <- pow(D.nu, -1/2)
-  sigma.delta <- pow(D.delta, -1/2)
-
-  #draw M new observations for each parameter w/ random effects
-  
-  for(j in 1:M){
-    deltanew[j] ~ dnorm(delta0, D.delta)
-    betanew[j] ~ dnorm(beta0, D.beta)
-    nunew[j] ~ dnorm(nu0, D.nu)
-    psinew[j] <- 1 / (1  + exp(-nunew[j]))
-    
-    pi1new[j] <- 1 / (1 + exp(-(betanew[j] + deltanew[j] / 2)))
-    pi0new[j] <- 1 / (1 + exp(-(betanew[j] - deltanew[j] / 2)))
-    
-    pi11new[j] <- pi1new[j] * psinew[j]                  # P(event, risk)
-    pi10new[j] <- (1 - pi1new[j]) * psinew[j]            # P(no event, risk)
-    pi01new[j] <- pi0new[j] * (1 - psinew[j])            # P(event, no risk)
-    pi00new[j] <- (1 - pi0new[j]) * (1 - psinew[j])      # P(no event, no risk)
-    
-    sensnew[j] <- pi11new[j] / (pi11new[j] + pi01new[j])
-    specnew[j] <- pi00new[j] / (pi00new[j] + pi10new[j])
-    
-    PPVnew[j] <- pi11new[j] / (pi11new[j] + pi10new[j])
-    NPVnew[j] <- pi00new[j] / (pi00new[j] + pi01new[j])
-    
-    LRpnew[j] <- sensnew[j] / (1 - specnew[j])
-    LRmnew[j] <- (1 - sensnew[j]) / specnew[j]
-    
-  }
-  pi1.h <- 1 / (1 + exp(-(beta0 + delta0 / 2)))
-  pi0.h <- 1 / (1 + exp(-(beta0 - delta0 / 2)))
-  psi.h <- 1 / (1 + exp(-(nu0)))
-  
-  pi11.h <- pi1.h * psi.h
-  pi10.h <- (1 - pi1.h) * psi.h
-  pi01.h <- pi0.h * (1 - psi.h)
-  pi00.h <- (1 - pi0.h) * (1 - psi.h)
-  
-  sens.h <- pi11.h / (pi11.h + pi01.h)
-  spec.h <- pi00.h / (pi00.h + pi10.h)
-  
-  LRp.h <- sens.h / (1 - spec.h)
-  LRm.h <- (1 - sens.h) / spec.h
-  
-}", fill = TRUE)
-sink()
-
-sink("meta_confusion_spike.txt")
-cat("
-model
-{
-  for(i in 1:S){
-    y[i,1] ~ dbin(pi[i,1], n[i,1])
-    y[i,2] ~ dbin(pi[i,2], n[i,2])
-    
-    # probability of exposure
-    n[i,1] ~ dbin(psi[i], n.tot[i])
-    
-    psi[i] <- 1 / (1 + exp(-nu[i]))
-    
-    # conditional prob of event given exposure
-    logit(pi[i,1]) <- beta[i] + delta[i]/2
-    logit(pi[i,2]) <- beta[i] - delta[i]/2
-    
-    
-    delta[i] ~ dnorm(delta0, D.delta)
-    
-    nu[i] ~ dnorm(nu0, D.nu)
-    
-    beta[i] ~ dnorm(beta0, D.beta)
-    
-  }
-  
-  beta0 ~ dnorm(a, b)
-  nu0 ~ dnorm(e, f)
-  
-  delta0 <- delta1 * rho
-  delta1 ~ dnorm(c, d)
-  rho ~ dbern(p)
-  spike <- 1 - rho
-  
-  # HALF T ON ALL THESE BITCHES
-  D.beta <- pow(sigma.beta, -2)
-  D.nu <- pow(sigma.nu, -2)
-  D.delta <- pow(sigma.delta, -2)
-  
-  # half-t prior on sigma.delta
-  sigma.beta ~ dt(0, 1, 1) T(0,)
-  sigma.nu ~ dt(0, 1, 1) T(0,)
-  sigma.delta ~ dt(0, 1, 1) T(0,)
-
-  #draw M new observations for each parameter w/ random effects
-  
-  for(j in 1:M){
-    deltanew[j] ~ dnorm(delta0, D.delta)
-    betanew[j] ~ dnorm(beta0, D.beta)
-    nunew[j] ~ dnorm(nu0, D.nu)
-    psinew[j] <- 1 / (1  + exp(-nunew[j]))
-    
-    pi1new[j] <- 1 / (1 + exp(-(betanew[j] + deltanew[j] / 2)))
-    pi0new[j] <- 1 / (1 + exp(-(betanew[j] - deltanew[j] / 2)))
-    
-    pi11new[j] <- pi1new[j] * psinew[j]                  # P(event, risk)
-    pi10new[j] <- (1 - pi1new[j]) * psinew[j]            # P(no event, risk)
-    pi01new[j] <- pi0new[j] * (1 - psinew[j])            # P(event, no risk)
-    pi00new[j] <- (1 - pi0new[j]) * (1 - psinew[j])      # P(no event, no risk)
-    
-    sensnew[j] <- pi11new[j] / (pi11new[j] + pi01new[j])
-    specnew[j] <- pi00new[j] / (pi00new[j] + pi10new[j])
-    
-    PPVnew[j] <- pi11new[j] / (pi11new[j] + pi10new[j])
-    NPVnew[j] <- pi00new[j] / (pi00new[j] + pi01new[j])
-    
-    LRpnew[j] <- sensnew[j] / (1 - specnew[j])
-    LRmnew[j] <- (1 - sensnew[j]) / specnew[j]
-    
-  }
-}", fill = TRUE)
-sink()
-
-sink("meta_confusion_spike_gamma.txt")
-cat("
-model
-{
-  for(i in 1:S){
-    y[i,1] ~ dbin(pi[i,1], n[i,1])
-    y[i,2] ~ dbin(pi[i,2], n[i,2])
-    
-    # probability of exposure
-    n[i,1] ~ dbin(psi[i], n.tot[i])
-    
-    psi[i] <- 1 / (1 + exp(-nu[i]))
-    
-    # conditional prob of event given exposure
-    logit(pi[i,1]) <- beta[i] + delta[i]/2
-    logit(pi[i,2]) <- beta[i] - delta[i]/2
-    
-    
-    delta[i] ~ dnorm(delta0, D.delta)
-    
-    nu[i] ~ dnorm(nu0, D.nu)
-    
-    beta[i] ~ dnorm(beta0, D.beta)
-    
-  }
-  
-  beta0 ~ dnorm(a, b)
-  nu0 ~ dnorm(e, f)
-  
-  delta0 <- delta1 * rho
-  delta1 ~ dnorm(c, d)
-  rho ~ dbern(p)
-  spike <- 1 - rho
-  
-  # Precisions
-  D.beta ~ dgamma(3, 2)
-  D.nu ~ dgamma(3, 2)
-  D.delta ~ dgamma(3, 2)
-  
-  # gamma prior on precisions
-  sigma.beta <- pow(D.beta, -1/2)
-  sigma.nu <- pow(D.nu, -1/2)
-  sigma.delta <- pow(D.delta, -1/2)
-
-  #draw M new observations for each parameter w/ random effects
-  
-  for(j in 1:M){
-    deltanew[j] ~ dnorm(delta0, D.delta)
-    betanew[j] ~ dnorm(beta0, D.beta)
-    nunew[j] ~ dnorm(nu0, D.nu)
-    psinew[j] <- 1 / (1  + exp(-nunew[j]))
-    
-    pi1new[j] <- 1 / (1 + exp(-(betanew[j] + deltanew[j] / 2)))
-    pi0new[j] <- 1 / (1 + exp(-(betanew[j] - deltanew[j] / 2)))
-    
-    pi11new[j] <- pi1new[j] * psinew[j]                  # P(event, risk)
-    pi10new[j] <- (1 - pi1new[j]) * psinew[j]            # P(no event, risk)
-    pi01new[j] <- pi0new[j] * (1 - psinew[j])            # P(event, no risk)
-    pi00new[j] <- (1 - pi0new[j]) * (1 - psinew[j])      # P(no event, no risk)
-    
-    sensnew[j] <- pi11new[j] / (pi11new[j] + pi01new[j])
-    specnew[j] <- pi00new[j] / (pi00new[j] + pi10new[j])
-    
-    PPVnew[j] <- pi11new[j] / (pi11new[j] + pi10new[j])
-    NPVnew[j] <- pi00new[j] / (pi00new[j] + pi01new[j])
-    
-    LRpnew[j] <- sensnew[j] / (1 - specnew[j])
-    LRmnew[j] <- (1 - sensnew[j]) / specnew[j]
-    
-  }
-}", fill = TRUE)
-sink()
+  select(all_of(keeps))
 
 
 
@@ -405,18 +82,6 @@ init.gen <- function(){
     deltanew = runif(M, -1, 1),
     betanew = runif(M, -1, 1),
     nunew = runif(M, -1, 1)
-    # delta = runif(S, -.1, .1),
-    # beta = runif(S, -.1, .1),
-    # nu = runif(S, -.1, .1),
-    # delta0 = runif(1, -.1, .1),
-    # beta0 = runif(1, -.1, .1),
-    # nu0 = runif(1, -.1, .1),
-    # sigma.delta = runif(1, 0.5, 1),
-    # sigma.beta = runif(1, 0.5, 1),
-    # sigma.nu = runif(1, 0.5, 1),
-    # deltanew = rep(0, M),
-    # betanew = rep(0, M),
-    # nunew = rep(0, M)
   )
 }
 init.gen.spike <- function(){
@@ -475,7 +140,7 @@ init.gen.spike.gamma <- function(){
 
 
 
-
+# trim a number to exactly n significant digits, including zeros on the end
 sigfig <- function(x, n=3){ 
   ### function to round values to N significant digits
   # input:   vec       vector of numeric
@@ -492,6 +157,8 @@ make_ci <- function(x){
   return(ci)
 }
 
+
+# make mean (95 %CI) for each row of output from jags summary
 make_simple_sum <- function(x){
   x <- sigfig(x, 3)
   summ <- vector(length = dim(x)[1])
