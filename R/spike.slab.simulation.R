@@ -11,6 +11,8 @@ library(extrafont)
 library(here)
 
 source("R/spike.functions.R")
+heart.disease <- read.csv(here('R', 'syncope.cleaned.csv')) %>%
+  filter(counts == 1, Variable == "Heart Disease")
 
 # next line only necessary if hasn't been imported before
 # font_import(pattern = "lmroman*")
@@ -26,7 +28,7 @@ sigma.nu <- sigma.beta <- 0.4
 nu0 <- beta0 <- log(0.15 / (1 - 0.15))
 delta0 <- 2
 delta0fix <- 0
-sigma.delta <- 0.4
+sigma.delta <- 0.5
 
 deltasims <- rnorm(nsim, mean = delta0, sd = sigma.delta)
 nusims <- rnorm(nsim, mean = nu0, sd = sigma.nu)
@@ -76,6 +78,7 @@ apply(stats.fix, 2, mean)
 apply(stats.fix, 2, quantile, c(.025, .5, .975))
 
 stats.means <- apply(stats.sims, 2, mean)
+stats.meds <- apply(stats.sims, 2, quantile, 0.5)
 
 
 ###### Okay, now actual simulation
@@ -87,8 +90,9 @@ stats.means <- apply(stats.sims, 2, mean)
 
 #### FIRST, HOW WELL IT CATCHES ZEROS
 
-S <- 10
-N <- 500
+# get number of studies and sample size per study from syncope heart disease
+S <- dim(heart.disease)[1]
+N <- heart.disease$N_i
 K <- 1000
 sigma.delta <- c(0.1, 0.25, 0.5)
 
@@ -108,7 +112,10 @@ for(i in 1:length(sigma.delta)){
     
     probs <- cbind(pi11.i, pi10.i, pi01.i, pi00.i) # collect all the cell probabilities
     
-    tables <- t(apply(probs, 1, rmultinom, n = 1, size = N)) # generate contingency tables
+    tables <- matrix(0, nrow = S, ncol = 4)
+    for(j in 1:S){
+      tables[j,] <- rmultinom(probs[j,], n = 1, size = N[j]) # generate contingency tables
+    }
     
     # prepare data for going into jags
     y <- tables[,c(1, 3)]
@@ -164,7 +171,10 @@ for(i in 1:length(sigma.delta)){
       
       probs <- cbind(pi11.i, pi10.i, pi01.i, pi00.i) # collect all the cell probabilities
       
-      tables <- t(apply(probs, 1, rmultinom, n = 1, size = N)) # generate contingency tables
+      tables <- matrix(0, nrow = S, ncol = 4)
+      for(l in 1:S){
+        tables[l,] <- rmultinom(probs[l,], n = 1, size = N[l]) # generate contingency tables
+      }
       
       # prepare data for going into jags
       y <- tables[,c(1, 3)]
@@ -200,19 +210,20 @@ seed.after.nonzero <- .Random.seed
 
 # K determined by MCSE of bias for LR+ 
 # Var(\hat{\theta}) \le 0.25, want MCSE < 0.01
-K <- 2500
+K <- 4000
 
 CTSs <- list()
-for(i in 1:6){
+for(i in 1:12){
   CTSs[[i]] <- matrix(nrow = K, ncol = 5)
 }
 
-names(CTSs) <- c("LRm", "LRp", "NPV", "PPV", "sens", "spec")
+names(CTSs) <- c("LRm", "LRp", "NPV", "PPV", "sens", "spec",
+                 "z.LRm", "z.LRp", "z.NPV", "z.PPV", "z.sens", "z.spec")
 
 delta0 <- 2
-sigma.delta <- 0.4
+sigma.delta <- 0.5
 
-.Random.seed <- seed.after.nonzero
+# .Random.seed <- seed.after.nonzero
 for(k in 1:K){
     
   delta.i <- rnorm(S, mean = delta0, sd = sigma.delta)
@@ -226,7 +237,10 @@ for(k in 1:K){
   
   probs <- cbind(pi11.i, pi10.i, pi01.i, pi00.i) # collect all the cell probabilities
   
-  tables <- t(apply(probs, 1, rmultinom, n = 1, size = N)) # generate contingency tables
+  tables <- matrix(0, nrow = S, ncol = 4)
+  for(j in 1:S){
+    tables[j,] <- rmultinom(probs[j,], n = 1, size = N[j]) # generate contingency tables
+  }
   
   # prepare data for going into jags
   y <- tables[,c(1, 3)]
@@ -237,7 +251,8 @@ for(k in 1:K){
   meta.dat <- list(M = M, S = S, n = n, y = y, n.tot = n.tot,
                    a = -1, b = 0.5, c = 0, d = 0.5, e = -1, f = 0.5)
 
-  meta.params <- c("LRmnew", "LRpnew", "sensnew", "specnew", "PPVnew", "NPVnew")
+  meta.params <- c("LRmnew", "LRpnew", "sensnew", "specnew", "PPVnew", "NPVnew",
+                   "z.LRm", "z.LRp", "z.sens", "z.spec", "z.PPV", "z.NPV")
   
   std.model <- jags(data = meta.dat, inits = init.gen, parameters.to.save = meta.params,
                     model.file = "R/meta_confusion.txt",
@@ -250,6 +265,13 @@ for(k in 1:K){
   CTSs[[4]][k,] <- make_CTS_sum1(std.model$BUGSoutput$sims.matrix[,(3 * M + 1):(4 * M)], M)
   CTSs[[5]][k,] <- make_CTS_sum1(std.model$BUGSoutput$sims.matrix[,(4 * M + 1):(5 * M)], M)
   CTSs[[6]][k,] <- make_CTS_sum1(std.model$BUGSoutput$sims.matrix[,(5 * M + 1):(6 * M)], M)
+  CTSs[[7]][k,] <- std.model$BUGSoutput$summary[(6 * M + 1), c(1, 2, 3, 5, 7)]
+  CTSs[[8]][k,] <- std.model$BUGSoutput$summary[(6 * M + 2), c(1, 2, 3, 5, 7)]
+  CTSs[[9]][k,] <- std.model$BUGSoutput$summary[(6 * M + 3), c(1, 2, 3, 5, 7)]
+  CTSs[[10]][k,] <- std.model$BUGSoutput$summary[(6 * M + 4), c(1, 2, 3, 5, 7)]
+  CTSs[[11]][k,] <- std.model$BUGSoutput$summary[(6 * M + 5), c(1, 2, 3, 5, 7)]
+  CTSs[[12]][k,] <- std.model$BUGSoutput$summary[(6 * M + 6), c(1, 2, 3, 5, 7)]
+  
   
   
 }
@@ -260,7 +282,9 @@ for(k in 1:K){
 # SUMMARIZE ALL THE RESULTS!
 #################    ################
 hope <- as.data.frame(sigfig(t(mapply(CTS.overall.sum, CTSs, stats.means)), n = 4))
+hope.med <- as.data.frame(sigfig(t(mapply(CTS.overall.sum, CTSs, stats.meds)), n = 4))
 
+saveRDS(list(hope))
 names(hope) <- c("Bias", "Variance", "Average SD", "95% CI Coverage", "95% CI Length", "root(MSE)")
 hope
 
@@ -279,10 +303,10 @@ names(spike.summary.nonzero) <- c("sigma=0.1, delta=1", "sigma=0.1, delta=2",
 
 
 ##### Saving all the simulation iterations 
-all.CTS.summary <- as.data.frame(do.call(cbind, CTSs))
+# all.CTS.summary <- as.data.frame(do.call(cbind, CTSs))
 
-save(spike.summary, file = "R/meta.catch.spike.R")
-save(spike.summary.nonzero, file = "R/meta.catch.nospike.R")
-save(all.CTS.summary, file = "R/meta.CTSs.R")
+save(spike.summary, file = "R/meta.catch.spike.8.25.R")
+save(spike.summary.nonzero, file = "R/meta.catch.nospike.8.25.R")
+saveRDS(CTSs, file = "R/meta.CTSs.8.25.R")
 
 

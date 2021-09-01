@@ -64,6 +64,8 @@ syncope <- univOR %>%
   arrange(Varnum, desc(lnORhat)) %>%
   select(all_of(keeps))
 
+# write.csv(syncope, 'R/syncope.cleaned.csv')
+
 
 
 # functions to generate initial values
@@ -208,7 +210,6 @@ make_CTS_sum1 <- function(x, M = 100){
   return(stat.summ)
   
 }
-
 
 
 # initialize matrices to hold values we care about

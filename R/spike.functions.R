@@ -28,7 +28,7 @@ CTS.overall.sum <- function(x, target){
   
   # LR+
   bias <- mean(x[,1]) - target[1] # bias
-  var.est <- var(x[,1]) # mean of estimator
+  var.est <- var(x[,1]) # variance of estimator
   avg.sd <- mean(x[,2]) # average SD
   cover.95 <- sum(x[,3] < target[1] & x[,5] > target[1]) / dim(x)[1] # 95% coverage probability
   length.95 <- mean(x[, 5] - x[, 3]) # average 95% length
