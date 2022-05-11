@@ -43,6 +43,83 @@ reject_by_cutoff <- function(cut, mat){
   
 }
 
+### functions for calculating CTSs from hyperparameter estimates
+
+cts0_from_gamma <- function(gamma, M){
+  beta0 <- gamma[1]
+  delta0 <- gamma[2]
+  nu0 <- gamma[3]
+  sigma.beta <- gamma[4]
+  sigma.delta <- gamma[5]
+  sigma.nu <- gamma[6]
+  
+  beta.new <- rnorm(M, mean = beta0, sd = sigma.beta)
+  delta.new <- rnorm(M, mean = delta0, sd = sigma.delta)
+  nu.new <- rnorm(M, mean = nu0, sd = sigma.nu)
+  
+  pi1.new <- 1 / (1 + exp(-(beta.new + delta.new / 2)))
+  pi0.new <- 1 / (1 + exp(-(beta.new - delta.new / 2)))
+  psi.new <- 1 / (1 + exp(-(nu.new)))
+  
+  sens.new <- (pi1.new * psi.new) / (pi1.new * psi.new + pi0.new * ( 1 - psi.new))
+  spec.new <- ((1 - pi0.new) * (1 - psi.new)) / ((1 - pi0.new) * (1 - psi.new) + (1 - pi1.new) * psi.new)
+  LRm.new <- (1 - sens.new) / spec.new
+  LRp.new <- sens.new / (1 - spec.new)
+  
+  mc.est <- apply(cbind(LRm.new, LRp.new, 1 - pi0.new, pi1.new, sens.new, spec.new), MARGIN = 2, mean)
+  return(mc.est)
+}
+
+ctsh_from_gamma <- function(gamma){
+  beta0 <- gamma[1]
+  delta0 <- gamma[2]
+  nu0 <- gamma[3]
+  sigma.beta <- gamma[4]
+  sigma.delta <- gamma[5]
+  sigma.nu <- gamma[6]
+  
+  pi1 <- 1 / (1 + exp(-(beta0 + delta0 / 2)))
+  pi0 <- 1 / (1 + exp(-(beta0 - delta0 / 2)))
+  psi <- 1 / (1 + exp(-nu0))
+  
+  sens <- pi1 * psi / (pi1 * psi + pi0 * (1 - psi))
+  spec <- (1 - pi0) * (1 - psi) / ((1 - pi0) * (1 - psi) + (1 - pi1) * psi)
+  
+  LRp <- sens / (1 - spec)
+  LRm <- (1 - sens) / spec
+  
+  hyper.est <- c(LRm, LRp, 1 - pi0, pi1, sens, spec)
+  
+  return(hyper.est)
+  
+}
+
+make_cts0_from_hyper <- function(hyperparameter_matrix, M){
+  t(apply(hyperparameter_matrix, MARGIN = 1, cts0_from_gamma, M = M))
+}
+
+make_ctsh_from_hyper <- function(hyperparameter_matrix){
+  t(apply(hyperparameter_matrix, MARGIN = 1, ctsh_from_gamma))
+}
+
+simple_summary <- function(vec){
+  return(c(mean(vec), sd(vec), quantile(vec, c(.025, .5, .975))))
+}
+
+cts_summary_from_gamma <- function(hyperparameter_matrix, M){
+
+  summary_0 <- t(apply(make_cts0_from_hyper(hyperparameter_matrix, M = M), MARGIN = 2, simple_summary))
+  summary_h <- t(apply(make_ctsh_from_hyper(hyperparameter_matrix), MARGIN = 2, simple_summary))
+  
+  rownames(summary_0) <- rownames(summary_h) <- NULL
+  
+  return(cbind(rep(c("LRm", "LRp", "NPV", "PPV", "sens", "spec"), 2),
+               rep(c("CTS0", "CTSh"), each = 6),
+               rbind(summary_0, summary_h)))
+  
+}
+
+
 #### Init generators
 
 init.gen <- function(){

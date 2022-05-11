@@ -11,7 +11,7 @@ library(pROC)
 library(extrafont)
 library(here)
 
-source("R/spike.functions.R")
+source(here("R", "spike.functions.R"))
 
 S <- 5000
 
@@ -86,8 +86,8 @@ meta.dat <- list(M = M, S = S, n = n, y = y, n.tot = n.tot,
 meta.params <- c("LRmnew", "LRpnew", "sensnew", "specnew", "PPVnew", "NPVnew", "z.LRm", "z.LRp", "z.NPV", "z.PPV", "z.sens", "z.spec")
 
 std.model <- jags(data = meta.dat, inits = init.gen, parameters.to.save = meta.params,
-                  model.file = "R/meta_confusion.txt",
-                  n.chains = 2, n.iter = 11000, n.thin = 2, n.burnin = 1000, DIC = FALSE)
+                  model.file = here("R", "meta_confusion.txt"),
+                  n.chains = 4, n.iter = 6000, n.thin = 2, n.burnin = 1000, DIC = FALSE)
 
 mcmc.sims <- std.model$BUGSoutput$sims.matrix
 montecarlo.est <- matrix(nrow = 10000, ncol = 6)
@@ -99,6 +99,9 @@ montecarlo.est[,5] <- apply(mcmc.sims[,(4 * M + 1):(5 * M)], 1, mean)
 montecarlo.est[,6] <- apply(mcmc.sims[,(5 * M + 1):(6 * M)], 1, mean)
 
 plugin.est <- mcmc.sims[,601:606]
+
+apply(montecarlo.est, 2, mean)
+apply(plugin.est, 2, mean)
 
 
 

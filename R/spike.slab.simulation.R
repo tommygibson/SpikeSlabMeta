@@ -10,7 +10,8 @@ library(pROC)
 library(extrafont)
 library(here)
 
-source("R/spike.functions.R")
+source(here("R", "spike.functions.R"))
+
 heart.disease <- read.csv(here('R', 'syncope.cleaned.csv')) %>%
   filter(counts == 1, Variable == "Heart Disease")
 
@@ -93,7 +94,8 @@ stats.meds <- apply(stats.sims, 2, quantile, 0.5)
 # get number of studies and sample size per study from syncope heart disease
 S <- dim(heart.disease)[1]
 N <- heart.disease$N_i
-K <- 1000
+# K <- 1000
+K <- 5
 sigma.delta <- c(0.1, 0.25, 0.5)
 
 spike.summary <- matrix(nrow = K, ncol = length(sigma.delta))
@@ -123,17 +125,25 @@ for(i in 1:length(sigma.delta)){
     n.tot <- rep(N, S)
     
     M <- 100
+    a <- -1
+    b <- 0.5
+    c <- 0
+    d <- 0.5
+    e <- -1.5
+    f <- 0.5
+    p <- 0.5
     
     meta.dat <- list(M = M, S = S, n = n, y = y, n.tot = n.tot,
-                     a = -1.5, b = 0.5, c = 0, d = 0.5, e = -1.5, f = 0.5, p = 0.5)
+                     a = a, b = b, c = c, d = d, e = e, f = f, p = p)
     
     
     # as a first run we'll just follow the hyperparameters
     meta.params <- c("spike")
     
-    spike.zero <- jags(data = meta.dat, inits = init.gen.spike, parameters.to.save = meta.params,
-                       model.file = "R/meta_confusion_spike.txt",
-                       n.chains = 2, n.iter = 6000, n.thin = 2, n.burnin = 1000, DIC = FALSE)
+    spike.zero <- do.call(jags.parallel,
+                          list(data = names(meta.dat), inits = init.gen.spike, parameters.to.save = meta.params,
+                          model.file = "R/meta_confusion_spike.txt",
+                          n.chains = 4, n.iter = 5000, n.thin = 2, n.burnin = 2000, DIC = FALSE))
     
     # columns 1 and 3 are mean (1 - rho)
     # columns 2 and 4 are indicators for mean (1 - rho) < x
@@ -148,7 +158,8 @@ seed.after.zeros <- .Random.seed
 ####### SECOND: HOW WELL IT CATCHES NON-ZEROS
 
 
-K <- 1000
+#K <- 1000
+K <- 5
 sigma.delta <- c(0.1, 0.25, 0.5)
 delta0.nonzero <- c(1, 2)
 
@@ -181,17 +192,24 @@ for(i in 1:length(sigma.delta)){
       n <- cbind(rowSums(tables[, 1:2]), rowSums(tables[, 3:4]))
       n.tot <- rep(N, S)
       M <- 100
+      a <- -1
+      b <- 0.5
+      c <- 0
+      d <- 0.5
+      e <- -1.5
+      f <- 0.5
+      p <- 0.5
       
       meta.dat <- list(M = M, S = S, n = n, y = y, n.tot = n.tot,
-                       a = -2, b = 0.5, c = 0, d = 0.5, e = -1, f = 0.5, p = 0.5)
-      
+                       a = a, b = b, c = c, d = d, e = e, f = f, p = p)
       
       # as a first run we'll just follow the hyperparameters
       meta.params <- c("spike")
       
-      spike.zero <- jags(data = meta.dat, inits = init.gen.spike, parameters.to.save = meta.params,
-                         model.file = "R/meta_confusion_spike.txt",
-                         n.chains = 2, n.iter = 6000, n.thin = 2, n.burnin = 1000, DIC = FALSE)
+      spike.zero <- do.call(jags.parallel,
+                            list(data = names(meta.dat), inits = init.gen.spike, parameters.to.save = meta.params,
+                            model.file = "R/meta_confusion_spike.txt",
+                            n.chains = 4, n.iter = 5000, n.thin = 2, n.burnin = 2000, DIC = FALSE))
       
       # columns represent the two values for sigma_delta (small and moderate)
       
@@ -210,70 +228,84 @@ seed.after.nonzero <- .Random.seed
 
 # K determined by MCSE of bias for LR+ 
 # Var(\hat{\theta}) \le 0.25, want MCSE < 0.01
-K <- 4000
-
-CTSs <- list()
-for(i in 1:12){
-  CTSs[[i]] <- matrix(nrow = K, ncol = 5)
-}
-
-names(CTSs) <- c("LRm", "LRp", "NPV", "PPV", "sens", "spec",
-                 "z.LRm", "z.LRp", "z.NPV", "z.PPV", "z.sens", "z.spec")
+#K <- 2500
+K <- 5
 
 delta0 <- 2
-sigma.delta <- 0.5
+sigma.delta <- c(.1, .25, .5)
+
+CTSs <- list()
+for(i in 1:6){
+  CTSs[[i]] <- as.data.frame(matrix(nrow = (2 * K * length(sigma.delta)), ncol = 8))
+  names(CTSs[[i]]) <- c("Method", "Iteration", "sigma.delta", "mean.est", "sd.est", "ci.lower", "median.est", "ci.upper")
+}
+
+names(CTSs) <- c("LRm", "LRp", "NPV", "PPV", "sens", "spec")
+
 
 # .Random.seed <- seed.after.nonzero
-for(k in 1:K){
+for(j in 1:length(sigma.delta)){
+  
+  for(k in 1:K){
+      
+    delta.i <- rnorm(S, mean = delta0, sd = sigma.delta[j])
+    beta.i <- rnorm(S, mean = beta0, sd = sigma.beta)
+    nu.i <- rnorm(S, mean = nu0, sd = sigma.nu)
     
-  delta.i <- rnorm(S, mean = delta0, sd = sigma.delta)
-  beta.i <- rnorm(S, mean = beta0, sd = sigma.beta)
-  nu.i <- rnorm(S, mean = nu0, sd = sigma.nu)
+    pi11.i <- 1 / (1 + exp(-(beta.i + delta.i / 2))) * 1 / (1 + exp(-nu.i))
+    pi10.i <- (1 - 1 / (1 + exp(-(beta.i + delta.i / 2)))) * 1 / (1 + exp(-nu.i))
+    pi01.i <- 1 / (1 + exp(-(beta.i - delta.i / 2))) * (1 - 1 / (1 + exp(-nu.i)))
+    pi00.i <- (1 - 1 / (1 + exp(-(beta.i - delta.i / 2)))) * (1 - 1 / (1 + exp(-nu.i)))
+    
+    probs <- cbind(pi11.i, pi10.i, pi01.i, pi00.i) # collect all the cell probabilities
+    
+    tables <- matrix(0, nrow = S, ncol = 4)
+    for(s in 1:S){
+      tables[s,] <- rmultinom(probs[s,], n = 1, size = N[s]) # generate contingency tables
+    }
+    
+    # prepare data for going into jags
+    y <- tables[,c(1, 3)]
+    n <- cbind(rowSums(tables[, 1:2]), rowSums(tables[, 3:4]))
+    n.tot <- rep(N, S)
+    M <- 100
+    
+    a <- -1
+    b <- 0.5
+    c <- 0
+    d <- 0.5
+    e <- -1
+    f <- 0.5
+    
+    meta.dat <- list(M = M, S = S, n = n, y = y, n.tot = n.tot,
+                     a = a, b = b, c = c, d = d, e = e, f = f)
   
-  pi11.i <- 1 / (1 + exp(-(beta.i + delta.i / 2))) * 1 / (1 + exp(-nu.i))
-  pi10.i <- (1 - 1 / (1 + exp(-(beta.i + delta.i / 2)))) * 1 / (1 + exp(-nu.i))
-  pi01.i <- 1 / (1 + exp(-(beta.i - delta.i / 2))) * (1 - 1 / (1 + exp(-nu.i)))
-  pi00.i <- (1 - 1 / (1 + exp(-(beta.i - delta.i / 2)))) * (1 - 1 / (1 + exp(-nu.i)))
-  
-  probs <- cbind(pi11.i, pi10.i, pi01.i, pi00.i) # collect all the cell probabilities
-  
-  tables <- matrix(0, nrow = S, ncol = 4)
-  for(j in 1:S){
-    tables[j,] <- rmultinom(probs[j,], n = 1, size = N[j]) # generate contingency tables
+    meta.params <- c("LRmnew", "LRpnew", "sensnew", "specnew", "PPVnew", "NPVnew",
+                     "z.LRm", "z.LRp", "z.sens", "z.spec", "z.PPV", "z.NPV")
+    
+    std.model <- do.call(jags.parallel,
+                         list(data = names(meta.dat), inits = init.gen, parameters.to.save = meta.params,
+                         model.file = here("R", "meta_confusion.txt"),
+                         n.chains = 4, n.iter = 4000, n.thin = 2, n.burnin = 2000, DIC = FALSE))
+    
+    # monte carlo estimates
+    CTSs[[1]][((j - 1) * 2 * K + (2 * k - 1)),] <- c("CTS0", k, sigma.delta[j], make_CTS_sum1(std.model$BUGSoutput$sims.matrix[,1:M], M))
+    CTSs[[2]][((j - 1) * 2 * K + (2 * k - 1)),] <- c("CTS0", k, sigma.delta[j], make_CTS_sum1(std.model$BUGSoutput$sims.matrix[,(M + 1):(2 * M)], M))
+    CTSs[[3]][((j - 1) * 2 * K + (2 * k - 1)),] <- c("CTS0", k, sigma.delta[j], make_CTS_sum1(std.model$BUGSoutput$sims.matrix[,(2 * M + 1):(3 * M)], M))
+    CTSs[[4]][((j - 1) * 2 * K + (2 * k - 1)),] <- c("CTS0", k, sigma.delta[j], make_CTS_sum1(std.model$BUGSoutput$sims.matrix[,(3 * M + 1):(4 * M)], M))
+    CTSs[[5]][((j - 1) * 2 * K + (2 * k - 1)),] <- c("CTS0", k, sigma.delta[j], make_CTS_sum1(std.model$BUGSoutput$sims.matrix[,(4 * M + 1):(5 * M)], M))
+    CTSs[[6]][((j - 1) * 2 * K + (2 * k - 1)),] <- c("CTS0", k, sigma.delta[j], make_CTS_sum1(std.model$BUGSoutput$sims.matrix[,(5 * M + 1):(6 * M)], M))
+    # plug-in estimates
+    CTSs[[1]][((j - 1) * 2 * K + (2 * k)),] <- c("CTSh", k, sigma.delta[j], std.model$BUGSoutput$summary[(6 * M + 1), c(1, 2, 3, 5, 7)])
+    CTSs[[2]][((j - 1) * 2 * K + (2 * k)),] <- c("CTSh", k, sigma.delta[j], std.model$BUGSoutput$summary[(6 * M + 2), c(1, 2, 3, 5, 7)])
+    CTSs[[3]][((j - 1) * 2 * K + (2 * k)),] <- c("CTSh", k, sigma.delta[j], std.model$BUGSoutput$summary[(6 * M + 3), c(1, 2, 3, 5, 7)])
+    CTSs[[4]][((j - 1) * 2 * K + (2 * k)),] <- c("CTSh", k, sigma.delta[j], std.model$BUGSoutput$summary[(6 * M + 4), c(1, 2, 3, 5, 7)])
+    CTSs[[5]][((j - 1) * 2 * K + (2 * k)),] <- c("CTSh", k, sigma.delta[j], std.model$BUGSoutput$summary[(6 * M + 5), c(1, 2, 3, 5, 7)])
+    CTSs[[6]][((j - 1) * 2 * K + (2 * k)),] <- c("CTSh", k, sigma.delta[j], std.model$BUGSoutput$summary[(6 * M + 6), c(1, 2, 3, 5, 7)])
+    
+    
+    
   }
-  
-  # prepare data for going into jags
-  y <- tables[,c(1, 3)]
-  n <- cbind(rowSums(tables[, 1:2]), rowSums(tables[, 3:4]))
-  n.tot <- rep(N, S)
-  M <- 100
-  
-  meta.dat <- list(M = M, S = S, n = n, y = y, n.tot = n.tot,
-                   a = -1, b = 0.5, c = 0, d = 0.5, e = -1, f = 0.5)
-
-  meta.params <- c("LRmnew", "LRpnew", "sensnew", "specnew", "PPVnew", "NPVnew",
-                   "z.LRm", "z.LRp", "z.sens", "z.spec", "z.PPV", "z.NPV")
-  
-  std.model <- jags(data = meta.dat, inits = init.gen, parameters.to.save = meta.params,
-                    model.file = "R/meta_confusion.txt",
-                    n.chains = 2, n.iter = 6000, n.thin = 2, n.burnin = 1000, DIC = FALSE)
-  
-  
-  CTSs[[1]][k,] <- make_CTS_sum1(std.model$BUGSoutput$sims.matrix[,1:M], M)
-  CTSs[[2]][k,] <- make_CTS_sum1(std.model$BUGSoutput$sims.matrix[,(M + 1):(2 * M)], M)
-  CTSs[[3]][k,] <- make_CTS_sum1(std.model$BUGSoutput$sims.matrix[,(2 * M + 1):(3 * M)], M)
-  CTSs[[4]][k,] <- make_CTS_sum1(std.model$BUGSoutput$sims.matrix[,(3 * M + 1):(4 * M)], M)
-  CTSs[[5]][k,] <- make_CTS_sum1(std.model$BUGSoutput$sims.matrix[,(4 * M + 1):(5 * M)], M)
-  CTSs[[6]][k,] <- make_CTS_sum1(std.model$BUGSoutput$sims.matrix[,(5 * M + 1):(6 * M)], M)
-  CTSs[[7]][k,] <- std.model$BUGSoutput$summary[(6 * M + 1), c(1, 2, 3, 5, 7)]
-  CTSs[[8]][k,] <- std.model$BUGSoutput$summary[(6 * M + 2), c(1, 2, 3, 5, 7)]
-  CTSs[[9]][k,] <- std.model$BUGSoutput$summary[(6 * M + 3), c(1, 2, 3, 5, 7)]
-  CTSs[[10]][k,] <- std.model$BUGSoutput$summary[(6 * M + 4), c(1, 2, 3, 5, 7)]
-  CTSs[[11]][k,] <- std.model$BUGSoutput$summary[(6 * M + 5), c(1, 2, 3, 5, 7)]
-  CTSs[[12]][k,] <- std.model$BUGSoutput$summary[(6 * M + 6), c(1, 2, 3, 5, 7)]
-  
-  
-  
 }
 
 
