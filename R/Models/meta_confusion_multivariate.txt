@@ -1,0 +1,85 @@
+
+model
+{
+  for(i in 1:S){
+    Y[i,1] ~ dbin(pi[i,1], n[i,1])
+    Y[i,2] ~ dbin(pi[i,2], n[i,2])
+    
+    # probability of exposure
+    n[i,1] ~ dbin(psi[i], n.tot[i])
+    
+    psi[i] <- 1 / (1 + exp(-nu[i]))
+    
+    # conditional prob of event given exposure
+    logit(pi[i,1]) <- beta[i] + delta[i]/2
+    logit(pi[i,2]) <- beta[i] - delta[i]/2
+    
+    # meta-regression on the log-odds ratio
+    # do we include intercept?
+    
+    beta[i] <- theta[i, 1]
+    delta[i] <- theta[i, 2]
+    nu[i] <- theta[i, 3]
+    
+    theta[i, 1:3] ~ dnorm.vcov(mu[1:3], Sigma[1:3, 1:3])
+    
+  }
+  # define mean matrix for random effects
+  mu[1] <- beta0
+  mu[2] <- delta0
+  mu[3] <- nu0
+  
+  beta0 ~ dnorm(a, b)
+  delta0 ~ dnorm(c, d)
+  nu0 ~ dnorm(e, f)
+  
+  # define precision matrix for random effects
+  # Omega <- inverse(Sigma)
+  
+  Sigma[1, 1] <- pow(sigma, 2)
+  Sigma[2, 2] <- pow(tau, 2)
+  Sigma[3, 3] <- pow(phi, 2)
+  
+  Sigma[1, 2] <- rho_bd * sigma * tau
+  Sigma[2, 1] <- Sigma[1, 2]
+  Sigma[1, 3] <- rho_bn * sigma * phi
+  Sigma[3, 1] <- Sigma[1, 3]
+  Sigma[2, 3] <- rho_dn * tau * phi
+  Sigma[3, 2] <- Sigma[2, 3]
+  
+  # half-t prior on tau
+  sigma ~ dt(0, 1, 1) T(0,)
+  phi ~ dt(0, 1, 1) T(0,)
+  tau ~ dt(0, 1, 1) T(0,)
+  
+  # correlations
+  rho_bd ~ dunif(-1, 1)
+  rho_bn ~ dunif(-1, 1)
+  rho_dn ~ dunif(-1, 1)
+  
+  
+
+  #draw M new observations for each parameter w/ random effects
+  
+  for(j in 1:M){
+    thetanew[j, 1:3] ~ dmnorm(mu[1:3], Sigma[1:3, 1:3])
+    betanew[j] <- thetanew[j, 1]
+    deltanew[j] <-  thetanew[j, 2]
+    psinew[j] <- 1 / (1  + exp(-thetanew[j, 3]))
+    
+    pi11new[j] <- 1 / (1 + exp(-(betanew[j] + deltanew[j]/2))) * psinew[j]                  # P(event, risk)
+    pi10new[j] <- (1 - 1 / (1 + exp(-(betanew[j] + deltanew[j] / 2)))) * psinew[j]          # P(no event, risk)
+    pi01new[j] <- 1 / (1 + exp(-(betanew[j] - deltanew[j] / 2))) * (1 - psinew[j])          # P(event, no risk)
+    pi00new[j] <- (1 - 1 / (1 + exp(-(betanew[j] - deltanew[j] / 2)))) * (1 - psinew[j])    # P(no event, no risk)
+    
+    sensnew[j] <- pi11new[j] / (pi11new[j] + pi01new[j])
+    specnew[j] <- pi00new[j] / (pi00new[j] + pi10new[j])
+    
+    PPVnew[j] <- pi11new[j] / (pi11new[j] + pi10new[j])
+    NPVnew[j] <- pi00new[j] / (pi00new[j] + pi01new[j])
+    
+    LRpnew[j] <- sensnew[j] / (1 - specnew[j])
+    LRmnew[j] <- (1 - sensnew[j]) / specnew[j]
+    
+  }
+}

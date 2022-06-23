@@ -78,9 +78,9 @@ init.gen <- function(){
     delta0 = runif(1, -1, 1),
     beta0 = runif(1, -1, 1),
     nu0 = runif(1, -1, 1),
-    sigma.delta = runif(1, 0.5, 1),
-    sigma.beta = runif(1, 0.5, 1),
-    sigma.nu = runif(1, 0.5, 1),
+    sigma.delta = runif(1, 0.1, 1),
+    sigma.beta = runif(1, 0.1, 1),
+    sigma.nu = runif(1, 0.1, 1),
     deltanew = runif(M, -1, 1),
     betanew = runif(M, -1, 1),
     nunew = runif(M, -1, 1)
@@ -94,9 +94,9 @@ init.gen.spike <- function(){
     delta1 = rnorm(1),
     beta0 = rnorm(1),
     nu0 = rnorm(1),
-    sigma.delta = runif(1, 0.2, 1),
-    sigma.beta = runif(1, 0.2, 1),
-    sigma.nu = runif(1, 0.2, 1),
+    sigma.delta = runif(1, 0.1, 1),
+    sigma.beta = runif(1, 0.1, 1),
+    sigma.nu = runif(1, 0.1, 1),
     deltanew = rnorm(M),
     betanew = rnorm(M),
     nunew = rnorm(M),
@@ -243,12 +243,19 @@ for(i in 1:max(syncope$Varnum)){
   
   # these values will be the same for pretty much every anal
   # until we do sensitivity analysis
+  a <- -2
+  b <- 0.5
+  c <- 0
+  d <- 0.25
+  e <- 0
+  f <- 0.5
+  p <- 0.5
   
   meta.data <- list(M = M, S = S, n = n, y = y, n.tot = n.tot,
-                          a = -2, b = 0.5, c = 0, d = 0.5, e = 0, f = 0.5)
+                    a = a, b = b, c = c, d = d, e = e, f = f)
   
   meta.data.spike <- list(M = M, S = S, n = n, y = y, n.tot = n.tot,
-                    a = -2, b = 0.5, c = 0, d = 0.1, e = 0, f = 0.5, p = 0.5)
+                    a = a, b = b, c = c, d = d, e = e, f = f, p = p)
 
   # as a first run we'll just follow the hyperparameters
   meta.params <- c("LRmnew", "LRpnew", "PPVnew", "NPVnew", "sensnew", "specnew")
@@ -262,45 +269,57 @@ for(i in 1:max(syncope$Varnum)){
   # half-t prior on SDs of REs
   if(which.model == 1){
     
-    meta.anal.spike <- jags(data = meta.data.spike, inits = init.gen.spike, parameters.to.save = meta.params.spike,
-                            model.file = "meta_confusion_spike.txt",
-                            n.chains = 2, n.iter = 11000, n.thin = 2, n.burnin = 1000, DIC = FALSE)
+    meta.anal.spike <- do.call(jags.parallel,
+                               list(data = names(meta.data.spike), inits = init.gen.spike, parameters.to.save = meta.params.spike,
+                               model.file = here("R", "meta_confusion_spike.txt"),
+                               n.chains = 2, n.iter = 11000, n.thin = 2, n.burnin = 1000, DIC = FALSE))
+    meta.anal <- do.call(jags.parallel,
+                         list(data = names(meta.data), inits = init.gen, parameters.to.save = meta.params,
+                         model.file = here("R", "meta_confusion.txt"),
+                         n.chains = 2, n.iter = 11000, n.thin = 2, n.burnin = 1000, DIC = FALSE))
+    meta.sims <- meta.anal$BUGSoutput$sims.matrix
+    summaries[[index]] <- matrix(c(syncope_curr$Variable[1], dim(syncope_curr)[1], sigfig(meta.anal.spike$BUGSoutput$summary[1]), make_CTS_sum(meta.sims, M)), nrow = 1)
     
   }
   # gamma prior on precision of REs
   else if(which.model == 2){
-    meta.anal.spike <- jags(data = meta.data.spike, inits = init.gen.spike.gamma, parameters.to.save = meta.params.spike,
-                            model.file = "meta_confusion_spike_gamma.txt",
-                            n.chains = 2, n.iter = 11000, n.thin = 2, n.burnin = 1000, DIC = FALSE)
+    meta.anal.spike <- do.call(jags.parallel,
+                               list(data = names(meta.data.spike), inits = init.gen.spike.gamma, parameters.to.save = meta.params.spike,
+                               model.file = here("R", "meta_confusion_spike_gamma.txt"),
+                               n.chains = 2, n.iter = 11000, n.thin = 2, n.burnin = 1000, DIC = FALSE))
+    meta.anal <- do.call(jags.parallel,
+                         list(data = names(meta.data), inits = init.gen.gamma, parameters.to.save = meta.params,
+                         model.file = here("R", "meta_confusion_gamma.txt"),
+                         n.chains = 2, n.iter = 11000, n.thin = 2, n.burnin = 1000, DIC = FALSE))
+    meta.sims <- meta.anal$BUGSoutput$sims.matrix
+    summaries[[index]] <- matrix(c(syncope_curr$Variable[1], dim(syncope_curr)[1], sigfig(meta.anal.spike$BUGSoutput$summary[1]), make_CTS_sum(meta.sims, M)), nrow = 1)
   }
   
-  # look at spikes: if spike at 0 is big (> 0.5) we won't look at CTSs
-  # otherwise, do full 3RE model with either gamma or half-t prior
   
   # half-t
-  if(meta.anal.spike$BUGSoutput$summary[1] < 0.25 & which.model == 1){
-    
-    meta.anal <- jags(data = meta.data, inits = init.gen, parameters.to.save = meta.params,
-                      model.file = "meta_confusion.txt",
-                      n.chains = 2, n.iter = 11000, n.thin = 2, n.burnin = 1000, DIC = FALSE)
-    meta.sims <- meta.anal$BUGSoutput$sims.matrix
-    summaries[[index]] <- matrix(c(syncope_curr$Variable[1], dim(syncope_curr)[1], sigfig(meta.anal.spike$BUGSoutput$summary[1]), make_CTS_sum(meta.sims, M)), nrow = 1)
-    
-    # gamma
-  } else if(meta.anal.spike$BUGSoutput$summary[1] < 0.25 & which.model == 2){
-    
-    meta.anal <- jags(data = meta.data, inits = init.gen.gamma, parameters.to.save = meta.params,
-                      model.file = "meta_confusion_gamma.txt",
-                      n.chains = 2, n.iter = 11000, n.thin = 2, n.burnin = 1000, DIC = FALSE)
-    meta.sims <- meta.anal$BUGSoutput$sims.matrix
-    summaries[[index]] <- matrix(c(syncope_curr$Variable[1], dim(syncope_curr)[1], sigfig(meta.anal.spike$BUGSoutput$summary[1]), make_CTS_sum(meta.sims, M)), nrow = 1)
-    
-    
-  } else if(meta.anal.spike$BUGSoutput$summary[1] >= 0.25){
-    
-    summaries[[index]] <- matrix(c(syncope_curr$Variable[1], dim(syncope_curr)[1], sigfig(meta.anal.spike$BUGSoutput$summary[1]), rep("--", length(meta.params))), nrow = 1)
-    
-  }
+  # this commented bit is deprecated from when we only continued with analysis if the spike was small
+  # if(meta.anal.spike$BUGSoutput$summary[1] < 0.25 & which.model == 1){
+  #   meta.anal <- jags(data = meta.data, inits = init.gen, parameters.to.save = meta.params,
+  #                     model.file = "meta_confusion.txt",
+  #                     n.chains = 2, n.iter = 11000, n.thin = 2, n.burnin = 1000, DIC = FALSE)
+  #   meta.sims <- meta.anal$BUGSoutput$sims.matrix
+  #   summaries[[index]] <- matrix(c(syncope_curr$Variable[1], dim(syncope_curr)[1], sigfig(meta.anal.spike$BUGSoutput$summary[1]), make_CTS_sum(meta.sims, M)), nrow = 1)
+  #   
+  #   # gamma
+  # } #else if(meta.anal.spike$BUGSoutput$summary[1] < 0.25 & which.model == 2){
+  #   meta.anal <- jags(data = meta.data, inits = init.gen.gamma, parameters.to.save = meta.params,
+  #                     model.file = "meta_confusion_gamma.txt",
+  #                     n.chains = 2, n.iter = 11000, n.thin = 2, n.burnin = 1000, DIC = FALSE)
+  #   meta.sims <- meta.anal$BUGSoutput$sims.matrix
+  #   summaries[[index]] <- matrix(c(syncope_curr$Variable[1], dim(syncope_curr)[1], sigfig(meta.anal.spike$BUGSoutput$summary[1]), make_CTS_sum(meta.sims, M)), nrow = 1)
+  #   
+  #   
+  # }
+  # #  else if(meta.anal.spike$BUGSoutput$summary[1] >= 0.25){
+  #   
+  #   summaries[[index]] <- matrix(c(syncope_curr$Variable[1], dim(syncope_curr)[1], sigfig(meta.anal.spike$BUGSoutput$summary[1]), rep("--", length(meta.params))), nrow = 1)
+  #   
+  # }
   
   
   colnames(summaries[[index]]) <- c("Variable", "Num.papers", "P(=0)", meta.params[order(meta.params)])
@@ -314,8 +333,13 @@ for(i in 1:max(syncope$Varnum)){
 syncope_summary <- as.data.frame(do.call(rbind, summaries))[, c(1:3, 5, 4, 6:9)]
 names(syncope_summary) <- c("Variable", "Num. Papers", "Spike", "LR+", "LR-", "NPV", "PPV", "Sens", "Spec")
 
+syncope_summary_typecorrect <- syncope_summary %>%
+  type_convert(guess_integer = TRUE) %>%
+  arrange(Spike)
+
 # save results!
-print(xtable(syncope_summary, caption = "Results of 31 meta-analyses of syncope studies", type = "latex"), file = "TeX/syncope.summary.tex", include.rownames = FALSE)
+print(xtable(syncope_summary_typecorrect, caption = "Results of 31 meta-analyses of syncope studies", type = "latex", digits = 3), 
+      file = "TeX/syncope.summary.tex", include.rownames = FALSE)
 
 
 
