@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  6 MAY 2021 18:14
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  23 JUN 2022 15:17
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -846,6 +846,13 @@ Package: wrapfig 2003/01/31  v 3.6
 (/usr/local/texlive/2016/texmf-dist/tex/latex/setspace/setspace.sty
 Package: setspace 2011/12/19 v6.7a set line spacing
 )
+(/usr/local/texlive/2016/texmf-dist/tex/latex/bbm-macros/bbm.sty
+Package: bbm 1999/03/15 V 1.2 provides fonts for set symbols - TH
+LaTeX Font Info:    Overwriting math alphabet `\mathbbm' in version `bold'
+(Font)                  U/bbm/m/n --> U/bbm/bx/n on input line 33.
+LaTeX Font Info:    Overwriting math alphabet `\mathbbmss' in version `bold'
+(Font)                  U/bbmss/m/n --> U/bbmss/bx/n on input line 35.
+)
 
 LaTeX Warning: Unused global option(s):
     [AMA,STIX1COL].
@@ -853,37 +860,37 @@ LaTeX Warning: Unused global option(s):
 (./SpikeSlabMeta.aux)
 \openout1 = `SpikeSlabMeta.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for LS1/stix/m/n on input line 18.
-LaTeX Font Info:    Try loading font information for LS1+stix on input line 18.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for LS1/stix/m/n on input line 21.
+LaTeX Font Info:    Try loading font information for LS1+stix on input line 21.
 
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/stix/ls1stix.fd
 File: ls1stix.fd 2015/04/17 v1.1.2-latex STIX LS1 font definitions
 )
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for LS2/stix/m/n on input line 18.
-LaTeX Font Info:    Try loading font information for LS2+stix on input line 18.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for LS2/stix/m/n on input line 21.
+LaTeX Font Info:    Try loading font information for LS2+stix on input line 21.
 
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/stix/ls2stix.fd
 File: ls2stix.fd 2015/04/17 v1.1.2-latex STIX LS2 font definitions
 )
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Try loading font information for T1+stix on input line 18.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Try loading font information for T1+stix on input line 21.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/stix/t1stix.fd
 File: t1stix.fd 2015/04/17 v1.1.2-latex STIX T1 font definitions
@@ -922,7 +929,7 @@ Package caption Info: listings package is loaded.
 Package caption Info: wrapfig package is loaded.
 Package caption Info: End \AtBeginDocument code.
 \AtBeginShipoutBox=\box80
-Package hyperref Info: Link coloring OFF on input line 18.
+Package hyperref Info: Link coloring OFF on input line 21.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
@@ -932,9 +939,9 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count346
 )
-LaTeX Info: Redefining \ref on input line 18.
-LaTeX Info: Redefining \pageref on input line 18.
-LaTeX Info: Redefining \nameref on input line 18.
+LaTeX Info: Redefining \ref on input line 21.
+LaTeX Info: Redefining \pageref on input line 21.
+LaTeX Info: Redefining \nameref on input line 21.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -974,73 +981,115 @@ LaTeX Info: Redefining \nameref on input line 18.
 
 \c@lstlisting=\count347
 LaTeX Font Info:    Font shape `T1/stix/bx/n' in size <9> not available
-(Font)              Font shape `T1/stix/b/n' tried instead on input line 47.
+(Font)              Font shape `T1/stix/b/n' tried instead on input line 50.
 LaTeX Font Info:    Font shape `T1/stix/bx/n' in size <18> not available
-(Font)              Font shape `T1/stix/b/n' tried instead on input line 47.
+(Font)              Font shape `T1/stix/b/n' tried instead on input line 50.
 LaTeX Font Info:    Try loading font information for LS1+stixscr on input line 
-47.
+50.
 (/usr/local/texlive/2016/texmf-dist/tex/latex/stix/ls1stixscr.fd
 File: ls1stixscr.fd 2015/04/17 v1.1.2-latex STIX script LS1 font definitions
 )
-LaTeX Font Info:    Try loading font information for LS2+stixex on input line 4
-7.
+LaTeX Font Info:    Try loading font information for LS2+stixex on input line 5
+0.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/stix/ls2stixex.fd
 File: ls2stixex.fd 2015/04/17 v1.1.2-latex STIX extentions LS2 font definitions
 
 )
 LaTeX Font Info:    Try loading font information for LS1+stixfrak on input line
- 47.
+ 50.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/stix/ls1stixfrak.fd
 File: ls1stixfrak.fd 2015/04/17 v1.1.2-latex STIX fraktur LS1 font definitions
 )
-LaTeX Font Info:    Try loading font information for LS1+stixbb on input line 4
-7.
+LaTeX Font Info:    Try loading font information for LS1+stixbb on input line 5
+0.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/stix/ls1stixbb.fd
 File: ls1stixbb.fd 2015/04/17 v1.1.2-latex STIX blackboard LS1 font definitions
 
 )
 LaTeX Font Info:    Try loading font information for LS2+stixcal on input line 
-47.
+50.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/stix/ls2stixcal.fd
 File: ls2stixcal.fd 2015/04/17 v1.1.2-latex STIX calligraphic LS2 font definiti
 ons
 )
-LaTeX Font Info:    Try loading font information for LS1+stixsf on input line 4
-7.
+LaTeX Font Info:    Try loading font information for LS1+stixsf on input line 5
+0.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/stix/ls1stixsf.fd
 File: ls1stixsf.fd 2015/04/17 v1.1.2-latex STIX sans-serif LS1 font definitions
 
 )
-LaTeX Font Info:    Try loading font information for LS2+stixtt on input line 4
-7.
+LaTeX Font Info:    Try loading font information for LS2+stixtt on input line 5
+0.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/stix/ls2stixtt.fd
 File: ls2stixtt.fd 2015/04/17 v1.1.2-latex STIX typewriter LS2 font definitions
 
 )
 LaTeX Font Info:    Font shape `T1/stix/bx/n' in size <8> not available
-(Font)              Font shape `T1/stix/b/n' tried instead on input line 47.
+(Font)              Font shape `T1/stix/b/n' tried instead on input line 50.
 LaTeX Font Info:    Font shape `T1/stix/bx/n' in size <10> not available
-(Font)              Font shape `T1/stix/b/n' tried instead on input line 47.
+(Font)              Font shape `T1/stix/b/n' tried instead on input line 50.
 
-Overfull \vbox (4.5pt too high) detected at line 47
- []
-
-
-Overfull \hbox (346.99213pt too wide) in paragraph at lines 47--47
+Overfull \hbox (346.99213pt too wide) in paragraph at lines 50--50
 [][] | || []|[][] 
  []
 
-LaTeX Font Info:    Calculating math sizes for size <10.03749> on input line 47
+LaTeX Font Info:    Calculating math sizes for size <10.03749> on input line 50
 .
-LaTeX Font Info:    Calculating math sizes for size <7.5> on input line 49.
+LaTeX Font Info:    Calculating math sizes for size <7.5> on input line 52.
 LaTeX Font Info:    Font shape `T1/stix/bx/n' in size <7.5> not available
-(Font)              Font shape `T1/stix/b/n' tried instead on input line 49.
+(Font)              Font shape `T1/stix/b/n' tried instead on input line 52.
+LaTeX Font Info:    Font shape `T1/stix/bx/n' in size <7.0262> not available
+(Font)              Font shape `T1/stix/b/n' tried instead on input line 61.
+
+Package natbib Warning: Citation `lu2004combination' on page 1 undefined on inp
+ut line 61.
+
+
+Package natbib Warning: Citation `dias2013synthesis' on page 1 undefined on inp
+ut line 61.
+
+
+Package natbib Warning: Citation `zhang2014network' on page 1 undefined on inpu
+t line 61.
+
+
+Package natbib Warning: Citation `ma2016multivariate' on page 1 undefined on in
+put line 61.
+
+
+Package natbib Warning: Citation `lian2019' on page 1 undefined on input line 6
+1.
+
+
+Package natbib Warning: Citation `chu2012bivariate' on page 1 undefined on inpu
+t line 61.
+
+
+Package natbib Warning: Citation `guo2017bivariate' on page 1 undefined on inpu
+t line 61.
+
+
+Package natbib Warning: Citation `hoyer2018meta' on page 1 undefined on input l
+ine 61.
+
+
+Package natbib Warning: Citation `ma2018network' on page 1 undefined on input l
+ine 61.
+
+
+Package natbib Warning: Citation `wynants2018trivariate' on page 1 undefined on
+ input line 61.
+
+
+Package natbib Warning: Citation `ma2018network' on page 1 undefined on input l
+ine 61.
+
 
 Overfull \vbox (6.46347pt too high) has occurred while \output is active []
 
@@ -1050,84 +1099,234 @@ Overfull \vbox (6.46347pt too high) has occurred while \output is active []
 \openout3 = `SpikeSlabMeta.pag'.
 
 ]
+
+Package natbib Warning: Citation `ma2018network' on page 2 undefined on input l
+ine 65.
+
+
+Package natbib Warning: Citation `wynants2018trivariate' on page 2 undefined on
+ input line 65.
+
 LaTeX Font Info:    Font shape `T1/stix/bx/n' in size <7> not available
-(Font)              Font shape `T1/stix/b/n' tried instead on input line 73.
-
-[2]
+(Font)              Font shape `T1/stix/b/n' tried instead on input line 67.
+[2] [3]
 LaTeX Font Info:    Font shape `T1/stix/bx/n' in size <12> not available
-(Font)              Font shape `T1/stix/b/n' tried instead on input line 97.
- [3]
-Underfull \hbox (badness 1609) in paragraph at lines 121--122
-\T1/stix/m/n/10.03749 the \T1/stix/m/it/10.03749 expected value of a CTS for a 
-new study\T1/stix/m/n/10.03749 . We need to obtain the pos-te-rior dis-tri-bu-t
-ion of $[]\LS1/stix/m/n/10.03749 [\LS1/stix/m/it/10.03749 g\LS1/stix/m/n/10.037
-49 .[][]/\LS2/stixex/m/n/10.03749 ð[]\LS1/stix/m/it/10.03749 ; []\LS1/stix/m/n/
-10.03749 ] =
- []
+(Font)              Font shape `T1/stix/b/n' tried instead on input line 96.
+ [4] [5]
+LaTeX Font Info:    Try loading font information for U+bbm on input line 172.
 
-[4] [5] [6] [7]
+(/usr/local/texlive/2016/texmf-dist/tex/latex/bbm-macros/ubbm.fd
+File: ubbm.fd 1999/03/15 V 1.2 Font definition for bbm font - TH
+) [6]
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 215.
+(hyperref)                removing `math shift' on input line 200.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `subscript' on input line 215.
+(hyperref)                removing `math shift' on input line 200.
+
+[7]
+LaTeX Font Info:    Font shape `T1/stix/bx/n' in size <6> not available
+(Font)              Font shape `T1/stix/b/n' tried instead on input line 209.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 215.
+(hyperref)                removing `math shift' on input line 209.
 
-[8] [9] (./SpikeSlabMeta.bbl [10] [11]) [12]
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `subscript' on input line 209.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 209.
+
+[8]
+
+Package natbib Warning: Citation `probst2015admissions' on page 9 undefined on 
+input line 229.
+
+
+Package natbib Warning: Citation `birnbaum2008failure' on page 9 undefined on i
+nput line 229.
+
+
+Package natbib Warning: Citation `deeks2004diagnostic' on page 9 undefined on i
+nput line 233.
+
+
+Package natbib Warning: Citation `ranganathan2018understanding' on page 9 undef
+ined on input line 233.
+
+[9] [10]
+
+Package natbib Warning: Citation `probst2020faint' on page 11 undefined on inpu
+t line 270.
+
+(./SpikeSlabMeta.bbl [11] [12]) [13]
 LaTeX Font Info:    Font shape `T1/stix/bx/n' in size <10.03749> not available
-(Font)              Font shape `T1/stix/b/n' tried instead on input line 257.
- [13
+(Font)              Font shape `T1/stix/b/n' tried instead on input line 289.
+ [14
 
-] [14]
-<spike_boxplot.pdf, id=183, 361.35pt x 289.08pt>
+] [15
+
+] [16
+
+] [17
+
+]
+*geometry* verbose mode - [ newgeometry ] result:
+* driver: pdftex
+* paper: custom
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: twoside 
+* h-part:(L,W,R)=(71.70166pt, 418.25368pt, 107.55254pt)
+* v-part:(T,H,B)=(28.45274pt, 662.60683pt, 94.23648pt)
+* \paperwidth=597.50787pt
+* \paperheight=785.29605pt
+* \textwidth=418.25368pt
+* \textheight=662.60683pt
+* \oddsidemargin=-0.56833pt
+* \evensidemargin=35.28255pt
+* \topmargin=-75.81725pt
+* \headheight=21.0pt
+* \headsep=11.0pt
+* \topskip=6.0pt
+* \footskip=48.5pt
+* \marginparwidth=0.0pt
+* \marginparsep=0.0pt
+* \columnsep=0.0pt
+* \skip\footins=18.0pt plus 2.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidetrue
+* \@mparswitchtrue
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[18]
+*geometry* verbose mode - [ newgeometry ] result:
+* driver: pdftex
+* paper: custom
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: twoside 
+* h-part:(L,W,R)=(28.45274pt, 540.60239pt, 28.45274pt)
+* v-part:(T,H,B)=(28.45274pt, 728.39056pt, 28.45274pt)
+* \paperwidth=597.50787pt
+* \paperheight=785.29605pt
+* \textwidth=540.60239pt
+* \textheight=728.39056pt
+* \oddsidemargin=-43.81725pt
+* \evensidemargin=-43.81725pt
+* \topmargin=-75.81725pt
+* \headheight=21.0pt
+* \headsep=11.0pt
+* \topskip=6.0pt
+* \footskip=48.5pt
+* \marginparwidth=0.0pt
+* \marginparsep=0.0pt
+* \columnsep=0.0pt
+* \skip\footins=18.0pt plus 2.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidetrue
+* \@mparswitchtrue
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+ [19] <bias_plot.pdf, id=224, 433.62pt x 505.89pt>
+File: bias_plot.pdf Graphic file (type pdf)
+ <use bias_plot.pdf>
+Package pdftex.def Info: bias_plot.pdf used on input line 435.
+(pdftex.def)             Requested size: 433.63878pt x 505.89645pt.
+
+<rmse_plot.pdf, id=225, 433.62pt x 433.62pt>
+File: rmse_plot.pdf Graphic file (type pdf)
+ <use rmse_plot.pdf>
+Package pdftex.def Info: rmse_plot.pdf used on input line 442.
+(pdftex.def)             Requested size: 433.63878pt x 433.63878pt.
+
+<cover_plot.pdf, id=226, 433.62pt x 433.62pt>
+File: cover_plot.pdf Graphic file (type pdf)
+ <use cover_plot.pdf>
+Package pdftex.def Info: cover_plot.pdf used on input line 448.
+(pdftex.def)             Requested size: 433.63878pt x 433.63878pt.
+
+<length_plot.pdf, id=227, 433.62pt x 433.62pt>
+File: length_plot.pdf Graphic file (type pdf)
+ <use length_plot.pdf>
+Package pdftex.def Info: length_plot.pdf used on input line 454.
+(pdftex.def)             Requested size: 433.63878pt x 433.63878pt.
+
+<spike_boxplot.pdf, id=228, 361.35pt x 289.08pt>
 File: spike_boxplot.pdf Graphic file (type pdf)
  <use spike_boxplot.pdf>
-Package pdftex.def Info: spike_boxplot.pdf used on input line 347.
+Package pdftex.def Info: spike_boxplot.pdf used on input line 460.
 (pdftex.def)             Requested size: 361.35463pt x 289.09251pt.
 
-<SSP-plot.pdf, id=184, 433.62pt x 433.62pt>
-File: SSP-plot.pdf Graphic file (type pdf)
- <use SSP-plot.pdf>
-Package pdftex.def Info: SSP-plot.pdf used on input line 353.
+<syncope_contour.pdf, id=229, 433.62pt x 433.62pt>
+File: syncope_contour.pdf Graphic file (type pdf)
+ <use syncope_contour.pdf>
+Package pdftex.def Info: syncope_contour.pdf used on input line 466.
 (pdftex.def)             Requested size: 433.63878pt x 433.63878pt.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 362.
- [15
 
-] [16 <./spike_boxplot.pdf>] [17 <./SSP-plot.pdf>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 362.
- (./SpikeSlabMeta.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 362.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 362.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 362.
+
+Package natbib Warning: There were undefined citations.
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 476.
+[20
+
+
+
+
+
+
+ <./bias_plot.pdf>] [21 <./rmse_plot.pdf>] [22 <./cover_plot.pdf>] [23 <./lengt
+h_plot.pdf>] [24 <./spike_boxplot.pdf>] [25 <./syncope_contour.pdf>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 476.
+
+(./SpikeSlabMeta.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 476.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 476.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 476.
  ) 
 Here is how much of TeX's memory you used:
- 14540 strings out of 493014
- 204521 string characters out of 6133351
- 311784 words of memory out of 5000000
- 17733 multiletter control sequences out of 15000+600000
- 133306 words of font info for 185 fonts, out of 8000000 for 9000
+ 14673 strings out of 493014
+ 206904 string characters out of 6133351
+ 315543 words of memory out of 5000000
+ 17832 multiletter control sequences out of 15000+600000
+ 148758 words of font info for 206 fonts, out of 8000000 for 9000
  1167 hyphenation exceptions out of 8191
- 43i,14n,40p,1562b,491s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/stix/stix-t1.enc}</usr/lo
-cal/texlive/2016/texmf-dist/fonts/type1/public/stix/STIXGeneral-Bold.pfb></usr/
-local/texlive/2016/texmf-dist/fonts/type1/public/stix/STIXGeneral-Italic.pfb></
-usr/local/texlive/2016/texmf-dist/fonts/type1/public/stix/STIXGeneral-Regular.p
-fb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/stix/stix-mathcal-bol
-d.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/stix/stix-mathcal.
-pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/stix/stix-mathex.pfb
-></usr/local/texlive/2016/texmf-dist/fonts/type1/public/stix/stix-mathit-bold.p
-fb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/stix/stix-mathit.pfb>
-</usr/local/texlive/2016/texmf-dist/fonts/type1/public/stix/stix-mathrm.pfb></u
-sr/local/texlive/2016/texmf-dist/fonts/type1/public/stix/stix-mathscr.pfb>
-Output written on SpikeSlabMeta.pdf (17 pages, 271075 bytes).
+ 43i,19n,40p,1990b,483s stack positions out of 5000i,500n,10000p,200000b,80000s
+ </Users/tommy/Library/texlive/2016/texmf-var/fonts/pk/ljfour/public/bbm/bbm1
+0.600pk>{/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/stix/stix-t1.enc}</
+usr/local/texlive/2016/texmf-dist/fonts/type1/public/stix/STIXGeneral-Bold.pfb>
+</usr/local/texlive/2016/texmf-dist/fonts/type1/public/stix/STIXGeneral-Italic.
+pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/stix/STIXGeneral-Reg
+ular.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/stix/stix-mathc
+al-bold.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/stix/stix-ma
+thcal.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/stix/stix-math
+ex.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/stix/stix-mathit-
+bold.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/stix/stix-mathi
+t.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/stix/stix-mathrm-b
+old.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/stix/stix-mathrm
+.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/stix/stix-mathscr.p
+fb>
+Output written on SpikeSlabMeta.pdf (25 pages, 474948 bytes).
 PDF statistics:
- 311 PDF objects out of 1000 (max. 8388607)
- 275 compressed objects within 3 object streams
- 78 named destinations out of 1000 (max. 500000)
- 139 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 413 PDF objects out of 1000 (max. 8388607)
+ 358 compressed objects within 4 object streams
+ 95 named destinations out of 1000 (max. 500000)
+ 151 words of extra memory for PDF output out of 10000 (max. 10000000)
 
