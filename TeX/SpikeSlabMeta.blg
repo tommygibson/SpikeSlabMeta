@@ -1,0 +1,46 @@
+This is BibTeX, Version 0.99d (TeX Live 2016)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: SpikeSlabMeta.aux
+The style file: WileyNJD-AMA.bst
+Database file #1: SpikeSlab.bib
+You've used 29 entries,
+            2067 wiz_defined-function locations,
+            717 strings with 10116 characters,
+and the built_in function-call counts, 5324 in all, are:
+= -- 403
+> -- 277
+< -- 0
++ -- 124
+- -- 95
+* -- 593
+:= -- 966
+add.period$ -- 29
+call.type$ -- 29
+change.case$ -- 0
+chr.to.int$ -- 0
+cite$ -- 29
+duplicate$ -- 290
+empty$ -- 552
+format.name$ -- 95
+if$ -- 1166
+int.to.chr$ -- 0
+int.to.str$ -- 29
+missing$ -- 29
+newline$ -- 91
+num.names$ -- 29
+pop$ -- 61
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 28
+stack$ -- 0
+substring$ -- 0
+swap$ -- 29
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 0
+while$ -- 29
+width$ -- 31
+write$ -- 319

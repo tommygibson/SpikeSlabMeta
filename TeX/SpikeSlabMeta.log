@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  23 JUN 2022 15:17
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  23 JUN 2022 17:09
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1044,52 +1044,6 @@ LaTeX Font Info:    Calculating math sizes for size <10.03749> on input line 50
 LaTeX Font Info:    Calculating math sizes for size <7.5> on input line 52.
 LaTeX Font Info:    Font shape `T1/stix/bx/n' in size <7.5> not available
 (Font)              Font shape `T1/stix/b/n' tried instead on input line 52.
-LaTeX Font Info:    Font shape `T1/stix/bx/n' in size <7.0262> not available
-(Font)              Font shape `T1/stix/b/n' tried instead on input line 61.
-
-Package natbib Warning: Citation `lu2004combination' on page 1 undefined on inp
-ut line 61.
-
-
-Package natbib Warning: Citation `dias2013synthesis' on page 1 undefined on inp
-ut line 61.
-
-
-Package natbib Warning: Citation `zhang2014network' on page 1 undefined on inpu
-t line 61.
-
-
-Package natbib Warning: Citation `ma2016multivariate' on page 1 undefined on in
-put line 61.
-
-
-Package natbib Warning: Citation `lian2019' on page 1 undefined on input line 6
-1.
-
-
-Package natbib Warning: Citation `chu2012bivariate' on page 1 undefined on inpu
-t line 61.
-
-
-Package natbib Warning: Citation `guo2017bivariate' on page 1 undefined on inpu
-t line 61.
-
-
-Package natbib Warning: Citation `hoyer2018meta' on page 1 undefined on input l
-ine 61.
-
-
-Package natbib Warning: Citation `ma2018network' on page 1 undefined on input l
-ine 61.
-
-
-Package natbib Warning: Citation `wynants2018trivariate' on page 1 undefined on
- input line 61.
-
-
-Package natbib Warning: Citation `ma2018network' on page 1 undefined on input l
-ine 61.
-
 
 Overfull \vbox (6.46347pt too high) has occurred while \output is active []
 
@@ -1099,16 +1053,9 @@ Overfull \vbox (6.46347pt too high) has occurred while \output is active []
 \openout3 = `SpikeSlabMeta.pag'.
 
 ]
-
-Package natbib Warning: Citation `ma2018network' on page 2 undefined on input l
-ine 65.
-
-
-Package natbib Warning: Citation `wynants2018trivariate' on page 2 undefined on
- input line 65.
-
 LaTeX Font Info:    Font shape `T1/stix/bx/n' in size <7> not available
-(Font)              Font shape `T1/stix/b/n' tried instead on input line 67.
+(Font)              Font shape `T1/stix/b/n' tried instead on input line 66.
+
 [2] [3]
 LaTeX Font Info:    Font shape `T1/stix/bx/n' in size <12> not available
 (Font)              Font shape `T1/stix/b/n' tried instead on input line 96.
@@ -1142,38 +1089,16 @@ Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 (hyperref)                removing `math shift' on input line 209.
 
-[8]
-
-Package natbib Warning: Citation `probst2015admissions' on page 9 undefined on 
-input line 229.
-
-
-Package natbib Warning: Citation `birnbaum2008failure' on page 9 undefined on i
-nput line 229.
-
-
-Package natbib Warning: Citation `deeks2004diagnostic' on page 9 undefined on i
-nput line 233.
-
-
-Package natbib Warning: Citation `ranganathan2018understanding' on page 9 undef
-ined on input line 233.
-
-[9] [10]
-
-Package natbib Warning: Citation `probst2020faint' on page 11 undefined on inpu
-t line 270.
-
-(./SpikeSlabMeta.bbl [11] [12]) [13]
+[8] [9] [10] (./SpikeSlabMeta.bbl [11] [12] [13]) [14]
 LaTeX Font Info:    Font shape `T1/stix/bx/n' in size <10.03749> not available
 (Font)              Font shape `T1/stix/b/n' tried instead on input line 289.
- [14
-
-] [15
+ [15
 
 ] [16
 
 ] [17
+
+] [18
 
 ]
 *geometry* verbose mode - [ newgeometry ] result:
@@ -1212,7 +1137,7 @@ LaTeX Font Info:    Font shape `T1/stix/bx/n' in size <10.03749> not available
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[18]
+[19]
 *geometry* verbose mode - [ newgeometry ] result:
 * driver: pdftex
 * paper: custom
@@ -1245,55 +1170,52 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
- [19] <bias_plot.pdf, id=224, 433.62pt x 505.89pt>
+ [20] <bias_plot.pdf, id=257, 433.62pt x 505.89pt>
 File: bias_plot.pdf Graphic file (type pdf)
  <use bias_plot.pdf>
 Package pdftex.def Info: bias_plot.pdf used on input line 435.
 (pdftex.def)             Requested size: 433.63878pt x 505.89645pt.
 
-<rmse_plot.pdf, id=225, 433.62pt x 433.62pt>
+<rmse_plot.pdf, id=258, 433.62pt x 433.62pt>
 File: rmse_plot.pdf Graphic file (type pdf)
  <use rmse_plot.pdf>
 Package pdftex.def Info: rmse_plot.pdf used on input line 442.
 (pdftex.def)             Requested size: 433.63878pt x 433.63878pt.
 
-<cover_plot.pdf, id=226, 433.62pt x 433.62pt>
+<cover_plot.pdf, id=259, 433.62pt x 433.62pt>
 File: cover_plot.pdf Graphic file (type pdf)
  <use cover_plot.pdf>
 Package pdftex.def Info: cover_plot.pdf used on input line 448.
 (pdftex.def)             Requested size: 433.63878pt x 433.63878pt.
 
-<length_plot.pdf, id=227, 433.62pt x 433.62pt>
+<length_plot.pdf, id=260, 433.62pt x 433.62pt>
 File: length_plot.pdf Graphic file (type pdf)
  <use length_plot.pdf>
 Package pdftex.def Info: length_plot.pdf used on input line 454.
 (pdftex.def)             Requested size: 433.63878pt x 433.63878pt.
 
-<spike_boxplot.pdf, id=228, 361.35pt x 289.08pt>
+<spike_boxplot.pdf, id=261, 361.35pt x 289.08pt>
 File: spike_boxplot.pdf Graphic file (type pdf)
  <use spike_boxplot.pdf>
 Package pdftex.def Info: spike_boxplot.pdf used on input line 460.
 (pdftex.def)             Requested size: 361.35463pt x 289.09251pt.
 
-<syncope_contour.pdf, id=229, 433.62pt x 433.62pt>
+<syncope_contour.pdf, id=262, 433.62pt x 433.62pt>
 File: syncope_contour.pdf Graphic file (type pdf)
  <use syncope_contour.pdf>
 Package pdftex.def Info: syncope_contour.pdf used on input line 466.
 (pdftex.def)             Requested size: 433.63878pt x 433.63878pt.
-
-
-Package natbib Warning: There were undefined citations.
-
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 476.
-[20
+
+[21
 
 
 
 
 
 
- <./bias_plot.pdf>] [21 <./rmse_plot.pdf>] [22 <./cover_plot.pdf>] [23 <./lengt
-h_plot.pdf>] [24 <./spike_boxplot.pdf>] [25 <./syncope_contour.pdf>]
+ <./bias_plot.pdf>] [22 <./rmse_plot.pdf>] [23 <./cover_plot.pdf>] [24 <./lengt
+h_plot.pdf>] [25 <./spike_boxplot.pdf>] [26 <./syncope_contour.pdf>]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 476.
 
 (./SpikeSlabMeta.aux)
@@ -1302,13 +1224,13 @@ Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 476.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 476.
  ) 
 Here is how much of TeX's memory you used:
- 14673 strings out of 493014
- 206904 string characters out of 6133351
- 315543 words of memory out of 5000000
- 17832 multiletter control sequences out of 15000+600000
- 148758 words of font info for 206 fonts, out of 8000000 for 9000
+ 14697 strings out of 493014
+ 207714 string characters out of 6133351
+ 315703 words of memory out of 5000000
+ 17845 multiletter control sequences out of 15000+600000
+ 146029 words of font info for 205 fonts, out of 8000000 for 9000
  1167 hyphenation exceptions out of 8191
- 43i,19n,40p,1990b,483s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 43i,19n,40p,1990b,527s stack positions out of 5000i,500n,10000p,200000b,80000s
  </Users/tommy/Library/texlive/2016/texmf-var/fonts/pk/ljfour/public/bbm/bbm1
 0.600pk>{/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/stix/stix-t1.enc}</
 usr/local/texlive/2016/texmf-dist/fonts/type1/public/stix/STIXGeneral-Bold.pfb>
@@ -1323,10 +1245,10 @@ t.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/stix/stix-mathrm-b
 old.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/stix/stix-mathrm
 .pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/stix/stix-mathscr.p
 fb>
-Output written on SpikeSlabMeta.pdf (25 pages, 474948 bytes).
+Output written on SpikeSlabMeta.pdf (26 pages, 477444 bytes).
 PDF statistics:
- 413 PDF objects out of 1000 (max. 8388607)
- 358 compressed objects within 4 object streams
- 95 named destinations out of 1000 (max. 500000)
+ 444 PDF objects out of 1000 (max. 8388607)
+ 388 compressed objects within 4 object streams
+ 106 named destinations out of 1000 (max. 500000)
  151 words of extra memory for PDF output out of 10000 (max. 10000000)
 

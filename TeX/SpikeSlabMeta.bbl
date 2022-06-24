@@ -6,13 +6,23 @@ Smith TC, Spiegelhalter DJ, Thomas A. Bayesian approaches to random-effects
   meta-analysis: a comparative study. {\it Statistics in Medicine} 1995\string;
   14(24)\string: 2685--2699.
 
-\bibitem{warn2002}
-Warn D, Thompson S, Spiegelhalter D. Bayesian random effects meta-analysis of
-  trials with binary outcomes: methods for the absolute risk difference and
-  relative risk scales. {\it Statistics in medicine} 2002\string;
-  21(11)\string: 1601--1623.
+\bibitem{lu2004combination}
+Lu G, Ades A. Combination of direct and indirect evidence in mixed treatment
+  comparisons. {\it Statistics in Medicine} 2004\string; 23(20)\string:
+  3105--3124.
 
-\bibitem{ma2016}
+\bibitem{dias2013synthesis}
+Dias S, Sutton AJ, Ades A, Welton NJ. Evidence synthesis for decision making 2:
+  a generalized linear modeling framework for pairwise and network
+  meta-analysis of randomized controlled trials. {\it Medical Decision Making}
+  2013\string; 33(5)\string: 607--617.
+
+\bibitem{zhang2014network}
+Zhang J, Carlin BP, Neaton JD, et al. Network meta-analysis of randomized
+  clinical trials: reporting the proper summaries. {\it Clinical Trials}
+  2014\string; 11(2)\string: 246--262.
+
+\bibitem{ma2016multivariate}
 Ma X, Nie L, Cole SR, Chu H. Statistical methods for multivariate meta-analysis
   of diagnostic tests: an overview and tutorial. {\it Statistical Methods in
   Medical Research} 2016\string; 25(4)\string: 1596--1619.
@@ -27,6 +37,11 @@ Moses LE, Shapiro D, Littenberg B. {Combining independent studies of a
   diagnostic test into a summary ROC curve: data-analytic approaches and some
   additional considerations}. {\it Statistics in Medicine} 1993\string;
   12(14)\string: 1293--1316.
+
+\bibitem{lian2019}
+Lian Q, Hodges JS, Chu H. A Bayesian Hierarchical Summary Receiver Operating
+  Characteristic Model for network meta-analysis of diagnostic tests. {\it
+  Journal of the American Statistical Association} 2019.
 
 \bibitem{reitsma2005}
 Reitsma JB, Glas AS, Rutjes AW, Scholten RJ, Bossuyt PM, Zwinderman AH.
@@ -44,10 +59,22 @@ Arends L, Hamza T, Van~Houwelingen J, Heijenbrok-Kal M, Hunink M, Stijnen T.
   Bivariate random effects meta-analysis of {ROC} curves. {\it Medical Decision
   Making} 2008\string; 28(5)\string: 621--638.
 
-\bibitem{gibson2018}
-Gibson TA, Weiss RE, Sun BC. Predictors of short-term outcomes after syncope: a
-  systematic review and meta-analysis. {\it Western Journal of Emergency
-  Medicine} 2018\string; 19(3)\string: 517.
+\bibitem{chu2012bivariate}
+Chu H, Nie L, Chen Y, Huang Y, Sun W. Bivariate random effects models for
+  meta-analysis of comparative studies with binary outcomes: methods for the
+  absolute risk difference and relative risk. {\it Statistical Methods in
+  Medical Research} 2012\string; 21(6)\string: 621--633.
+
+\bibitem{guo2017bivariate}
+Guo J, Riebler A, Rue H. Bayesian bivariate meta-analysis of diagnostic test
+  studies with interpretable priors. {\it Statistics in Medicine} 2017\string;
+  36(19)\string: 3039--3058.
+
+\bibitem{hoyer2018meta}
+Hoyer A, Kuss O. Meta-analysis for the comparison of two diagnostic tests to a
+  common gold standard: a generalized linear mixed model approach. {\it
+  Statistical Methods in Medical Research} 2018\string; 27(5)\string:
+  1410--1421.
 
 \bibitem{chu2009}
 Chu H, Nie L, Cole SR, Poole C. Meta-analysis of diagnostic accuracy studies
@@ -55,18 +82,25 @@ Chu H, Nie L, Cole SR, Poole C. Meta-analysis of diagnostic accuracy studies
   selection. {\it Statistics in Medicine} 2009\string; 28(18)\string:
   2384--2399.
 
+\bibitem{ma2018network}
+Ma X, Lian Q, Chu H, Ibrahim JG, Chen Y. A {Bayesian} hierarchical model for
+  network meta-analysis of multiple diagnostic tests. {\it Biostatistics}
+  2018\string; 19(1)\string: 87--102.
+
+\bibitem{wynants2018trivariate}
+Wynants L, Riley R, Timmerman D, Van~Calster B. Random-effects meta-analysis of
+  the clinical utility of tests and prediction models. {\it Statistics in
+  Medicine} 2018\string; 37(12)\string: 2034--2052.
+
+\bibitem{gibson2018}
+Gibson TA, Weiss RE, Sun BC. Predictors of short-term outcomes after syncope: a
+  systematic review and meta-analysis. {\it Western Journal of Emergency
+  Medicine} 2018\string; 19(3)\string: 517.
+
 \bibitem{higgins2009}
 Higgins JP, Thompson SG, Spiegelhalter DJ. A re-evaluation of random-effects
   meta-analysis. {\it Journal of the Royal Statistical Society: Series A
   (Statistics in Society)} 2009\string; 172(1)\string: 137--159.
-
-\bibitem{follmann1999}
-Follmann DA, Proschan MA. Valid inference in random effects meta-analysis. {\it
-  Biometrics} 1999\string; 55(3)\string: 732--737.
-
-\bibitem{hardy1996}
-Hardy RJ, Thompson SG. A likelihood approach to meta-analysis with random
-  effects. {\it Statistics in Medicine} 1996\string; 15(6)\string: 619--629.
 
 \bibitem{GM1993}
 George EI, McCulloch RE. Variable selection via {Gibbs} sampling. {\it Journal
@@ -92,8 +126,29 @@ Gelman A, others . {Prior distributions for variance parameters in hierarchical
   models (comment on article by Browne and Draper)}. {\it Bayesian Analysis}
   2006\string; 1(3)\string: 515--534.
 
-\bibitem{barbieri2004}
-Barbieri MM, Berger JO, others . Optimal predictive model selection. {\it The
-  annals of statistics} 2004\string; 32(3)\string: 870--897.
+\bibitem{probst2015admissions}
+Probst MA, Kanzaria HK, Gbedemah M, Richardson LD, Sun BC. {National trends in
+  resource utilization associated with ED visits for syncope}. {\it The
+  American Journal of Emergency Medicine} 2015\string; 33(8)\string: 998--1001.
+
+\bibitem{birnbaum2008failure}
+Birnbaum A, Esses D, Bijur P, Wollowitz A, Gallagher EJ. Failure to validate
+  the {San} {Francisco} {Syncope} Rule in an independent emergency department
+  population. {\it Annals of Emergency Medicine} 2008\string; 52(2)\string:
+  151--159.
+
+\bibitem{deeks2004diagnostic}
+Deeks JJ, Altman DG. Diagnostic tests 4: likelihood ratios. {\it BMJ}
+  2004\string; 329(7458)\string: 168--169.
+
+\bibitem{ranganathan2018understanding}
+Ranganathan P, Aggarwal R. Understanding the properties of diagnostic
+  tests--Part 2: Likelihood ratios. {\it Perspectives in Clinical Research}
+  2018\string; 9(2)\string: 99.
+
+\bibitem{probst2020faint}
+Probst MA, Gibson T, Weiss RE, et al. Risk stratification of older adults who
+  present to the emergency department with syncope: the {FAINT} score. {\it
+  Annals of Emergency Medicine} 2020\string; 75(2)\string: 147--158.
 
 \end{thebibliography}

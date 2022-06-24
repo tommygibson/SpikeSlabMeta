@@ -20,7 +20,7 @@
 
 \begin{document}
 
-\title{Spike-and-Slab Prior Distributions in Bayesian Logistic Meta-analysis}
+\title{Bayesian Meta-analysis of Observational Contingency Table Data with a Nested Monte Carlo Procedure for Estimating Global Effects}
 
 \author[1]{Thomas A. Gibson*}
 
@@ -37,7 +37,7 @@
 
 \abstract[Summary]{Observational contingency table data arises when study investigators fix neither row nor column totals. Meta-analysis methods for 2$\times$2 contingency table data often tend to focus on estimating select subsets of statistics that one can calculate from values in a contingency table, and methods that attempt to measure ``global" statistics often use naive estimators that do not take into account heterogeneity parameters for random effects. In this paper we present a novel three-random effect (3RE) model, define an estimand for global statistics that takes into account all appropriate variability, and outline a Monte Carlo-within-Markov chain Monte Carlo procedure for sampling from the posterior distribution of the estimand. In an extensive simulation study we show how the proposed Monte Carlo procedure has superior performance to naive methods, and we apply our method to a dataset of observational studies on patients who present to the emergency department with syncope.}
 
-\keywords{keywords}
+\keywords{Meta-analysis, diagnostic test, Monte Carlo simulation, syncope}
 
 %\jnlcitation{\cname{%
 %\author{Williams K.}, 
@@ -49,7 +49,7 @@
 
 \maketitle
 
-\footnotetext{\textbf{Abbreviations:} CTS, contingency table statistic; RF, risk factor; RE, random effect, E, event}
+\footnotetext{\textbf{Abbreviations:} CTS, contingency table statistic; PPV, positive predictive value; NPV, negative predictive value; LR, likelihood ratio; RF, risk factor; RE, random effect, E, event.}
 
 \doublespacing
 
@@ -458,7 +458,7 @@ Dotted bars plot bias for the plug-in estimator $\CTSp$ and solid bars plot bias
 
 \begin{figure}
 \includegraphics[height = 4in, width = 5in]{spike_boxplot.pdf}
-\caption{Boxplots of posterior $P(\delta_0 = 0)$ for each combination of $\sigma_\delta$ and $\delta_0$}in simulation 3. 
+\caption{Boxplots of posterior $P(\delta_0 = 0)$ for each combination of $\sigma_\delta$ and $\delta_0$} in simulation 3. 
 \label{fig:SSP-boxplot}
 \end{figure}
 
