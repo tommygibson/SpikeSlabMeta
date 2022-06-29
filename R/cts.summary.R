@@ -243,10 +243,10 @@ breaks_fun <- function(x){
     scale_color_manual(values = RColorBrewer::brewer.pal(3, "Set2"), name = expression(sigma[delta])))
 
 ggsave("TeX/bias_plot.pdf", plot = bias.plot,
-       width = 6.5, height = 7, units = "in")
+       device = "pdf", width = 6.5, height = 7, units = "in", dpi = 600)
 ggsave("TeX/cover_plot.pdf", plot = cover.plot, 
-       device = "pdf", width = 6, height = 6, units = "in")
+       device = "pdf", width = 6, height = 6, units = "in", dpi = 600)
 ggsave("TeX/rmse_plot.pdf", plot = rmse.plot, 
-       device = "pdf", width = 6, height = 6, units = "in")
+       device = "pdf", width = 6, height = 6, units = "in", dpi = 600)
 ggsave("TeX/length_plot.pdf", plot = length.plot, 
-       device = "pdf", width = 6, height = 6, units = "in")
+       device = "pdf", width = 6, height = 6, units = "in", dpi = 600)
