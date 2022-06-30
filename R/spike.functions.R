@@ -2,8 +2,11 @@
 
 
 # 3 significant digits (won't round to 2)
-sigfig <- function(x, n=3){ 
-  
+sigfig <- function(x, n = 3){ 
+  ### function to round values to N significant digits
+  # input:   vec       vector of numeric
+  #          n         integer is the required sigfig  
+  # output:  outvec    vector of numeric rounded to N sigfig
   trimws(format(round(x, n), nsmall = n), which = "both")
   
 }   
