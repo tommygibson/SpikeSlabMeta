@@ -293,6 +293,7 @@ p <- 0.5
 
 B.beta <- B.nu <- B.delta <- 16
 
+B.beta <- B.nu <- B.delta <- 16
 
 meta.data <- list(M = M, S = S, n = n, y = y, n.tot = n.tot,
                   a = a, b = b, c = c, d = d, e = e, f = f,
