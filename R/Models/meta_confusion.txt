@@ -14,9 +14,6 @@ model
     logit(pi[i,1]) <- beta[i] + delta[i]/2
     logit(pi[i,2]) <- beta[i] - delta[i]/2
     
-    # meta-regression on the log-odds ratio
-    # do we include intercept?
-    
     delta[i] ~ dnorm(delta0, D.delta)
     
     nu[i] ~ dnorm(nu0, D.nu)
@@ -29,7 +26,8 @@ model
   delta0 ~ dnorm(c, d)
   nu0 ~ dnorm(e, f)
   
-  # HALF T ON ALL THESE BITCHES
+  # half-cauchy priors on heterogeneity parameters
+  
   D.beta <- pow(sigma.beta, -2)
   D.nu <- pow(sigma.nu, -2)
   D.delta <- pow(sigma.delta, -2)
@@ -40,6 +38,8 @@ model
   sigma.delta ~ dt(0, B.delta, 1) T(0,)
 
   #draw M new observations for each parameter w/ random effects
+  # this can be done internally by following the [..]new parameters
+  # more efficient to follow hyperparameters and calculate CTSs outside MCMC
   
   for(j in 1:M){
     deltanew[j] ~ dnorm(delta0, D.delta)
@@ -65,6 +65,10 @@ model
     LRmnew[j] <- (1 - sensnew[j]) / specnew[j]
     
   }
+  
+  # plug-in estimates
+  # also faster to calculate outside MCMC
+  
   pi1.h <- 1 / (1 + exp(-(beta0 + delta0 / 2)))
   pi0.h <- 1 / (1 + exp(-(beta0 - delta0 / 2)))
   psi.h <- 1 / (1 + exp(-(nu0)))

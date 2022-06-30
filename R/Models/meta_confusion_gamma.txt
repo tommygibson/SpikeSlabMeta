@@ -1,4 +1,4 @@
-
+# 3RE model with informative inverse-gamma priors on variances of random effects
 model
 {
   for(i in 1:S){
@@ -29,17 +29,17 @@ model
   delta0 ~ dnorm(c, d)
   nu0 ~ dnorm(e, f)
   
-  # Precisions
+  # Gamma prior on precisions (invgamma on variance)
   D.beta ~ dgamma(3, 2)
   D.nu ~ dgamma(3, 2)
   D.delta ~ dgamma(3, 2)
   
-  # gamma prior on precisions
+  # transform to standard deviations for posterior inference
   sigma.beta <- pow(D.beta, -1/2)
   sigma.nu <- pow(D.nu, -1/2)
   sigma.delta <- pow(D.delta, -1/2)
 
-  #draw M new observations for each parameter w/ random effects
+  # can calculate CTS_0 within MCMC, but faster outside MCMC
   
   for(j in 1:M){
     deltanew[j] ~ dnorm(delta0, D.delta)
@@ -65,6 +65,9 @@ model
     LRmnew[j] <- (1 - sensnew[j]) / specnew[j]
     
   }
+  
+  # plug-in estimates, also faster outside MCMC
+  
   pi1.h <- 1 / (1 + exp(-(beta0 + delta0 / 2)))
   pi0.h <- 1 / (1 + exp(-(beta0 - delta0 / 2)))
   psi.h <- 1 / (1 + exp(-(nu0)))

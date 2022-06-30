@@ -1,4 +1,4 @@
-
+# 3RE-SAS model with inverse gamma prior on variances of random effects
 model
 {
   for(i in 1:S){
@@ -36,13 +36,13 @@ model
   D.nu ~ dgamma(3, 2)
   D.delta ~ dgamma(3, 2)
   
-  # gamma prior on precisions
+  # transform to standard deviations for inferences
   sigma.beta <- pow(D.beta, -1/2)
   sigma.nu <- pow(D.nu, -1/2)
   sigma.delta <- pow(D.delta, -1/2)
 
   #draw M new observations for each parameter w/ random effects
-  
+  # more efficent to follow hyperparameters and calculate CTS0 outside MCMC
   for(j in 1:M){
     deltanew[j] ~ dnorm(delta0, D.delta)
     betanew[j] ~ dnorm(beta0, D.beta)
