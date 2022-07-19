@@ -39,9 +39,9 @@ model
   D.delta <- pow(sigma.delta, -2)
   
   # half-t prior on sigma.delta
-  sigma.beta ~ dt(0, B.beta, 1) T(0,)
-  sigma.nu ~ dt(0, B.nu, 1) T(0,)
-  sigma.delta ~ dt(0, B.delta, 1) T(0,)
+  sigma.beta ~ dt(0, B.beta, 1) T(0,5)
+  sigma.nu ~ dt(0, B.nu, 1) T(0,5)
+  sigma.delta ~ dt(0, B.delta, 1) T(0,5)
 
   # Can calculate CTS_0 within MCMC
   # faster to do it outside MCMC using posterior draws of hyperparameters
