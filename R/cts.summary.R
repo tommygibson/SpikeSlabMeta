@@ -9,9 +9,12 @@ library(scales)
 library(here)
 
 # read in simulation results and combine to one data.frame
-cts.10 <- readRDS(here("R", "Results", "cts.sim.10.postprocess.rds"))[[1]]
-cts.30 <- readRDS(here("R", "Results", "cts.sim.30.postprocess.rds"))[[1]]
-cts.50 <- readRDS(here("R", "Results", "cts.sim.50.postprocess.rds"))[[1]]
+# cts.10 <- readRDS(here("R", "Results", "cts.sim.10.postprocess.rds"))[[1]]
+# cts.30 <- readRDS(here("R", "Results", "cts.sim.30.postprocess.rds"))[[1]]
+# cts.50 <- readRDS(here("R", "Results", "cts.sim.50.postprocess.rds"))[[1]]
+cts.10 <- readRDS(here("R", "Results", "cts.sim.10_truncatedprior.rds"))[[1]]
+cts.30 <- readRDS(here("R", "Results", "cts.sim.30_truncatedprior.rds"))[[1]]
+cts.50 <- readRDS(here("R", "Results", "cts.sim.50_truncatedprior.rds"))[[1]]
 targets <- readRDS(here("R", "targets.rds"))
 cts.all <- bind_rows(cts.10, cts.30, cts.50) %>%
   mutate_if(is.character,
@@ -59,32 +62,32 @@ full.summary <- cts.all %>%
 
 # function to specify x-axis plot breaks for bias plot
 breaks_fun <- function(x){
-  if(max(abs(x) > 0.1)){
-    seq(-0.005, 0.005, 0.005)
+  if(max(abs(x) < 10)){
+    seq(-0.5, 0.5, 0.5)
   }
-  else seq(-0.1, 0.1, 0.1)
+  else seq(-10, 10, 10)
 }
 
 # bias plot
 
 (bias.plot <- full.summary %>%
-  ggplot(aes(x = as.factor(S), y = Bias, #group = interaction(Method, factor(sigma.delta)), 
+  ggplot(aes(x = as.factor(S), y = 100 * Bias, #group = interaction(Method, factor(sigma.delta)), 
              fill = factor(sigma.delta), 
              pattern = Method)) +
   geom_bar_pattern(stat = "identity", position = position_dodge(), color = "black", pattern_fill = "white",
                    pattern_density = 0.4) +
-  geom_errorbar(aes(ymin = lower.Bias, ymax = upper.Bias), position = position_dodge(.9), width = 0.5) +
+  geom_errorbar(aes(ymin = 100 * lower.Bias, ymax = 100 * upper.Bias), position = position_dodge(.9), width = 0.5) +
   geom_hline(yintercept = 0) +
   geom_vline(xintercept = c(1.5, 2.5), linetype = 2, alpha = 0.5) +
   facet_wrap(~CTS, nrow = 2, ncol = 3,
              scales = "free") +
-  labs(x = "Number of studies", y = "Bias") +
+  labs(x = "Number of studies", y = "100 * Bias") +
   theme_bw() +
   theme(text = element_text(size = 12, family = "LM Roman 10"),
         panel.spacing.x = unit(2, "lines")) +
   scale_pattern_manual(values = c("none", "circle"),
                        labels = c(expression(CTS[0]), expression(CTS[h]))) +
-    scale_y_continuous(n.breaks = 3) +
+  scale_y_continuous(breaks = breaks_fun) +
   scale_fill_manual(values = RColorBrewer::brewer.pal(3, "Set2"), name = expression(sigma[delta])) +
   coord_flip())
 

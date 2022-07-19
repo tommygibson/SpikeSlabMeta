@@ -12,6 +12,8 @@ library(extrafont)
 library(xtable)
 library(gridExtra)
 library(grid)
+library(ks)
+
 
 source(here("R", "spike.functions.R"))
 
@@ -25,6 +27,9 @@ hyper.summaries <- list()
 
 set.seed(11223)
 index <- 0
+num.removed <- list()
+frac.removed <- list()
+final.samples <- list()
 
 for(i in 1:max(syncope$Varnum)){
   
@@ -88,7 +93,7 @@ for(i in 1:max(syncope$Varnum)){
   meta.anal <- do.call(jags.parallel,
                        list(data = names(meta.data), inits = init.gen, parameters.to.save = meta.params,
                             model.file = here("R", "Models", "meta_confusion.txt"),
-                            n.chains = 4, n.iter = 5000, n.thin = 2, n.burnin = 1000, DIC = FALSE))
+                            n.chains = 4, n.iter = 5100, n.thin = 2, n.burnin = 1000, DIC = FALSE))
   
   # save summaries of hyperparameters
   hyper.summaries[[index]] <- matrix(apply(meta.anal$BUGSoutput$summary, 1, function(x){
@@ -98,15 +103,21 @@ for(i in 1:max(syncope$Varnum)){
   
   
   # extract posterior draws, post-processing for unreasonable values of heterogeneity parameters
-  meta.sims <- as.data.frame(meta.anal$BUGSoutput$sims.matrix) %>%
-    filter(sigma.beta < 5, sigma.delta < 5, sigma.nu < 5)
+  meta.sims <- as.data.frame(meta.anal$BUGSoutput$sims.matrix)
   
   # calculate CTSs for each combination of hyperparameters
   cts0.full <- make_cts0_from_hyper(meta.sims, M = M)
+  cts0.trim <- cts0.full[cts0.full[,2] < 30,]
+  
+  num.removed[[index]] <- nrow(cts0.full) - nrow(cts0.trim)
+  frac.removed[[index]] <- num.removed[[index]] / nrow(cts0.full)
+  final.samples[[index]] <- nrow(cts0.trim)
+  
   
   # posterior summaries for all CTSs
-  cts0.summ <- apply(cts0.full, 2, function(x){
-    paste(sigfig(mean(x[x < 30]), 2), " (", sigfig(quantile(x[x < 30], .025), 2), ", ", sigfig(quantile(x[x < 30], .975), 2), ")", sep = "")
+  
+  cts0.summ <- apply(cts0.trim, 2, function(x){
+    paste(sigfig(mean(x), 2), " (", sigfig(quantile(x, .025), 2), ", ", sigfig(quantile(x, .975), 2), ")", sep = "")
   })
   
   # save all relevant information (including variable name, number of papers, spike height, and mean (95% CI) for CTSs)
@@ -189,11 +200,10 @@ for(i in top4){
   meta.anal <- do.call(jags.parallel,
                        list(data = names(meta.data), inits = init.gen, parameters.to.save = meta.params,
                             model.file = here("R", "Models", "meta_confusion.txt"),
-                            n.chains = 4, n.iter = 55000, n.thin = 2, n.burnin = 5000, DIC = FALSE))
+                            n.chains = 4, n.iter = 105000, n.thin = 2, n.burnin = 5000, DIC = FALSE))
   
   # extract posterior draws, post-processing for unreasonable values of heterogeneity parameters
-  meta.sims <- as.data.frame(meta.anal$BUGSoutput$sims.matrix) %>%
-    filter(sigma.beta < 5, sigma.delta < 5, sigma.nu < 5)
+  meta.sims <- as.data.frame(meta.anal$BUGSoutput$sims.matrix)
   
   # calculate CTSs for each combination of hyperparameters
   cts0.full <- make_cts0_from_hyper(meta.sims, M = M)
@@ -215,53 +225,127 @@ density.plot.dat <- do.call(rbind, top4.sims) %>%
          `No. Studies` = `dim(syncope_curr)[1]`) %>%
   filter(`LR+[0]` < 30) 
 
-# contour plots for each risk factor
 
-(age.contour <- density.plot.dat %>%
-    filter(`Risk Factor` == "Age") %>% 
-    ggplot(aes(x = `LR+[0]`, y = `LR-[0]`)) + 
-    stat_density2d(h = 0.11, n = 500, bins = 10) +
-    theme_bw() +
-    theme(text = element_text(size = 12, family = "LM Roman 10")) +
-    labs(title = "Old Age",
-         x = NULL, y = NULL))
+#### ks package for kernel smoothing and contour plots
+
+age.H <- 4 * Hpi(x = density.plot.dat %>% filter(`Risk Factor` == "Age") %>% select(`LR+[0]`, `LR-[0]`))
+male.H <- 4 * Hpi(x = density.plot.dat %>% filter(`Risk Factor` == "Male Gender") %>% select(`LR+[0]`, `LR-[0]`))
+chf.H <- 4 * Hpi(x = density.plot.dat %>% filter(`Risk Factor` == "CHF") %>% select(`LR+[0]`, `LR-[0]`))
+heart.H <- 4 * Hpi(x = density.plot.dat %>% filter(`Risk Factor` == "Heart Disease") %>% select(`LR+[0]`, `LR-[0]`))
+# age.H.diag <- Hpi.diag(x = density.plot.dat %>% filter(`Risk Factor` == "Age") %>% select(`LR+[0]`, `LR-[0]`))
+# age.H.arb <- matrix(c(.5, 0, 0, .5), nrow = 2)
+# age.H.scv <- Hscv(x = density.plot.dat %>% filter(`Risk Factor` == "Age") %>% select(`LR+[0]`, `LR-[0]`))
+age.ks <- kde(x = density.plot.dat %>% filter(`Risk Factor` == "Age") %>% select(`LR+[0]`, `LR-[0]`),
+              H = age.H, gridsize = c(500, 500))
+male.ks <- kde(x = density.plot.dat %>% filter(`Risk Factor` == "Male Gender") %>% select(`LR+[0]`, `LR-[0]`),
+              H = male.H, gridsize = c(500, 500))
+chf.ks <- kde(x = density.plot.dat %>% filter(`Risk Factor` == "CHF") %>% select(`LR+[0]`, `LR-[0]`),
+              H = chf.H, gridsize = c(500, 500))
+heart.ks <- kde(x = density.plot.dat %>% filter(`Risk Factor` == "Heart Disease") %>% select(`LR+[0]`, `LR-[0]`),
+              H = heart.H, gridsize = c(500, 500))# age.ks.diag <- kde(x = density.plot.dat %>% filter(`Risk Factor` == "Age") %>% select(`LR+[0]`, `LR-[0]`),
+#                    H = age.H.diag, gridsize = c(500, 500))
+# age.ks.arb <- kde(x = density.plot.dat %>% filter(`Risk Factor` == "Age") %>% select(`LR+[0]`, `LR-[0]`),
+#                   H = age.H.arb, gridsize = c(500, 500))
+# age.ks.scv <- kde(x = density.plot.dat %>% filter(`Risk Factor` == "Age") %>% select(`LR+[0]`, `LR-[0]`),
+#                   H = age.H.scv, gridsize = c(500, 500))
+
+pdf(file = here("TeX", "contour.pdf"),
+    width = 7,
+    height = 7)
+par(mfrow = c(2, 2), 
+    mar = c(1, 2, 3, 2),
+    oma = c(5, 4, 0, 0),
+    font.main = 1)
+plot(age.ks, cont = c(5, 25, 50, 75, 95), col = "black",
+     xlim = c(1.45, 2.9), ylim = c(0.24, 0.7), lwd = 1.5,
+     xlab = NULL, ylab = NULL, family = "LM Roman 10",
+     drawlabels = FALSE)
+title(main = "Old Age", family = "LM Roman 10", adj = 0, line = 0.5,
+      cex.main = 1.4)
+
+plot(male.ks, cont = c(5, 25, 50, 75, 95), col = "black",
+     xlim = c(1.25, 1.55), ylim = c(.62, .84), lwd = 1.5,
+     xlab = NULL, ylab = NULL,
+     drawlabels = FALSE, family = "LM Roman 10", xaxt = "n")
+title(main = "Male Gender", family = "LM Roman 10", adj = 0, line = 0.5,
+      cex.main = 1.4)
+axis(1, at = c(1.3, 1.4, 1.5), family = "LM Roman 10")
+
+plot(chf.ks, cont = c(5, 25, 50, 75, 95), col = "black",
+     xlim = c(2, 5), ylim = c(0.7, .95), lwd = 1.5,
+     xlab = NULL, ylab = NULL, family = "LM Roman 10", yaxt = "n",)
+axis(2, at = c(.75, .8, .85, .9, .95), family = "LM Roman 10")
+title(main = "CHF", family = "LM Roman 10", adj = 0, line = 0.5,
+      cex.main = 1.4)
+
+plot(heart.ks, cont = c(5, 25, 50, 75, 95), col = "black",
+     xlim = c(1.45, 3.1), ylim = c(0.65, .94), lwd = 1.5,
+     xlab = NULL, ylab = NULL, family = "LM Roman 10", yaxt = "n",
+     drawlabels = FALSE)
+title(main = "Heart Failure", family = "LM Roman 10", adj = 0, line = 0.5,
+      cex.main = 1.4)
+axis(2, at = c(.65, .75, .85, .95), family = "LM Roman 10")
+title(xlab = expression("LR+"[0]), outer = TRUE, cex.lab = 1.8, line = 2,
+      family = "LM Roman 10", font.lab = 2)
+title(ylab = expression("LR-"[0]), outer = TRUE, cex.lab = 1.8, line = 0.5,
+      family = "LM Roman 10")
+# title(xlab = expression("LR+"[0]),
+#       ylab = expression("LR-"[0]),
+#       cex.lab = 1.5,
+#       outer = TRUE,
+#       family = "LM Roman 10")
+dev.off()
 
 
-(male.contour <- density.plot.dat %>%
-    filter(`Risk Factor` == "Male Gender") %>% 
-    ggplot(aes(x = `LR+[0]`, y = `LR-[0]`)) + 
-    stat_density2d(h = 0.04, n = 500, bins = 10) +
-    theme_bw() +
-    theme(text = element_text(size = 12, family = "LM Roman 10")) +
-    labs(title = "Male Gender",
-         x = NULL, y = NULL))
-
-(chf.contour <- density.plot.dat %>%
-    filter(`Risk Factor` == "CHF") %>% 
-    ggplot(aes(x = `LR+[0]`, y = `LR-[0]`)) + 
-    geom_density_2d(h = 0.16, n = 500, bins = 10) +
-    theme_bw() +
-    theme(text = element_text(size = 12, family = "LM Roman 10")) +
-    labs(title = "CHF",
-         x = NULL, y = NULL))
-
-(heart.contour <- density.plot.dat %>%
-    filter(`Risk Factor` == "Heart Disease") %>% 
-    ggplot(aes(x = `LR+[0]`, y = `LR-[0]`)) + 
-    geom_density_2d(h = 0.13, n = 500, bins = 10) +
-    theme_bw() +
-    theme(text = element_text(size = 12, family = "LM Roman 10")) +
-    labs(title = "Heart disease",
-         x = NULL, y = NULL))
-
-# x and y axis labels for grid.arrange function
-xlab.contour <- textGrob(expression("LR+"[0]), gp = gpar(fontfamily = "LM Roman 10", fontsize = 16))
-ylab.contour <- textGrob(expression("LR-"[0]), gp = gpar(fontfamily = "LM Roman 10", fontsize = 16), rot = 90)
-contour.plot <- grid.arrange(age.contour, male.contour, chf.contour, heart.contour, 
-                             bottom = xlab.contour, left = ylab.contour, nrow = 2)
-
-ggsave(here("TeX", "syncope_contour.pdf"), contour.plot, 
-       height = 6, width = 6, units = "in", dpi = 600)
+#### The following contour code is deprecated
+# title(main = "Old Age", family = "LM Roman 10", line = 0.4, adj = 0)
+# # contour plots for each risk factor
+# 
+# (age.contour <- density.plot.dat %>%
+#     filter(`Risk Factor` == "Age") %>% 
+#     ggplot(aes(x = `LR+[0]`, y = `LR-[0]`)) + 
+#     stat_density2d(h = 0.11, n = 500, bins = 10) +
+#     theme_bw() +
+#     theme(text = element_text(size = 12, family = "LM Roman 10")) +
+#     labs(title = "Old Age",
+#          x = NULL, y = NULL))
+# 
+# 
+# (male.contour <- density.plot.dat %>%
+#     filter(`Risk Factor` == "Male Gender") %>% 
+#     ggplot(aes(x = `LR+[0]`, y = `LR-[0]`)) + 
+#     stat_density2d(h = 0.04, n = 500, bins = 10) +
+#     theme_bw() +
+#     theme(text = element_text(size = 12, family = "LM Roman 10")) +
+#     labs(title = "Male Gender",
+#          x = NULL, y = NULL))
+# 
+# (chf.contour <- density.plot.dat %>%
+#     filter(`Risk Factor` == "CHF") %>% 
+#     ggplot(aes(x = `LR+[0]`, y = `LR-[0]`)) + 
+#     geom_density_2d(h = 0.16, n = 500, bins = 10) +
+#     theme_bw() +
+#     theme(text = element_text(size = 12, family = "LM Roman 10")) +
+#     labs(title = "CHF",
+#          x = NULL, y = NULL))
+# 
+# (heart.contour <- density.plot.dat %>%
+#     filter(`Risk Factor` == "Heart Disease") %>% 
+#     ggplot(aes(x = `LR+[0]`, y = `LR-[0]`)) + 
+#     geom_density_2d(h = 0.13, n = 500, bins = 10) +
+#     theme_bw() +
+#     theme(text = element_text(size = 12, family = "LM Roman 10")) +
+#     labs(title = "Heart disease",
+#          x = NULL, y = NULL))
+# 
+# # x and y axis labels for grid.arrange function
+# xlab.contour <- textGrob(expression("LR+"[0]), gp = gpar(fontfamily = "LM Roman 10", fontsize = 16))
+# ylab.contour <- textGrob(expression("LR-"[0]), gp = gpar(fontfamily = "LM Roman 10", fontsize = 16), rot = 90)
+# contour.plot <- grid.arrange(age.contour, male.contour, chf.contour, heart.contour, 
+#                              bottom = xlab.contour, left = ylab.contour, nrow = 2)
+# 
+# ggsave(here("TeX", "syncope_contour.pdf"), contour.plot, 
+#        height = 6, width = 6, units = "in", dpi = 600)
 
 
 #### Example using Troponin:
