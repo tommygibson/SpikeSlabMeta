@@ -28,7 +28,7 @@ source(here("R", "spike.functions.R"))
 ############# Spike/slab simulation
 
 # for table summary and boxplot
-dat.box <- cbind.data.frame(c(as.vector(unlist(spike.summary)), as.vector(unlist(spike.summary.nonzero))),
+dat.box <- cbind.data.frame(c(as.vector(unlist(spike)), as.vector(unlist(spike.summary.nonzero))),
                             c(rep(c("sigma[delta] == 0.1", "sigma[delta] == 0.25", "sigma[delta] == 0.5"), each = 1000), rep(c("sigma[delta] == 0.1", "sigma[delta] == 0.25", "sigma[delta] == 0.5"), each = 2000)),
                             c(rep("0", 3000), rep(rep(c("1", "2"), each = 1000), 3)))
 names(dat.box) <- c("P(=0)", "sigma", "delta0")
@@ -55,6 +55,9 @@ names(sigma.labeller) <- c(0.1, 0.25, 0.5)
 
 ggsave("TeX/spike_boxplot.pdf", plot = spike_plot,
        height = 4, width = 5, units = "in")
+ggsave("TeX/spike_boxplot.eps", plot = spike_plot,
+       height = 4, width = 5, units = "in", 
+       device = cairo_ps, dpi = 300)
 
 ####### Plots for catching true zeros and nonzeros
 

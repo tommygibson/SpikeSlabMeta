@@ -249,9 +249,12 @@ heart.ks <- kde(x = density.plot.dat %>% filter(`Risk Factor` == "Heart Disease"
 # age.ks.scv <- kde(x = density.plot.dat %>% filter(`Risk Factor` == "Age") %>% select(`LR+[0]`, `LR-[0]`),
 #                   H = age.H.scv, gridsize = c(500, 500))
 
-pdf(file = here("TeX", "contour.pdf"),
-    width = 7,
-    height = 7)
+# pdf(file = here("TeX", "contour1.pdf"),
+#     width = 7,
+#     height = 7)
+
+setEPS()
+cairo_ps(file = "contour.eps", height = 7, width = 7)
 par(mfrow = c(2, 2), 
     mar = c(1, 2, 3, 2),
     oma = c(5, 4, 0, 0),
@@ -273,15 +276,16 @@ axis(1, at = c(1.3, 1.4, 1.5), family = "LM Roman 10")
 
 plot(chf.ks, cont = c(5, 25, 50, 75, 95), col = "black",
      xlim = c(2, 5), ylim = c(0.7, .95), lwd = 1.5,
-     xlab = NULL, ylab = NULL, family = "LM Roman 10", yaxt = "n",)
+     xlab = NULL, ylab = NULL, family = "LM Roman 10", yaxt = "n",
+     drawlabels = FALSE)
 axis(2, at = c(.75, .8, .85, .9, .95), family = "LM Roman 10")
 title(main = "CHF", family = "LM Roman 10", adj = 0, line = 0.5,
       cex.main = 1.4)
 
 plot(heart.ks, cont = c(5, 25, 50, 75, 95), col = "black",
      xlim = c(1.45, 3.1), ylim = c(0.65, .94), lwd = 1.5,
-     xlab = NULL, ylab = NULL, family = "LM Roman 10", yaxt = "n",
-     drawlabels = FALSE)
+     xlab = NULL, ylab = NULL, family = "LM Roman 10", yaxt = "n")#,
+     # drawlabels = FALSE)
 title(main = "Heart Failure", family = "LM Roman 10", adj = 0, line = 0.5,
       cex.main = 1.4)
 axis(2, at = c(.65, .75, .85, .95), family = "LM Roman 10")
