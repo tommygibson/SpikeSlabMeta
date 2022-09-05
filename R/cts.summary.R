@@ -83,7 +83,7 @@ breaks_fun <- function(x){
 #              scales = "free") +
 #   labs(x = "Number of studies", y = "100 * Bias") +
 #   theme_bw() +
-#   theme(text = element_text(size = 12, family = "LM Roman 10"),
+#   theme(text = element_text(size = 12, family = "Times New Roman"),
 #         panel.spacing.x = unit(2, "lines")) +
 #   scale_pattern_manual(values = c("none", "stripe"),
 #                        labels = c(expression(CTS[0]), expression(CTS[plug]))) +
@@ -94,9 +94,8 @@ breaks_fun <- function(x){
 
 
 # 95% interval coverage plot
-setEPS()
-cairo_ps(here("TeX", "coverage.eps"), height = 6, width = 6)
-cover.plot <- full.summary %>%
+
+(cover.plot <- full.summary %>%
     ggplot(aes(x = factor(S), y = `95% Coverage`, group = interaction(Method, factor(sigma.delta)),
                linetype = Method, color = as.factor(sigma.delta), shape = Method)) +
     geom_point(position = position_dodge(width = 0.5)) + 
@@ -117,8 +116,8 @@ cover.plot <- full.summary %>%
     scale_color_manual(values = RColorBrewer::brewer.pal(3, "Set2"), 
                        name = expression(sigma[delta])) +
     scale_shape_manual(values = c(16, 17),
-                       labels = c(expression(CTS[0]), expression(CTS[plug]))) 
-dev.off()
+                       labels = c(expression(CTS[0]), expression(CTS[plug]))))
+
   
 # root-mean squared error plot
 
@@ -163,27 +162,28 @@ dev.off()
     theme(text = element_text(size = 12, family = "LM Roman 10"),
           legend.text.align = 0) +
     scale_color_manual(values = RColorBrewer::brewer.pal(3, "Set2"), name = expression(sigma[delta])))
-(bias.plot <- full.summary %>%
-    ggplot(aes(x = as.factor(S), y = 100 * `Bias`, group = interaction(Method, factor(sigma.delta)),
-               linetype = Method, color = as.factor(sigma.delta))) +#, shape = Method)) +
-    geom_point(position = position_dodge(width = 0.5)) + 
-    geom_line(position = position_dodge(width = 0.5)) + 
-    geom_errorbar(aes(ymin = 100*lower.Bias, ymax = 100*upper.Bias), position = position_dodge(width = 0.5), 
-                  linetype = Method, width = 0.3) + 
-    geom_vline(xintercept = c(1.5, 2.5), linetype = 2,
-               alpha = 0.25) +
-    geom_hline(yintercept = 0) +
-    facet_wrap(~CTS, nrow = 2, ncol = 3, scales = "free") +
-    labs(x = "Number of studies", y = "100 * Bias") +
-    theme_bw() +
-    scale_linetype_manual(values = c(1, 3),
-                          labels = c(expression(CTS[0]), expression(CTS[plug]))) +
-    # scale_shape_manual(values = c(16, 17),
-    #                       labels = c(expression(CTS[0]), expression(CTS[plug]))) +
-    scale_y_continuous(breaks = breaks_fun) +
-    theme(text = element_text(size = 12, family = "LM Roman 10"),
-          legend.text.align = 0) +
-    scale_color_manual(values = RColorBrewer::brewer.pal(3, "Set2"), name = expression(sigma[delta])))
+# (bias.plot <- full.summary %>%
+#     ggplot(aes(x = as.factor(S), y = 100 * `Bias`, group = interaction(Method, factor(sigma.delta)),
+#                linetype = Method, color = as.factor(sigma.delta), shape = Method)) +
+#     geom_point(position = position_dodge(width = 0.5)) + 
+#     geom_line(position = position_dodge(width = 0.5)) + 
+#     geom_errorbar(aes(ymin = 100*lower.Bias, ymax = 100*upper.Bias), 
+#                   position = position_dodge(width = 0.5), 
+#                   linetype = 1, width = 0.3) + 
+#     geom_vline(xintercept = c(1.5, 2.5), linetype = 2,
+#                alpha = 0.25) +
+#     geom_hline(yintercept = 0) +
+#     facet_wrap(~CTS, nrow = 2, ncol = 3, scales = "free") +
+#     labs(x = "Number of studies", y = "100 * Bias") +
+#     theme_bw() +
+#     scale_linetype_manual(values = c(1, 3),
+#                           labels = c(expression(CTS[0]), expression(CTS[plug]))) +
+#     scale_shape_manual(values = c(16, 17),
+#                           labels = c(expression(CTS[0]), expression(CTS[plug]))) +
+#     scale_y_continuous(breaks = breaks_fun) +
+#     theme(text = element_text(size = 12, family = "Times New Roman"),
+#           legend.text.align = 0) +
+#     scale_color_manual(values = RColorBrewer::brewer.pal(3, "Set2"), name = expression(sigma[delta])))
 
 # save plots
 # bias plot had to be saved manually because legend is messed up with ggsave

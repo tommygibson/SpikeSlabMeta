@@ -10,6 +10,9 @@ library(here)
 library(ggplot2)
 library(scales)
 library(here)
+library(Cairo)
+library(latex2exp)
+
 
 library(extrafont)
 
@@ -44,20 +47,31 @@ print(xtable(spike.table.data, caption = "Average spike height for each simulati
 sigma.labeller <- c(expression(sigma[delta] == 0.1), expression(sigma[delta] == 0.25), expression(sigma[delta] == 0.5))
 names(sigma.labeller) <- c(0.1, 0.25, 0.5)
 
-(spike_plot <- spike %>%
+spike$sigma.delta <- factor(spike$sigma.delta,
+                            levels = c(0.1, 0.25, 0.5),
+                            labels = c(TeX("$\\sigma_{\\delta}$ = 0.1"), 
+                                       TeX("$\\sigma_{\\delta}$ = 0.25"),
+                                       TeX("$\\sigma_{\\delta}$ = 0.5")))
+
+setEPS()
+cairo_ps(filename = "TeX/spike_boxplot.eps", height = 4, width = 5)
+spike %>%
   ggplot(mapping = aes(x = as.factor(delta0), y = spike)) +
   theme_bw() +
-  theme(text = element_text(size = 12, family = "LM Roman 10")) +
+  theme(text = element_text(size = 12, family = "Times New Roman")) +
   geom_boxplot(outlier.size = 0, outlier.shape = 1, alpha = 1) +
-  labs(x = expression(delta[0]), y = expression(paste('P(', delta[0], '=0 | ', Y[k], ')'))) +
+  labs(x = TeX("$\\delta_0$"), y = TeX("P($\\delta_0 = 0$ | $Y_k$)")) +
+  #labs(x = expression(delta[0]), y = expression(paste('P(', delta[0], '=0 | ', Y[k], ')'))) +
   ylim(c(0, 1)) +
-  facet_wrap(~as.factor(sigma.delta)))
+  facet_wrap(~sigma.delta,
+             labeller = label_parsed)
+dev.off()
 
-ggsave("TeX/spike_boxplot.pdf", plot = spike_plot,
-       height = 4, width = 5, units = "in")
-ggsave("TeX/spike_boxplot.eps", plot = spike_plot,
+# ggsave("TeX/spike_boxplot.pdf", plot = spike_plot,
+#        height = 4, width = 5, units = "in")
+ggsave(filename = "TeX/spike_boxplot.eps", plot = spike_plot,
        height = 4, width = 5, units = "in", 
-       device = cairo_ps, dpi = 300)
+       device = cairo_ps, dpi = 600)
 
 ####### Plots for catching true zeros and nonzeros
 
