@@ -9,9 +9,7 @@ library(scales)
 library(here)
 
 # read in simulation results and combine to one data.frame
-# cts.10 <- readRDS(here("R", "Results", "cts.sim.10.postprocess.rds"))[[1]]
-# cts.30 <- readRDS(here("R", "Results", "cts.sim.30.postprocess.rds"))[[1]]
-# cts.50 <- readRDS(here("R", "Results", "cts.sim.50.postprocess.rds"))[[1]]
+
 cts.10 <- readRDS(here("R", "Results", "cts.sim.10_truncatedprior.rds"))[[1]]
 cts.30 <- readRDS(here("R", "Results", "cts.sim.30_truncatedprior.rds"))[[1]]
 cts.50 <- readRDS(here("R", "Results", "cts.sim.50_truncatedprior.rds"))[[1]]
@@ -70,26 +68,26 @@ breaks_fun <- function(x){
 
 # bias plot
 
-# (bias.plot <- full.summary %>%
-#   ggplot(aes(x = as.factor(S), y = 100 * Bias, #group = interaction(Method, factor(sigma.delta)), 
-#              fill = factor(sigma.delta),
-#              pattern = Method)) +
-#   geom_bar_pattern(stat = "identity", position = position_dodge(), color = "black", pattern_fill = "white",
-#                    pattern_density = 0.4) +
-#   geom_errorbar(aes(ymin = 100 * lower.Bias, ymax = 100 * upper.Bias), position = position_dodge(.9), width = 0.5) +
-#   geom_hline(yintercept = 0) +
-#   geom_vline(xintercept = c(1.5, 2.5), linetype = 2, alpha = 0.5) +
-#   facet_wrap(~CTS, nrow = 2, ncol = 3,
-#              scales = "free") +
-#   labs(x = "Number of studies", y = "100 * Bias") +
-#   theme_bw() +
-#   theme(text = element_text(size = 12, family = "Times New Roman"),
-#         panel.spacing.x = unit(2, "lines")) +
-#   scale_pattern_manual(values = c("none", "stripe"),
-#                        labels = c(expression(CTS[0]), expression(CTS[plug]))) +
-#   scale_y_continuous(breaks = breaks_fun) +
-#   scale_fill_manual(values = RColorBrewer::brewer.pal(3, "Set2"), name = expression(sigma[delta])) +
-#   coord_flip())
+(bias.plot <- full.summary %>%
+  ggplot(aes(x = as.factor(S), y = 100 * Bias, #group = interaction(Method, factor(sigma.delta)),
+             fill = factor(sigma.delta),
+             pattern = Method)) +
+  geom_bar_pattern(stat = "identity", position = position_dodge(), color = "black", pattern_fill = "white",
+                   pattern_density = 0.4) +
+  geom_errorbar(aes(ymin = 100 * lower.Bias, ymax = 100 * upper.Bias), position = position_dodge(.9), width = 0.5) +
+  geom_hline(yintercept = 0) +
+  geom_vline(xintercept = c(1.5, 2.5), linetype = 2, alpha = 0.5) +
+  facet_wrap(~CTS, nrow = 2, ncol = 3,
+             scales = "free") +
+  labs(x = "Number of studies", y = "100 * Bias") +
+  theme_bw() +
+  theme(text = element_text(size = 12, family = "Times New Roman"),
+        panel.spacing.x = unit(2, "lines")) +
+  scale_pattern_manual(values = c("none", "circle"),
+                       labels = c(expression(CTS[0]), expression(CTS[plug]))) +
+  scale_y_continuous(breaks = breaks_fun) +
+  scale_fill_manual(values = RColorBrewer::brewer.pal(3, "Set2"), name = expression(sigma[delta])) +
+  coord_flip())
 
 
 
@@ -162,28 +160,7 @@ breaks_fun <- function(x){
     theme(text = element_text(size = 12, family = "LM Roman 10"),
           legend.text.align = 0) +
     scale_color_manual(values = RColorBrewer::brewer.pal(3, "Set2"), name = expression(sigma[delta])))
-# (bias.plot <- full.summary %>%
-#     ggplot(aes(x = as.factor(S), y = 100 * `Bias`, group = interaction(Method, factor(sigma.delta)),
-#                linetype = Method, color = as.factor(sigma.delta), shape = Method)) +
-#     geom_point(position = position_dodge(width = 0.5)) + 
-#     geom_line(position = position_dodge(width = 0.5)) + 
-#     geom_errorbar(aes(ymin = 100*lower.Bias, ymax = 100*upper.Bias), 
-#                   position = position_dodge(width = 0.5), 
-#                   linetype = 1, width = 0.3) + 
-#     geom_vline(xintercept = c(1.5, 2.5), linetype = 2,
-#                alpha = 0.25) +
-#     geom_hline(yintercept = 0) +
-#     facet_wrap(~CTS, nrow = 2, ncol = 3, scales = "free") +
-#     labs(x = "Number of studies", y = "100 * Bias") +
-#     theme_bw() +
-#     scale_linetype_manual(values = c(1, 3),
-#                           labels = c(expression(CTS[0]), expression(CTS[plug]))) +
-#     scale_shape_manual(values = c(16, 17),
-#                           labels = c(expression(CTS[0]), expression(CTS[plug]))) +
-#     scale_y_continuous(breaks = breaks_fun) +
-#     theme(text = element_text(size = 12, family = "Times New Roman"),
-#           legend.text.align = 0) +
-#     scale_color_manual(values = RColorBrewer::brewer.pal(3, "Set2"), name = expression(sigma[delta])))
+
 
 # save plots
 # bias plot had to be saved manually because legend is messed up with ggsave
@@ -197,13 +174,13 @@ breaks_fun <- function(x){
 # ggsave("TeX/length_plot.pdf", plot = length.plot, 
 #        device = "pdf", width = 6, height = 6, units = "in", dpi = 600)
 
-#biometrics needs eps format
+# alternative eps format
 
-ggsave("TeX/bias_plot.eps", plot = bias.plot, 
-       device = cairo_ps, width = 6, height = 6, units = "in", dpi = 600)
-ggsave("TeX/cover_plot.eps", plot = cover.plot, 
-       device = cairo_ps, width = 6, height = 6, units = "in", dpi = 600)
-ggsave("TeX/rmse_plot.eps", plot = rmse.plot, 
-       device = cairo_ps, width = 6, height = 6, units = "in", dpi = 600)
-ggsave("TeX/length_plot.eps", plot = length.plot, 
-       device = cairo_ps, width = 6, height = 6, units = "in", dpi = 600)
+# ggsave("TeX/bias_plot.eps", plot = bias.plot, 
+#        device = cairo_ps, width = 6, height = 6, units = "in", dpi = 600)
+# ggsave("TeX/cover_plot.eps", plot = cover.plot, 
+#        device = cairo_ps, width = 6, height = 6, units = "in", dpi = 600)
+# ggsave("TeX/rmse_plot.eps", plot = rmse.plot, 
+#        device = cairo_ps, width = 6, height = 6, units = "in", dpi = 600)
+# ggsave("TeX/length_plot.eps", plot = length.plot, 
+#        device = cairo_ps, width = 6, height = 6, units = "in", dpi = 600)
