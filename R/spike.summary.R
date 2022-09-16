@@ -3,6 +3,7 @@
 library(tidyverse)
 library(here)
 library(xtable)
+library(latex2exp)
 library(extrafont)
 
 spike <- readRDS(here("R", "Results", "meta.spike.results.rds"))[[1]]
@@ -17,8 +18,8 @@ spike <- readRDS(here("R", "Results", "meta.spike.results.rds"))[[1]]
                 values_from = count) %>%
     relocate(stat))
 
-print(xtable(spike.table, caption = "Spike table", type = "latex", digits = 4),
-      file = "TeX/spike.table.tex", include.rownames = FALSE)
+# print(xtable(spike.table, caption = "Spike table", type = "latex", digits = 4),
+#       file = "TeX/spike.table.tex", include.rownames = FALSE)
   
   
 spike$sigma.delta <- factor(spike$sigma.delta,
