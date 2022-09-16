@@ -155,32 +155,39 @@ print(xtable(Lplot.tab, caption = "Posterior distribution of LR+ for varying L f
 ### Take a given gamma, see sd(CTS0(gamma)) for varying L
 ##################################################
 
-nsims <- 2000
+## change of plans, don't need different L's
+## take L = 1, and the rest are just divided by sqrt(L)
+## for a standard error
+
+nsims <- 10000
 gamma1 <- c(log(.15 / .85), 2, log(.15 / .85), 0.5, 0.5, 0.5)
 gamma2 <- c(log(.15 / .85), 2, log(.15 / .85), 1, 1, 1)
 
 gamma1.mat <- matrix(rep(gamma1, nsims), nrow = nsims, byrow = T)
 gamma2.mat <- matrix(rep(gamma2, nsims), nrow = nsims, byrow = T)
-gamma1.L <- gamma2.L <- matrix(nrow = nsims, ncol = 5)
+gamma.L <- matrix(nrow = nsims, ncol = 2)
+#gamma1.L <- gamma2.L <- matrix(nrow = nsims, ncol = 5)
 
 set.seed(613)
 
-gamma1.L[,1] <- make_cts0_from_hyper(gamma1.mat, M = 1)[,2]
-gamma1.L[,2] <- make_cts0_from_hyper(gamma1.mat, M = 10)[,2]
-gamma1.L[,3] <- make_cts0_from_hyper(gamma1.mat, M = 100)[,2]                            
-gamma1.L[,4] <- make_cts0_from_hyper(gamma1.mat, M = 1000)[,2]
-gamma1.L[,5] <- make_cts0_from_hyper(gamma1.mat, M = 10000)[,2]
+gamma.L[,1] <- make_cts0_from_hyper(gamma1.mat, M = 1)[,2]
+# gamma1.L[,2] <- make_cts0_from_hyper(gamma1.mat, M = 10)[,2]
+# gamma1.L[,3] <- make_cts0_from_hyper(gamma1.mat, M = 100)[,2]                            
+# gamma1.L[,4] <- make_cts0_from_hyper(gamma1.mat, M = 1000)[,2]
+# gamma1.L[,5] <- make_cts0_from_hyper(gamma1.mat, M = 10000)[,2]
 
-gamma2.L[,1] <- make_cts0_from_hyper(gamma2.mat, M = 1)[,2]
-gamma2.L[,2] <- make_cts0_from_hyper(gamma2.mat, M = 10)[,2]
-gamma2.L[,3] <- make_cts0_from_hyper(gamma2.mat, M = 100)[,2]                            
-gamma2.L[,4] <- make_cts0_from_hyper(gamma2.mat, M = 1000)[,2]
-gamma2.L[,5] <- make_cts0_from_hyper(gamma2.mat, M = 10000)[,2]
+gamma.L[,2] <- make_cts0_from_hyper(gamma2.mat, M = 1)[,2]
+# gamma2.L[,2] <- make_cts0_from_hyper(gamma2.mat, M = 10)[,2]
+# gamma2.L[,3] <- make_cts0_from_hyper(gamma2.mat, M = 100)[,2]                            
+# gamma2.L[,4] <- make_cts0_from_hyper(gamma2.mat, M = 1000)[,2]
+# gamma2.L[,5] <- make_cts0_from_hyper(gamma2.mat, M = 10000)[,2]
 
-one.gamma.L <- cbind.data.frame(c(1, 10, 100, 1000, 10000),
-                                apply(gamma1.L, 2, function(x) sd(x[x < 30])),
-                                apply(gamma2.L, 2, function(x) sd(x[x < 30])))
-names(one.gamma.L) <- c("L", "$sigma_{beta} = sigma_{delta} = sigma_{nu} = 0.5$",
-                        "$sigma_{beta} = sigma_{delta} = sigma_{nu} = 1$")
+apply(gamma.L, 2, sd)
 
-print(xtable(one.gamma.L, digits = c(0, 0, 3, 3), type = "latex"), file = here("TeX", "one.gamma.L.tex"), include.rownames = FALSE)
+# one.gamma.L <- cbind.data.frame(c(1, 10, 100, 1000, 10000),
+#                                 apply(gamma1.L, 2, function(x) sd(x[x < 30])),
+#                                 apply(gamma2.L, 2, function(x) sd(x[x < 30])))
+# names(one.gamma.L) <- c("L", "$sigma_{beta} = sigma_{delta} = sigma_{nu} = 0.5$",
+#                         "$sigma_{beta} = sigma_{delta} = sigma_{nu} = 1$")
+# 
+# print(xtable(one.gamma.L, digits = c(0, 0, 3, 3), type = "latex"), file = here("TeX", "one.gamma.L.tex"), include.rownames = FALSE)
